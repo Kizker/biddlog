@@ -192,8 +192,8 @@
         <tr><td>SSH Login</td><td><code>ssh root@72.62.127.119</code></td></tr>
         <tr><td>GitHub Repo</td><td><code>https://github.com/Kizker/biddlog.git</code></td></tr>
         <tr><td>Folder Deploy</td><td><code>/var/www/fastuser/data/www/biddlog.site</code></td></tr>
-        <tr><td>Port Docker</td><td><code>8080</code> (host) → <code>80</code> (container)</td></tr>
-        <tr><td>Reverse Proxy</td><td>FASTPANEL → <code>http://127.0.0.1:8080</code></td></tr>
+        <tr><td>Port Docker</td><td><code>8081</code> (host) → <code>80</code> (container)</td></tr>
+        <tr><td>Reverse Proxy</td><td>FASTPANEL → <code>http://127.0.0.1:8081</code></td></tr>
       </table>
 
       <p style="margin-top:16px"><strong>File Docker yang sudah disiapkan di repository:</strong></p>
@@ -447,7 +447,7 @@ docker compose up -d --build
 docker compose ps
 
 # Test akses lokal
-curl -I http://127.0.0.1:8080</code></pre>
+curl -I http://127.0.0.1:8081</code></pre>
         </div>
 
         <div class="alert alert-success">
@@ -478,11 +478,11 @@ curl -I http://127.0.0.1:8080</code></pre>
           <li>Masuk ke <strong>Pengaturan</strong> → klik ikon edit di bagian <strong>Backend</strong></li>
           <li>Ubah <strong>Backend type</strong> dari <code>Konten statis</code> menjadi <strong>Proxy terbalik</strong></li>
           <li>Klik tombol <strong>+ Add</strong></li>
-          <li>Isi alamat upstream: <code>http://127.0.0.1:8080</code></li>
+          <li>Isi alamat upstream: <code>http://127.0.0.1:8081</code></li>
           <li>Klik <strong>Simpan</strong></li>
         </ol>
         <div class="alert alert-info">
-          <strong>💡 Apa yang terjadi:</strong> FASTPANEL akan meneruskan semua request dari <code>https://biddlog.site</code> ke container Docker yang berjalan di port <code>8080</code>. SSL/HTTPS ditangani oleh FASTPANEL, container Docker hanya melayani HTTP biasa.
+          <strong>💡 Apa yang terjadi:</strong> FASTPANEL akan meneruskan semua request dari <code>https://biddlog.site</code> ke container Docker yang berjalan di port <code>8081</code>. SSL/HTTPS ditangani oleh FASTPANEL, container Docker hanya melayani HTTP biasa.
         </div>
       </div>
     </div>
@@ -516,7 +516,7 @@ curl -I http://127.0.0.1:8080</code></pre>
           <li>Docker terinstall &amp; container <code>bidlog_dashboard</code> berstatus Up</li>
           <li>SSL Let's Encrypt aktif (hijau)</li>
           <li>Redirect HTTPS aktif</li>
-          <li>Backend type: Proxy terbalik → <code>http://127.0.0.1:8080</code></li>
+          <li>Backend type: Proxy terbalik → <code>http://127.0.0.1:8081</code></li>
           <li><code>https://biddlog.site</code> bisa diakses dari browser</li>
         </ul>
       </div>
