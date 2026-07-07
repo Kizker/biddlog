@@ -1,0 +1,9 @@
+services:
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: bidlog_dashboard
+    restart: unless-stopped
+    ports:
+      - "8080:80"

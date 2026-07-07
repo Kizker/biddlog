@@ -1,0 +1,141 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>Panduan Deployment</title><style>body{font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: auto;} pre{background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto;} code{font-family: Consolas, monospace;} h1, h2, h3{color: #333;}</style></head><body>
+<h1>Panduan Deployment Next.js Docker ke VPS Hostinger</h1>
+<p><strong>Projek:</strong> Trading Simulation<br>
+<strong>Versi:</strong> 2.0 (Berdasarkan Konfigurasi Docker Next.js + PostgreSQL)<br>
+<strong>Domain:</strong> simvest.site<br>
+<strong>IP VPS:</strong> 72.62.127.119</p>
+<p>Panduan ini disusun untuk memberikan instruksi <em>step-by-step</em> dari awal hingga akhir dalam mendistribusikan projek Trading Simulation Anda menggunakan infrastruktur Docker pada VPS Hostinger.</p>
+<hr />
+
+<h2>Fasa 1: Persediaan di VPS Hostinger</h2>
+<h3>1. SSH Login ke VPS</h3>
+<p>Buka Terminal/PowerShell/PuTTY, lalu login ke server Hostinger Anda:</p>
+<pre><code class="language-bash">ssh root@72.62.127.119</code></pre>
+<p><em>(Masukkan password VPS Anda saat diminta)</em></p>
+
+<h3>2. Kemaskini Peladen &amp; Pasang Docker</h3>
+<p>Setelah berhasil login, jalankan perintah (salin-tempel) berikut ini sekaligus untuk memasang mesin Docker di Ubuntu Anda:</p>
+<pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt upgrade -y
+
+# Pasang sijil yang diperlukan
+sudo apt install -y ca-certificates curl gnupg
+
+# Tambah GPG key rasmi Docker
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Tetapkan repositori Docker
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release &amp;&amp; echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+
+# Pasang Docker dan Docker Compose
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
+# Beri kebenaran agar Docker boleh dijalankan tanpa 'sudo'
+sudo usermod -aG docker $USER</code></pre>
+
+<h3>3. Klon Projek dari GitHub</h3>
+<p>Siapkan direktori server Anda dan tarik repositori GitHub projek Trading Simulation:</p>
+<pre><code class="language-bash">mkdir -p /var/www/fastuser/data/www/simvest.site
+cd /var/www/fastuser/data/www/simvest.site
+git clone https://github.com/FauzanAmirudin/trading-simulation.git .</code></pre>
+<p><em>(Catatan: Penggunaan titik <code>.</code> di akhir perintah clone berfungsi agar file langsung diekstrak di dalam folder tersebut).</em></p>
+<hr />
+
+<h2>Fasa 2: Tetapan Environment (<code>.env</code>)</h2>
+<p>Kita harus membuat file konfigurasi <code>.env</code> dengan kredensial untuk database PostgreSQL dan aplikasi Next.js.</p>
+<ol>
+<li>Buat file baru bernama <code>.env</code>:</li>
+</ol>
+<pre><code class="language-bash">nano .env</code></pre>
+<ol start="2">
+<li>Salin teks berikut seluruhnya dan tempel <em>(paste)</em> ke dalam jendela Nano Anda:</li>
+</ol>
+<pre><code class="language-env"># Database Config untuk PostgreSQL Container
+POSTGRES_USER=simvest_site
+POSTGRES_PASSWORD=@Dea18022003
+POSTGRES_DB=simvest_site
+
+# URL Koneksi Database untuk Next.js (Drizzle)
+# Format: postgresql://[USER]:[PASSWORD]@postgres:5432/[DB]
+# Pastikan ini sesuai dengan konfigurasi POSTGRES_ di atas.
+# 'postgres' adalah nama service database di docker-compose.yml
+DATABASE_URL=postgresql://simvest_site:@Dea18022003@postgres:5432/simvest_site</code></pre>
+<ol start="3">
+<li>Simpan dengan menekan tombol <strong><code>Ctrl + X</code></strong>, lalu ketik <strong><code>Y</code></strong>, dan tekan <strong><code>Enter</code></strong>.</li>
+</ol>
+<hr />
+
+<h2>Fasa 3: Eksekusi dan Konfigurasi Kontena</h2>
+<p>Kini semua pengaturan telah siap, mari kita jalankan server.</p>
+
+<h3>1. Bina dan Jalankan Docker</h3>
+<p>Proses ini akan mengunduh PostgreSQL, melakukan <em>build</em> aplikasi Next.js, dan akan memakan waktu beberapa menit. Saat dijalankan, <em>container</em> juga akan secara otomatis mengaplikasikan skema database (Push DB schema) menggunakan <code>drizzle-kit</code> berdasarkan konfigurasi di <code>Dockerfile</code>.</p>
+<pre><code class="language-bash">docker compose up -d --build</code></pre>
+
+<h3>2. Memasukkan Data Awal (Seeding) - Opsional</h3>
+<p>Jika Anda memerlukan data dummy atau <em>seed</em>, Anda bisa menjalankannya setelah container berjalan. Karena <em>image</em> menggunakan <code>tsx</code> untuk eksekusi, Anda dapat melakukan <code>docker exec</code> untuk menjalankan script seed bawaan dari <code>package.json</code>.</p>
+<pre><code class="language-bash">docker exec -it trading_app npm run db:seed</code></pre>
+<hr />
+
+<h2>Fasa 4: Konfigurasi Domain (simvest.site) dengan Nginx</h2>
+<p>Aplikasi saat ini berjalan di port <code>3000</code> pada VPS Anda. Agar bisa diakses secara rapi menggunakan domain <code>simvest.site</code>, Anda perlu melakukan setup Reverse Proxy menggunakan Nginx.</p>
+
+<h3>1. Install Nginx</h3>
+<pre><code class="language-bash">sudo apt install nginx -y</code></pre>
+
+<h3>2. Buat File Konfigurasi Nginx untuk Domain</h3>
+<pre><code class="language-bash">sudo nano /etc/nginx/sites-available/simvest.site</code></pre>
+
+<h3>3. Masukkan Konfigurasi Berikut:</h3>
+<p>Salin dan paste blok di bawah ini. Pastikan Anda telah mengarahkan <em>A Record</em> domain <code>simvest.site</code> ke IP <code>72.62.127.119</code> di DNS management Anda.</p>
+<pre><code class="language-nginx">server {
+    listen 80;
+    server_name simvest.site www.simvest.site;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}</code></pre>
+<p>Simpan dengan <strong><code>Ctrl + X</code></strong>, ketik <strong><code>Y</code></strong>, lalu <strong><code>Enter</code></strong>.</p>
+
+<h3>4. Aktifkan Konfigurasi dan Restart Nginx</h3>
+<pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/simvest.site /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx</code></pre>
+
+<h3>5. Selesai!</h3>
+<p>Aplikasi Trading Simulation Anda kini dapat diakses melalui <code>http://simvest.site</code>.</p>
+
+    <h3>6. Mengaktifkan HTTPS (SSL Let's Encrypt) di FASTPANEL</h3>
+    <p>FASTPANEL secara <em>default</em> menggunakan Nginx versi kustom. Karena adanya <em>bug</em> terkait kunci ECDSA pada FASTPANEL, Anda <strong>wajib</strong> membuat kunci bertipe RSA agar tidak ditolak dengan pesan error <em>"Sertifikat tidak cocok dengan kunci privat"</em>.</p>
+    <pre><code class="language-bash"># Hentikan Nginx bawaan
+sudo systemctl stop nginx
+
+# Instal Certbot & Generate Sertifikat (Wajib tipe RSA)
+sudo apt install certbot -y
+sudo certbot certonly --standalone -d simvest.site -d www.simvest.site --key-type rsa --force-renewal
+
+# Jalankan kembali Nginx
+sudo systemctl start nginx</code></pre>
+    <p>Setelah sertifikat terbentuk, masukkan sertifikat tersebut ke panel FASTPANEL (Menu <strong>Sertifikat SSL -&gt; Yang ada</strong>). Anda dapat melihat teks kunci privat dan sertifikatnya menggunakan perintah berikut:</p>
+    <pre><code class="language-bash"># Lihat Kunci Privat
+cat /etc/letsencrypt/live/simvest.site/privkey.pem
+
+# Lihat Sertifikat Utama & Rantai CA
+cat /etc/letsencrypt/live/simvest.site/fullchain.pem</code></pre>
+    <p><em>Catatan: Pisahkan blok sertifikat pertama ke kotak <strong>Sertifikat</strong>, dan sisa blok berikutnya ke kotak <strong>Rantai</strong>. Jangan lupa aktifkan Pengalihan HTTPS di menu Pengaturan situs.</em></p>
+
+</body></html>

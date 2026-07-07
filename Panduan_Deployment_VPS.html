@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panduan Deployment Bidlog Dashboard — biddlog.site</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #242836;
+      --border: #2e3345;
+      --text: #e4e6ef;
+      --text-muted: #8b8fa7;
+      --accent: #6c5ce7;
+      --accent-light: #a29bfe;
+      --green: #00b894;
+      --green-bg: #0d3325;
+      --yellow: #fdcb6e;
+      --yellow-bg: #3d3118;
+      --red: #ff7675;
+      --red-bg: #3d1a1a;
+      --blue: #74b9ff;
+      --blue-bg: #1a2d3d;
+      --code-bg: #12141c;
+      --font: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #1a1040 0%, #0f1117 60%, #0a1628 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 50px 20px 40px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.2em; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-light), var(--blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    .hero .subtitle { color: var(--text-muted); font-size: 1.05em; }
+    .hero .meta {
+      margin-top: 16px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+      font-size: 0.85em; color: var(--text-muted);
+    }
+    .hero .meta span { display: flex; align-items: center; gap: 6px; }
+    .hero .meta .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+    .hero .meta .dot.green { background: var(--green); }
+    .hero .meta .dot.blue { background: var(--blue); }
+    .hero .meta .dot.yellow { background: var(--yellow); }
+    .container { max-width: 860px; margin: 0 auto; padding: 20px; }
+    .toc {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 28px; margin: 30px 0;
+    }
+    .toc h2 { font-size: 1.1em; color: var(--accent-light); margin-bottom: 14px; letter-spacing: 0.5px; text-transform: uppercase; }
+    .toc ol { padding-left: 20px; }
+    .toc li { margin-bottom: 6px; }
+    .toc a { color: var(--blue); text-decoration: none; transition: color .2s; }
+    .toc a:hover { color: var(--accent-light); text-decoration: underline; }
+    .phase {
+      margin: 40px 0; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    }
+    .phase-header {
+      background: linear-gradient(135deg, var(--surface2), var(--surface));
+      padding: 20px 28px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .phase-num {
+      background: var(--accent); color: #fff; font-weight: 800;
+      width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+      border-radius: 10px; font-size: 1em; flex-shrink: 0;
+    }
+    .phase-header h2 { font-size: 1.25em; font-weight: 700; }
+    .phase-body { padding: 24px 28px; }
+    .step { margin-bottom: 28px; }
+    .step:last-child { margin-bottom: 0; }
+    .step h3 {
+      font-size: 1.05em; color: var(--accent-light); margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .step h3 .badge {
+      font-size: 0.7em; padding: 2px 8px; border-radius: 6px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .badge-ssh { background: var(--green-bg); color: var(--green); border: 1px solid #1a5e40; }
+    .badge-panel { background: #2a1a4e; color: var(--accent-light); border: 1px solid #3d2a6e; }
+    .badge-dns { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #5e4a1a; }
+    .badge-browser { background: var(--blue-bg); color: var(--blue); border: 1px solid #1a4a6e; }
+    p { margin-bottom: 10px; }
+    .code-block {
+      background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 8px; margin: 12px 0; position: relative; overflow: hidden;
+    }
+    .code-block .code-header {
+      background: var(--surface2); padding: 6px 14px; font-size: 0.78em;
+      color: var(--text-muted); border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .code-block pre {
+      padding: 14px 18px; overflow-x: auto;
+      font-family: var(--mono); font-size: 0.88em; line-height: 1.6; color: #c9d1d9;
+    }
+    .code-block .copy-btn {
+      background: var(--surface); color: var(--text-muted);
+      border: 1px solid var(--border); padding: 3px 10px; border-radius: 5px;
+      cursor: pointer; font-size: 0.85em; transition: all .2s;
+    }
+    .code-block .copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .code-block .copy-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
+    .alert {
+      padding: 14px 18px; border-radius: 8px; margin: 14px 0;
+      font-size: 0.93em; border-left: 4px solid;
+    }
+    .alert-warn { background: var(--yellow-bg); border-color: var(--yellow); }
+    .alert-warn strong { color: var(--yellow); }
+    .alert-info { background: var(--blue-bg); border-color: var(--blue); }
+    .alert-info strong { color: var(--blue); }
+    .alert-success { background: var(--green-bg); border-color: var(--green); }
+    .alert-success strong { color: var(--green); }
+    .alert-danger { background: var(--red-bg); border-color: var(--red); }
+    .alert-danger strong { color: var(--red); }
+    code {
+      background: var(--code-bg); padding: 2px 7px; border-radius: 4px;
+      font-family: var(--mono); font-size: 0.88em; color: var(--accent-light);
+      border: 1px solid var(--border);
+    }
+    pre code { background: none; padding: 0; border: none; color: inherit; }
+    ol, ul { padding-left: 22px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+    .data-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.92em; }
+    .data-table th, .data-table td { padding: 10px 14px; text-align: left; border: 1px solid var(--border); }
+    .data-table th { background: var(--surface2); color: var(--accent-light); font-weight: 600; }
+    .data-table td { background: var(--surface); }
+    .footer {
+      text-align: center; padding: 40px 20px; color: var(--text-muted);
+      font-size: 0.85em; border-top: 1px solid var(--border); margin-top: 40px;
+    }
+    .checklist { list-style: none; padding-left: 0; }
+    .checklist li { padding: 6px 0 6px 28px; position: relative; }
+    .checklist li::before { content: '☐'; position: absolute; left: 0; color: var(--text-muted); font-size: 1.1em; }
+    .file-tree {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 16px 20px; font-family: var(--mono); font-size: 0.85em;
+      line-height: 1.8; color: var(--text-muted); margin: 12px 0;
+    }
+    .file-tree .highlight { color: var(--green); font-weight: 600; }
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 1.5em; }
+      .phase-body, .phase-header { padding: 16px 18px; }
+      .toc { padding: 18px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🚀 Panduan Deployment Bidlog Dashboard</h1>
+  <p class="subtitle">Deploy ke VPS Hostinger (FASTPANEL) + Docker + HTTPS — Sekali Jalan</p>
+  <div class="meta">
+    <span><span class="dot green"></span> Domain: biddlog.site</span>
+    <span><span class="dot blue"></span> VPS IP: 72.62.127.119</span>
+    <span><span class="dot yellow"></span> Panel: FASTPANEL :8888</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- DATA PROYEK -->
+  <div class="phase" style="margin-top: 30px;">
+    <div class="phase-header">
+      <div class="phase-num">📋</div>
+      <h2>Data Proyek</h2>
+    </div>
+    <div class="phase-body">
+      <table class="data-table">
+        <tr><th style="width:200px">Parameter</th><th>Nilai</th></tr>
+        <tr><td>IP VPS</td><td><code>72.62.127.119</code></td></tr>
+        <tr><td>Domain</td><td><code>biddlog.site</code></td></tr>
+        <tr><td>FASTPANEL URL</td><td><code>https://72.62.127.119:8888</code></td></tr>
+        <tr><td>SSH Login</td><td><code>ssh root@72.62.127.119</code></td></tr>
+        <tr><td>GitHub Repo</td><td><code>https://github.com/Kizker/biddlog.git</code></td></tr>
+        <tr><td>Folder Deploy</td><td><code>/var/www/fastuser/data/www/biddlog.site</code></td></tr>
+        <tr><td>Port Docker</td><td><code>8080</code> (host) → <code>80</code> (container)</td></tr>
+        <tr><td>Reverse Proxy</td><td>FASTPANEL → <code>http://127.0.0.1:8080</code></td></tr>
+      </table>
+
+      <p style="margin-top:16px"><strong>File Docker yang sudah disiapkan di repository:</strong></p>
+      <div class="file-tree">
+        bidlog/<br>
+        ├── <span class="highlight">docker-compose.yml</span> &nbsp;← Orchestrator utama<br>
+        ├── dashboard/<br>
+        │&nbsp;&nbsp; ├── <span class="highlight">Dockerfile</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← Multi-stage build (Node → Nginx)<br>
+        │&nbsp;&nbsp; ├── <span class="highlight">nginx.conf</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← Config Nginx dalam container<br>
+        │&nbsp;&nbsp; ├── <span class="highlight">.dockerignore</span> &nbsp;&nbsp;&nbsp;&nbsp;← Exclude node_modules dari build<br>
+        │&nbsp;&nbsp; ├── package.json<br>
+        │&nbsp;&nbsp; └── src/<br>
+        └── collector/
+      </div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <h2>Daftar Isi</h2>
+    <ol>
+      <li><a href="#fasa1">Konfigurasi DNS Domain (Hostinger)</a></li>
+      <li><a href="#fasa2">Buat Situs di FASTPANEL</a></li>
+      <li><a href="#fasa3">Pasang SSL HTTPS (Let's Encrypt)</a></li>
+      <li><a href="#fasa4">Install Docker di VPS (SSH)</a></li>
+      <li><a href="#fasa5">Clone &amp; Deploy dengan Docker (SSH)</a></li>
+      <li><a href="#fasa6">Aktifkan Reverse Proxy (FASTPANEL)</a></li>
+      <li><a href="#fasa7">Verifikasi &amp; Selesai</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- FASA 1: DNS -->
+  <!-- ============================================================ -->
+  <div class="phase" id="fasa1">
+    <div class="phase-header">
+      <div class="phase-num">1</div>
+      <h2>Konfigurasi DNS Domain</h2>
+    </div>
+    <div class="phase-body">
+      <div class="step">
+        <h3>Atur A Record di Hostinger <span class="badge badge-dns">DNS</span></h3>
+        <ol>
+          <li>Login ke <a href="https://hpanel.hostinger.com" target="_blank" style="color:var(--blue)">hpanel.hostinger.com</a></li>
+          <li>Pilih domain <code>biddlog.site</code> → klik <strong>Domain</strong> → <strong>DNS/Nameserver</strong></li>
+          <li>Pastikan hanya ada <strong>SATU</strong> A record:</li>
+        </ol>
+        <table class="data-table">
+          <tr><th>Tipe</th><th>Nama</th><th>Value</th><th>TTL</th></tr>
+          <tr><td>A</td><td>@</td><td><code>72.62.127.119</code></td><td>300</td></tr>
+        </table>
+        <div class="alert alert-danger">
+          <strong>⚠️ PENTING:</strong> Hapus A record lama yang mengarah ke IP selain <code>72.62.127.119</code> (misalnya <code>2.57.91.91</code> yang merupakan IP parkir bawaan Hostinger). Jika ada 2 A record, SSL akan GAGAL!
+        </div>
+        <p>Setelah diubah, tunggu <strong>5-15 menit</strong> agar DNS terpropagasi.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FASA 2: FASTPANEL SITE -->
+  <!-- ============================================================ -->
+  <div class="phase" id="fasa2">
+    <div class="phase-header">
+      <div class="phase-num">2</div>
+      <h2>Buat Situs di FASTPANEL</h2>
+    </div>
+    <div class="phase-body">
+      <div class="step">
+        <h3>Login &amp; Buat Site <span class="badge badge-panel">FASTPANEL</span></h3>
+        <ol>
+          <li>Buka browser → <code>https://72.62.127.119:8888</code></li>
+          <li>Login dengan user <code>fastuser</code> (password ada di dashboard Hostinger VPS)</li>
+          <li>Klik <strong>Situs</strong> → <strong>Buat Situs</strong> → pilih <strong>Manual</strong></li>
+          <li>Pengikatan domain: masukkan <code>biddlog.site</code></li>
+          <li>Konfigurasi: <strong>Backend type</strong> → pilih <strong>Konten statis</strong></li>
+          <li>Klik <strong>Buat situs</strong></li>
+        </ol>
+        <div class="alert alert-info">
+          <strong>💡 Kenapa Konten statis dulu?</strong> SSL Let's Encrypt hanya bisa diterbitkan ketika backend BUKAN proxy terbalik. Nanti setelah SSL berhasil, kita ubah ke Proxy terbalik.
+        </div>
+        <div class="alert alert-danger">
+          <strong>⚠️ Jika situs nyangkut / gagal dibuat karena error DKIM "Debian-exim":</strong><br>
+          Jalankan perintah ini di SSH untuk membuat user email kosong yang dicari FASTPANEL:<br>
+          <code style="margin-top: 4px; display: inline-block;">mkdir -p /etc/exim4 && touch /etc/exim4/dkim_selector</code><br>
+          <code style="margin-top: 4px; display: inline-block;">groupadd Debian-exim && useradd -g Debian-exim Debian-exim</code><br>
+          Setelah itu coba hapus/buat situs lagi.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FASA 3: SSL -->
+  <!-- ============================================================ -->
+  <div class="phase" id="fasa3">
+    <div class="phase-header">
+      <div class="phase-num">3</div>
+      <h2>Pasang SSL HTTPS (Let's Encrypt)</h2>
+    </div>
+    <div class="phase-body">
+      <div class="alert alert-warn">
+        <strong>⚠️ Urutan kritis:</strong> SSL HARUS dipasang SEBELUM reverse proxy diaktifkan dan SEBELUM Docker dijalankan. Ini adalah pelajaran dari deployment sebelumnya.
+      </div>
+
+      <div class="step">
+        <h3>Metode A: Via FASTPANEL (Paling Mudah) <span class="badge badge-panel">FASTPANEL</span></h3>
+        <ol>
+          <li>Di FASTPANEL, klik situs <code>biddlog.site</code></li>
+          <li>Masuk ke menu <strong>Sertifikat SSL</strong></li>
+          <li>Klik <strong>Sertifikat Baru</strong> → pilih <strong>Let's Encrypt</strong></li>
+          <li><strong>KUNCI SUKSES:</strong>
+            <ul>
+              <li>Kotak <strong>Nama Alternatif</strong>: <strong>KOSONGKAN TOTAL</strong></li>
+              <li>Toggle <strong>Wajibkan validasi DNS</strong>: <strong>MATI / OFF</strong></li>
+            </ul>
+          </li>
+          <li>Klik <strong>Simpan</strong> → tunggu beberapa detik</li>
+        </ol>
+        <div class="alert alert-success">
+          <strong>✅ Berhasil jika:</strong> Status sertifikat berubah hijau/aktif.
+        </div>
+        <div class="alert alert-warn">
+          <strong>⚠️ Jika gagal:</strong> Pastikan A record DNS hanya mengarah ke <code>72.62.127.119</code>. Jika DNS baru diubah, tunggu 15-30 menit lalu coba lagi.
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="step">
+        <h3>Metode B: Certbot Standalone (Manual) <span class="badge badge-ssh">SSH</span></h3>
+        <p>Jika FASTPANEL gagal, Anda bisa menggunakan sertifikat manual. <strong>Wajib gunakan tipe RSA</strong> agar FASTPANEL bisa membacanya tanpa error "Sertifikat tidak cocok".</p>
+        <div class="code-block">
+          <div class="code-header"><span>SSH — Certbot standalone (RSA)</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+          <pre><code># Install certbot
+apt install -y certbot
+
+# Matikan Nginx sementara
+systemctl stop nginx
+
+# Dapatkan sertifikat TIPE RSA
+certbot certonly --standalone -d biddlog.site --key-type rsa --force-renewal
+
+# Hidupkan Nginx kembali
+systemctl start nginx</code></pre>
+        </div>
+        <p>Setelah berhasil, masukkan sertifikat ke FASTPANEL (Sertifikat SSL → Sertifikat Baru → pilih <strong>"Yang ada"</strong>):</p>
+        <ol>
+          <li><strong>Kunci Privat:</strong> jalankan <code>cat /etc/letsencrypt/live/biddlog.site/privkey.pem</code> di SSH, copy-paste isinya.</li>
+          <li><strong>Sertifikat:</strong> jalankan <code>cat /etc/letsencrypt/live/biddlog.site/cert.pem</code> di SSH, copy-paste isinya.</li>
+          <li><strong>Rantai:</strong> jalankan <code>cat /etc/letsencrypt/live/biddlog.site/chain.pem</code> di SSH, copy-paste isinya.</li>
+          <li>Klik <strong>Simpan</strong></li>
+        </ol>
+        <div class="alert alert-info">
+          <strong>💡 Tips:</strong> Dengan membaca <code>cert.pem</code> dan <code>chain.pem</code> terpisah (bukan <code>fullchain.pem</code>), Anda dijamin tidak akan salah potong baris!
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="step">
+        <h3>Aktifkan Redirect HTTPS <span class="badge badge-panel">FASTPANEL</span></h3>
+        <ol>
+          <li>Di halaman situs → <strong>Pengaturan</strong> → menu <strong>HTTPS</strong></li>
+          <li>Centang <strong>Pengalihan HTTPS</strong></li>
+          <li>Klik <strong>Simpan</strong></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FASA 4: INSTALL DOCKER -->
+  <!-- ============================================================ -->
+  <div class="phase" id="fasa4">
+    <div class="phase-header">
+      <div class="phase-num">4</div>
+      <h2>Install Docker di VPS</h2>
+    </div>
+    <div class="phase-body">
+      <div class="step">
+        <h3>Login SSH &amp; Install Docker Engine <span class="badge badge-ssh">SSH</span></h3>
+        <div class="code-block">
+          <div class="code-header"><span>Terminal Laptop</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+          <pre><code>ssh root@72.62.127.119</code></pre>
+        </div>
+
+        <p>Jalankan instalasi Docker <strong>(copy-paste semua sekaligus)</strong>:</p>
+        <div class="code-block">
+          <div class="code-header"><span>SSH — Install Docker (sekali jalan)</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+          <pre><code># Update sistem
+apt update && apt upgrade -y
+
+# Install dependencies
+apt install -y ca-certificates curl gnupg lsb-release git
+
+# Tambah GPG key Docker
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Tambah repository Docker
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Install Docker Engine + Docker Compose
+apt update
+apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Verifikasi
+docker --version
+docker compose version</code></pre>
+        </div>
+        <div class="alert alert-success">
+          <strong>✅ Berhasil jika muncul:</strong> <code>Docker version 2x.x.x</code> dan <code>Docker Compose version v2.x.x</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FASA 5: CLONE & DEPLOY -->
+  <!-- ============================================================ -->
+  <div class="phase" id="fasa5">
+    <div class="phase-header">
+      <div class="phase-num">5</div>
+      <h2>Clone &amp; Deploy dengan Docker</h2>
+    </div>
+    <div class="phase-body">
+      <div class="step">
+        <h3>Clone Repository &amp; Jalankan Docker <span class="badge badge-ssh">SSH</span></h3>
+        <p>File <code>Dockerfile</code>, <code>nginx.conf</code>, <code>.dockerignore</code>, dan <code>docker-compose.yml</code> sudah ada di dalam repository. Tinggal clone dan jalankan:</p>
+
+        <div class="code-block">
+          <div class="code-header"><span>SSH — Clone &amp; deploy (sekali jalan)</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+          <pre><code># Masuk ke folder situs
+cd /var/www/fastuser/data/www/biddlog.site
+
+# Bersihkan file default FASTPANEL
+rm -rf ./*
+
+# Clone repository (semua file Docker sudah ada di dalamnya)
+git clone https://github.com/Kizker/biddlog.git .
+
+# Build dan jalankan container
+docker compose up -d --build
+
+# Cek status
+docker compose ps
+
+# Test akses lokal
+curl -I http://127.0.0.1:8080</code></pre>
+        </div>
+
+        <div class="alert alert-success">
+          <strong>✅ Berhasil jika:</strong> <code>docker compose ps</code> menunjukkan container <code>bidlog_dashboard</code> berstatus <strong>Up</strong>, dan <code>curl</code> mengembalikan <code>HTTP/1.1 200 OK</code>.
+        </div>
+
+        <div class="alert alert-warn">
+          <strong>⚠️ Jika error "container name already in use":</strong><br>
+          Jalankan <code>docker rm -f bidlog_dashboard</code> lalu ulangi <code>docker compose up -d --build</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FASA 6: REVERSE PROXY -->
+  <!-- ============================================================ -->
+  <div class="phase" id="fasa6">
+    <div class="phase-header">
+      <div class="phase-num">6</div>
+      <h2>Aktifkan Reverse Proxy</h2>
+    </div>
+    <div class="phase-body">
+      <div class="step">
+        <h3>Arahkan FASTPANEL ke Docker <span class="badge badge-panel">FASTPANEL</span></h3>
+        <ol>
+          <li>Login FASTPANEL → klik situs <code>biddlog.site</code></li>
+          <li>Masuk ke <strong>Pengaturan</strong> → klik ikon edit di bagian <strong>Backend</strong></li>
+          <li>Ubah <strong>Backend type</strong> dari <code>Konten statis</code> menjadi <strong>Proxy terbalik</strong></li>
+          <li>Klik tombol <strong>+ Add</strong></li>
+          <li>Isi alamat upstream: <code>http://127.0.0.1:8080</code></li>
+          <li>Klik <strong>Simpan</strong></li>
+        </ol>
+        <div class="alert alert-info">
+          <strong>💡 Apa yang terjadi:</strong> FASTPANEL akan meneruskan semua request dari <code>https://biddlog.site</code> ke container Docker yang berjalan di port <code>8080</code>. SSL/HTTPS ditangani oleh FASTPANEL, container Docker hanya melayani HTTP biasa.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FASA 7: VERIFIKASI -->
+  <!-- ============================================================ -->
+  <div class="phase" id="fasa7">
+    <div class="phase-header">
+      <div class="phase-num">7</div>
+      <h2>Verifikasi &amp; Selesai</h2>
+    </div>
+    <div class="phase-body">
+      <div class="step">
+        <h3>Tes Akses Website <span class="badge badge-browser">BROWSER</span></h3>
+        <p>Buka browser dan akses:</p>
+        <p style="font-size: 1.2em; text-align: center; margin: 16px 0;">
+          👉 <code style="font-size: 1em; padding: 6px 14px;">https://biddlog.site</code>
+        </p>
+        <p>Halaman <strong>Bidding Item Analyzer</strong> harus muncul dengan gembok HTTPS hijau.</p>
+      </div>
+
+      <hr>
+
+      <div class="step">
+        <h3>Checklist Akhir</h3>
+        <ul class="checklist">
+          <li>DNS A record → <code>72.62.127.119</code> (hanya 1 record)</li>
+          <li>Situs <code>biddlog.site</code> terdaftar di FASTPANEL</li>
+          <li>Docker terinstall &amp; container <code>bidlog_dashboard</code> berstatus Up</li>
+          <li>SSL Let's Encrypt aktif (hijau)</li>
+          <li>Redirect HTTPS aktif</li>
+          <li>Backend type: Proxy terbalik → <code>http://127.0.0.1:8080</code></li>
+          <li><code>https://biddlog.site</code> bisa diakses dari browser</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BONUS -->
+  <!-- ============================================================ -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">💡</div>
+      <h2>Perintah Berguna</h2>
+    </div>
+    <div class="phase-body">
+      <div class="step">
+        <h3>Update Aplikasi (Setelah Push ke GitHub)</h3>
+        <div class="code-block">
+          <div class="code-header"><span>SSH — Pull &amp; rebuild</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+          <pre><code>cd /var/www/fastuser/data/www/biddlog.site
+git pull origin main
+docker compose up -d --build</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <h3>Lihat Log Container</h3>
+        <div class="code-block">
+          <div class="code-header"><span>SSH — Logs</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+          <pre><code>docker compose logs -f --tail 50</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <h3>Restart Container</h3>
+        <div class="code-block">
+          <div class="code-header"><span>SSH — Restart</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+          <pre><code>docker compose restart</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <h3>Bersihkan Image Lama (Hemat Disk)</h3>
+        <div class="code-block">
+          <div class="code-header"><span>SSH — Cleanup</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+          <pre><code>docker system prune -af</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Panduan Deployment Bidlog Dashboard — biddlog.site</p>
+    <p>Docker + FASTPANEL + Let's Encrypt HTTPS</p>
+    <p style="margin-top: 8px; color: var(--accent-light);">Terakhir diperbarui: Juli 2026</p>
+  </div>
+
+</div>
+
+<script>
+function copyCode(btn) {
+  const code = btn.closest('.code-block').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
