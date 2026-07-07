@@ -4,23 +4,52 @@
 Project ini adalah helper tool untuk mempermudah proses bidding di aplikasi Bidding Plus.
 Terdiri dari dua sub-sistem utama:
 1. **Collector**: Script otomatis menggunakan ADB/Appium untuk mengumpulkan data barang/unit (Bidding Reguler & Invoice/Riwayat Barang) langsung dari layar HP Android.
-2. **Dashboard**: Web interface lokal berbasis React/Vue untuk melihat, memfilter, mengekspor hasil scan, dan mencocokkan invoice dengan pembagian barang.
+2. **Dashboard**: Web interface yang di-deploy di **https://biddlog.site** (VPS Hostinger) untuk melihat, memfilter, mengekspor hasil scan, dan mencocokkan invoice dengan pembagian barang.
 
 ## Karakteristik Project
 - Stack utama: Python 3.10+, ADB (Android Debug Bridge), XML Parser, JSON & CSV Data Storage.
-- Dashboard lokal: JavaScript/Vue/React.
+- Dashboard: JavaScript/Vite/React, di-deploy via Docker (Nginx Alpine) di VPS Hostinger.
 - Data exchange format: JSON (`bidding-items.json`, `invoice-items.json`, `invoice-[account].json`) dan CSV.
+
+## Deployment & Infrastruktur
+- **URL Live**: https://biddlog.site
+- **VPS**: Hostinger — IP `72.62.127.119`
+- **Panel**: FASTPANEL (`https://72.62.127.119:8888`, user `fastuser`)
+- **Container**: Docker multi-stage (Node 20 build → Nginx Alpine serve)
+- **Port**: `8081` (host) → `80` (container Docker)
+- **SSL**: Let's Encrypt (fullchain.pem via certbot)
+- **Reverse Proxy**: Nginx host → `http://127.0.0.1:8081`
+- **Nginx Config**: `/etc/nginx/conf.d/biddlog.site.conf`
+- **Folder Deploy**: `/var/www/fastuser/data/www/biddlog.site`
+- **GitHub Repo**: `https://github.com/Kizker/biddlog.git`
+
+### Cara Update Dashboard di Server
+```bash
+ssh root@72.62.127.119
+cd /var/www/fastuser/data/www/biddlog.site
+git pull origin main
+docker compose up -d --build
+```
+
+### Troubleshooting Server
+- Jika setelah update Nginx config, perubahan tidak terasa: gunakan `systemctl restart nginx` (bukan `reload`).
+- Jika port 8081 sudah dipakai: ubah port di `docker-compose.yml` dan sesuaikan Nginx config.
+- Jika sertifikat SSL expired: jalankan `certbot renew` lalu `systemctl restart nginx`.
 
 ## Struktur Penting
 - `collector/appium_collector.py`: Script ADB/Appium untuk memindai barang bidding reguler.
 - `collector/invoice_collector.py`: Script ADB/Appium khusus memindai invoice/riwayat barang per akun (`menik`, `mubdi`, `aldi`).
 - `collector/output/invoice/`: Folder output hasil scan invoice.
-- `dashboard/`: Web analyzer lokal untuk menganalisis hasil scan.
+- `dashboard/`: Source code web analyzer (Vite + React).
+- `dashboard/Dockerfile`: Multi-stage Docker build.
+- `dashboard/nginx.conf`: Config Nginx di dalam container Docker.
+- `docker-compose.yml`: Orchestrator Docker untuk deployment.
 
 ## Cara Kerja di Project Ini
 - Selalu uji menggunakan device Android fisik atau emulator yang terhubung via ADB (`adb devices`).
 - Pastikan HP standby di halaman invoice/riwayat barang yang sesuai sebelum melakukan scan invoice.
 - Simpan data secara rapi dalam format JSON dan CSV di subfolder `output/`.
+- Setelah push perubahan dashboard ke GitHub, jalankan update di VPS (lihat bagian Deployment).
 
 ## Catatan Eksekusi
 - **2026-05-28**: Memperbaiki bug "miss scan" (kehilangan data scan) pada collector invoice ketika terdapat beberapa barang yang sama (duplicates).
@@ -49,3 +78,12 @@ Terdiri dari dua sub-sistem utama:
     python invoice_collector.py --account mubdi --no-launch --expected-total 11
     ```
     Skrip berhasil mencetak tepat 11 item.
+
+- **2026-07-07**: Deploy dashboard ke VPS Hostinger (biddlog.site).
+  - Setup: Docker multi-stage build (Node 20 → Nginx Alpine), reverse proxy via Nginx host.
+  - Kendala yang diatasi:
+    1. Error DKIM Debian-exim saat membuat situs di FASTPANEL → membuat user/group `Debian-exim`.
+    2. Port 8080 sudah dipakai → pindah ke port 8081.
+    3. Nginx config FASTPANEL tidak ter-load (`fastpanel2-sites/` bukan di `conf.d/`) → manual copy config ke `conf.d/`.
+    4. Sertifikat SSL parking selalu disajikan meski SNI benar → `systemctl restart nginx` (bukan `reload`).
+  - Hasil: Dashboard live di https://biddlog.site dengan SSL Let's Encrypt valid.

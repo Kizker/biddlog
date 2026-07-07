@@ -3,9 +3,49 @@
 MVP ini terdiri dari dua bagian:
 
 1. `collector/` - script ADB/Appium untuk membaca card barang dari aplikasi Bidding Plus melalui UI Android.
-2. `dashboard/` - web analyzer lokal untuk parse, filter, watchlist, nomor urut unit, export CSV, dan cek invoice.
+2. `dashboard/` - web analyzer yang di-deploy di **https://biddlog.site** untuk parse, filter, watchlist, nomor urut unit, export CSV, dan cek invoice.
 
-## Alur Kerja
+## Dashboard (Live)
+
+Dashboard sudah di-deploy dan bisa diakses langsung di:
+
+> 🌐 **https://biddlog.site**
+
+### Teknologi Deployment
+
+| Komponen | Detail |
+|---|---|
+| VPS | Hostinger VPS — IP `72.62.127.119` |
+| Panel | FASTPANEL (`https://72.62.127.119:8888`) |
+| Container | Docker (multi-stage: Node 20 build → Nginx Alpine serve) |
+| Port | `8081` (host) → `80` (container) |
+| SSL | Let's Encrypt (auto-renew via certbot) |
+| Reverse Proxy | Nginx di host → `http://127.0.0.1:8081` |
+
+### Update Dashboard ke Server
+
+Setelah melakukan perubahan di `dashboard/`, push ke GitHub lalu jalankan di VPS via SSH:
+
+```bash
+ssh root@72.62.127.119
+cd /var/www/fastuser/data/www/biddlog.site
+git pull origin main
+docker compose up -d --build
+```
+
+### Menjalankan Dashboard Secara Lokal (Opsional)
+
+Jika ingin menjalankan dashboard di laptop untuk development:
+
+```powershell
+cd dashboard
+npm install
+npm run dev
+```
+
+Dashboard lokal akan terbuka di `http://localhost:5173`.
+
+## Alur Kerja Collector
 
 1. Install Android Platform Tools sampai command `adb devices` bisa dipakai.
 2. Install Appium dan driver UiAutomator2.
@@ -13,7 +53,7 @@ MVP ini terdiri dari dua bagian:
 4. Hubungkan HP Android dan pastikan USB Debugging aktif.
 5. Buka halaman Bidding Reguler di aplikasi Bidding Plus.
 6. Jalankan `collector/appium_collector.py`.
-7. Import atau paste isi `collector/output/scan-list/bidding-items.json` ke dashboard.
+7. Buka **https://biddlog.site**, paste isi `collector/output/scan-list/bidding-items.json` ke dashboard.
 8. Gunakan filter dan export hasil.
 
 ## Setup Collector
@@ -105,7 +145,7 @@ Setiap selesai scan satu akun, scanner juga memperbarui output gabungan:
 
 ## Modul Cek Invoice
 
-Di dashboard, buka view `Cek Invoice`, lalu isi:
+Di dashboard (**https://biddlog.site**), buka view `Cek Invoice`, lalu isi:
 
 1. `Invoice JSON` memakai `collector/output/invoice/invoice-items.json`.
 2. `List pembagian awal` dari list barang per orang.
