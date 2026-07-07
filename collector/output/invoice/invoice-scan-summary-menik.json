@@ -1,0 +1,28 @@
+{
+  "collector_version": "2026-05-03-invoice-v1",
+  "account": "menik",
+  "started_at": "2026-07-07 08:17:10",
+  "finished_at": "2026-07-07 08:17:45",
+  "expected_total": null,
+  "collected_count": 14,
+  "target_reached": false,
+  "output_json": "output\\invoice\\invoice-menik.json",
+  "output_csv": "output\\invoice\\invoice-menik.csv",
+  "combined_json": "output\\invoice\\invoice-items.json",
+  "combined_csv": "output\\invoice\\invoice-items.csv",
+  "audit_fields": [
+    "scan_marker",
+    "scan_session_id",
+    "screen_no",
+    "screen_item_no",
+    "source_bounds",
+    "source_hash",
+    "source_text"
+  ],
+  "warnings": {
+    "missing_price_count": 0,
+    "missing_grade_count": 0,
+    "scan_warning_count": 0,
+    "scan_warnings": []
+  }
+}

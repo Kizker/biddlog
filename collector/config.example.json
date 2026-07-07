@@ -1,0 +1,17 @@
+{
+  "platformName": "Android",
+  "automationName": "UiAutomator2",
+  "deviceName": "Android",
+  "appPackage": "id.biddingplus",
+  "appActivity": "",
+  "appiumServer": "http://127.0.0.1:4723",
+  "maxScrolls": 1500,
+  "scanProfile": "accuracy",
+  "scrollPauseSeconds": 0.45,
+  "scrollStartRatio": 0.68,
+  "scrollEndRatio": 0.45,
+  "scrollDurationMs": 220,
+  "resetTopSwipes": 80,
+  "outputJson": "output/scan-list/bidding-items.json",
+  "outputCsv": "output/scan-list/bidding-items.csv"
+}

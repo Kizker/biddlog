@@ -1,0 +1,4412 @@
+[
+  {
+    "raw_name": "samsung GALAXY S10 PLUS 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2080000,
+    "scan_order": 1,
+    "scanned_at": "2026-04-30 05:01:02"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 6 512GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 10900000,
+    "scan_order": 2,
+    "scanned_at": "2026-04-30 05:01:02"
+  },
+  {
+    "raw_name": "realme REALME 13 PLUS 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1480000,
+    "scan_order": 3,
+    "scanned_at": "2026-04-30 05:01:02"
+  },
+  {
+    "raw_name": "Xiaomi REDMI 12 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 490000,
+    "scan_order": 4,
+    "scanned_at": "2026-04-30 05:01:02"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 6 512GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 10900000,
+    "scan_order": 5,
+    "scanned_at": "2026-04-30 05:01:06"
+  },
+  {
+    "raw_name": "samsung GALAXY S22 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3390000,
+    "scan_order": 6,
+    "scanned_at": "2026-04-30 05:01:06"
+  },
+  {
+    "raw_name": "vivo Y27 4G 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 480000,
+    "scan_order": 7,
+    "scanned_at": "2026-04-30 05:01:06"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 PLUS 256GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9880000,
+    "scan_order": 8,
+    "scanned_at": "2026-04-30 05:01:10"
+  },
+  {
+    "raw_name": "Xiaomi REDMI 12 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 490000,
+    "scan_order": 9,
+    "scanned_at": "2026-04-30 05:01:10"
+  },
+  {
+    "raw_name": "OPPO A16 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 380000,
+    "scan_order": 10,
+    "scanned_at": "2026-04-30 05:01:10"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 PLUS 256GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9880000,
+    "scan_order": 11,
+    "scanned_at": "2026-04-30 05:01:14"
+  },
+  {
+    "raw_name": "realme REALME C17 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 570000,
+    "scan_order": 12,
+    "scanned_at": "2026-04-30 05:01:14"
+  },
+  {
+    "raw_name": "samsung GALAXY A16 5G 256GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1680000,
+    "scan_order": 13,
+    "scanned_at": "2026-04-30 05:01:18"
+  },
+  {
+    "raw_name": "samsung GALAXY A13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 760000,
+    "scan_order": 14,
+    "scanned_at": "2026-04-30 05:01:18"
+  },
+  {
+    "raw_name": "realme REALME C17 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 570000,
+    "scan_order": 15,
+    "scanned_at": "2026-04-30 05:01:22"
+  },
+  {
+    "raw_name": "samsung GALAXY A12 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 540000,
+    "scan_order": 16,
+    "scanned_at": "2026-04-30 05:01:22"
+  },
+  {
+    "raw_name": "samsung GALAXY A55 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3280000,
+    "scan_order": 17,
+    "scanned_at": "2026-04-30 05:01:22"
+  },
+  {
+    "raw_name": "samsung GALAXY A13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 760000,
+    "scan_order": 18,
+    "scanned_at": "2026-04-30 05:01:26"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 11 PRO 4G 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 900000,
+    "scan_order": 19,
+    "scanned_at": "2026-04-30 05:01:26"
+  },
+  {
+    "raw_name": "OPPO A5I 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 960000,
+    "scan_order": 20,
+    "scanned_at": "2026-04-30 05:01:30"
+  },
+  {
+    "raw_name": "samsung GALAXY TAB A7 LITE 32GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 350000,
+    "scan_order": 21,
+    "scanned_at": "2026-04-30 05:01:30"
+  },
+  {
+    "raw_name": "samsung GALAXY A73 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1100000,
+    "scan_order": 22,
+    "scanned_at": "2026-04-30 05:01:34"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 11 PRO 4G 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 900000,
+    "scan_order": 23,
+    "scanned_at": "2026-04-30 05:01:34"
+  },
+  {
+    "raw_name": "samsung GALAXY S20 FE 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1600000,
+    "scan_order": 24,
+    "scanned_at": "2026-04-30 05:01:34"
+  },
+  {
+    "raw_name": "samsung GALAXY TAB A7 LITE 32GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 350000,
+    "scan_order": 25,
+    "scanned_at": "2026-04-30 05:01:38"
+  },
+  {
+    "raw_name": "samsung GALAXY A73 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1100000,
+    "scan_order": 26,
+    "scanned_at": "2026-04-30 05:01:38"
+  },
+  {
+    "raw_name": "samsung GALAXY A50 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 320000,
+    "scan_order": 27,
+    "scanned_at": "2026-04-30 05:01:38"
+  },
+  {
+    "raw_name": "OPPO A17 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 490000,
+    "scan_order": 28,
+    "scanned_at": "2026-04-30 05:01:42"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 5 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1560000,
+    "scan_order": 29,
+    "scanned_at": "2026-04-30 05:01:42"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 12 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 680000,
+    "scan_order": 30,
+    "scanned_at": "2026-04-30 05:01:46"
+  },
+  {
+    "raw_name": "samsung GALAXY A50 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 320000,
+    "scan_order": 31,
+    "scanned_at": "2026-04-30 05:01:46"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2880000,
+    "scan_order": 32,
+    "scanned_at": "2026-04-30 05:01:46"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 5 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1560000,
+    "scan_order": 33,
+    "scanned_at": "2026-04-30 05:01:51"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 12 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 680000,
+    "scan_order": 34,
+    "scanned_at": "2026-04-30 05:01:51"
+  },
+  {
+    "raw_name": "OPPO A1K 32GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 170000,
+    "scan_order": 35,
+    "scanned_at": "2026-04-30 05:01:51"
+  },
+  {
+    "raw_name": "samsung GALAXY A54 5G 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1220000,
+    "scan_order": 36,
+    "scanned_at": "2026-04-30 05:01:55"
+  },
+  {
+    "raw_name": "samsung GALAXY A16 4G 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 800000,
+    "scan_order": 37,
+    "scanned_at": "2026-04-30 05:01:55"
+  },
+  {
+    "raw_name": "OPPO A1K 32GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 170000,
+    "scan_order": 38,
+    "scanned_at": "2026-04-30 05:01:59"
+  },
+  {
+    "raw_name": "samsung GALAXY A53 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1150000,
+    "scan_order": 39,
+    "scanned_at": "2026-04-30 05:01:59"
+  },
+  {
+    "raw_name": "samsung GALAXY S10 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1860000,
+    "scan_order": 40,
+    "scanned_at": "2026-04-30 05:01:59"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 14 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1820000,
+    "scan_order": 41,
+    "scanned_at": "2026-04-30 05:02:03"
+  },
+  {
+    "raw_name": "samsung GALAXY A16 4G 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 800000,
+    "scan_order": 42,
+    "scanned_at": "2026-04-30 05:02:03"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6110000,
+    "scan_order": 43,
+    "scanned_at": "2026-04-30 05:02:03"
+  },
+  {
+    "raw_name": "samsung GALAXY S10 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1860000,
+    "scan_order": 44,
+    "scanned_at": "2026-04-30 05:02:07"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 14 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1820000,
+    "scan_order": 45,
+    "scanned_at": "2026-04-30 05:02:07"
+  },
+  {
+    "raw_name": "realme REALME 5I 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 280000,
+    "scan_order": 46,
+    "scanned_at": "2026-04-30 05:02:07"
+  },
+  {
+    "raw_name": "OPPO A17 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 490000,
+    "scan_order": 47,
+    "scanned_at": "2026-04-30 05:02:11"
+  },
+  {
+    "raw_name": "samsung GALAXY S22 ULTRA 256GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5430000,
+    "scan_order": 48,
+    "scanned_at": "2026-04-30 05:02:11"
+  },
+  {
+    "raw_name": "realme REALME 5I 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 280000,
+    "scan_order": 49,
+    "scanned_at": "2026-04-30 05:02:15"
+  },
+  {
+    "raw_name": "samsung GALAXY A14 5G 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 660000,
+    "scan_order": 50,
+    "scanned_at": "2026-04-30 05:02:15"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 10730000,
+    "scan_order": 51,
+    "scanned_at": "2026-04-30 05:02:15"
+  },
+  {
+    "raw_name": "samsung GALAXY S22 ULTRA 256GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5430000,
+    "scan_order": 52,
+    "scanned_at": "2026-04-30 05:02:19"
+  },
+  {
+    "raw_name": "vivo V40 LITE 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1370000,
+    "scan_order": 53,
+    "scanned_at": "2026-04-30 05:02:19"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 10730000,
+    "scan_order": 54,
+    "scanned_at": "2026-04-30 05:02:23"
+  },
+  {
+    "raw_name": "vivo Y15S 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 250000,
+    "scan_order": 55,
+    "scanned_at": "2026-04-30 05:02:23"
+  },
+  {
+    "raw_name": "OPPO A17 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 350000,
+    "scan_order": 56,
+    "scanned_at": "2026-04-30 05:02:23"
+  },
+  {
+    "raw_name": "vivo V40 LITE 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1370000,
+    "scan_order": 57,
+    "scanned_at": "2026-04-30 05:02:27"
+  },
+  {
+    "raw_name": "samsung GALAXY A23 4G 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 690000,
+    "scan_order": 58,
+    "scanned_at": "2026-04-30 05:02:27"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 14 5G 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1920000,
+    "scan_order": 59,
+    "scanned_at": "2026-04-30 05:02:27"
+  },
+  {
+    "raw_name": "OPPO A17 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 350000,
+    "scan_order": 60,
+    "scanned_at": "2026-04-30 05:02:31"
+  },
+  {
+    "raw_name": "samsung GALAXY S22 128GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1740000,
+    "scan_order": 61,
+    "scanned_at": "2026-04-30 05:02:31"
+  },
+  {
+    "raw_name": "samsung GALAXY NOTE 20 ULTRA 5G 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2130000,
+    "scan_order": 62,
+    "scanned_at": "2026-04-30 05:02:31"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 14 5G 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1920000,
+    "scan_order": 63,
+    "scanned_at": "2026-04-30 05:02:35"
+  },
+  {
+    "raw_name": "samsung GALAXY NOTE 8 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 400000,
+    "scan_order": 64,
+    "scanned_at": "2026-04-30 05:02:35"
+  },
+  {
+    "raw_name": "samsung GALAXY A55 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 3430000,
+    "scan_order": 65,
+    "scanned_at": "2026-04-30 05:02:35"
+  },
+  {
+    "raw_name": "samsung GALAXY NOTE 20 ULTRA 5G 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2130000,
+    "scan_order": 66,
+    "scanned_at": "2026-04-30 05:02:39"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 PLUS 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3120000,
+    "scan_order": 67,
+    "scanned_at": "2026-04-30 05:02:39"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 FE 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5180000,
+    "scan_order": 68,
+    "scanned_at": "2026-04-30 05:02:43"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 PLUS 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3120000,
+    "scan_order": 69,
+    "scanned_at": "2026-04-30 05:02:47"
+  },
+  {
+    "raw_name": "samsung GALAXY A73 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1860000,
+    "scan_order": 70,
+    "scanned_at": "2026-04-30 05:02:47"
+  },
+  {
+    "raw_name": "samsung GALAXY NOTE 10 LITE 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1430000,
+    "scan_order": 71,
+    "scanned_at": "2026-04-30 05:02:47"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 FE 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5180000,
+    "scan_order": 72,
+    "scanned_at": "2026-04-30 05:02:51"
+  },
+  {
+    "raw_name": "samsung GALAXY A55 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 3430000,
+    "scan_order": 73,
+    "scanned_at": "2026-04-30 05:02:51"
+  },
+  {
+    "raw_name": "samsung GALAXY NOTE 10 LITE 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1430000,
+    "scan_order": 74,
+    "scanned_at": "2026-04-30 05:02:55"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 ULTRA 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 7210000,
+    "scan_order": 75,
+    "scanned_at": "2026-04-30 05:02:55"
+  },
+  {
+    "raw_name": "samsung GALAXY A54 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2270000,
+    "scan_order": 76,
+    "scanned_at": "2026-04-30 05:02:55"
+  },
+  {
+    "raw_name": "OPPO A77S 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 590000,
+    "scan_order": 77,
+    "scanned_at": "2026-04-30 05:02:59"
+  },
+  {
+    "raw_name": "vivo Y21D 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1880000,
+    "scan_order": 78,
+    "scanned_at": "2026-04-30 05:02:59"
+  },
+  {
+    "raw_name": "samsung GALAXY A54 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2270000,
+    "scan_order": 79,
+    "scanned_at": "2026-04-30 05:03:03"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 80,
+    "scanned_at": "2026-04-30 05:03:03"
+  },
+  {
+    "raw_name": "samsung GALAXY A10S 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 220000,
+    "scan_order": 81,
+    "scanned_at": "2026-04-30 05:03:03"
+  },
+  {
+    "raw_name": "vivo Y21D 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1880000,
+    "scan_order": 82,
+    "scanned_at": "2026-04-30 05:03:07"
+  },
+  {
+    "raw_name": "vivo Y17 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 230000,
+    "scan_order": 83,
+    "scanned_at": "2026-04-30 05:03:07"
+  },
+  {
+    "raw_name": "samsung GALAXY A10S 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 220000,
+    "scan_order": 84,
+    "scanned_at": "2026-04-30 05:03:11"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 5 512GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1950000,
+    "scan_order": 85,
+    "scanned_at": "2026-04-30 05:03:11"
+  },
+  {
+    "raw_name": "samsung GALAXY A33 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 950000,
+    "scan_order": 86,
+    "scanned_at": "2026-04-30 05:03:11"
+  },
+  {
+    "raw_name": "vivo Y17 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 230000,
+    "scan_order": 87,
+    "scanned_at": "2026-04-30 05:03:15"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 PLUS 256GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9510000,
+    "scan_order": 88,
+    "scanned_at": "2026-04-30 05:03:15"
+  },
+  {
+    "raw_name": "OPPO RENO 8 5G 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 960000,
+    "scan_order": 89,
+    "scanned_at": "2026-04-30 05:03:15"
+  },
+  {
+    "raw_name": "INFINIX HOT 30I 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 630000,
+    "scan_order": 90,
+    "scanned_at": "2026-04-30 05:03:19"
+  },
+  {
+    "raw_name": "samsung GALAXY A33 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 950000,
+    "scan_order": 91,
+    "scanned_at": "2026-04-30 05:03:19"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12190000,
+    "scan_order": 92,
+    "scanned_at": "2026-04-30 05:03:19"
+  },
+  {
+    "raw_name": "OPPO RENO 8 5G 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 960000,
+    "scan_order": 93,
+    "scanned_at": "2026-04-30 05:03:23"
+  },
+  {
+    "raw_name": "INFINIX HOT 30I 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 630000,
+    "scan_order": 94,
+    "scanned_at": "2026-04-30 05:03:23"
+  },
+  {
+    "raw_name": "realme REALME 6 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 540000,
+    "scan_order": 95,
+    "scanned_at": "2026-04-30 05:03:23"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AA",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 13680000,
+    "scan_order": 96,
+    "scanned_at": "2026-04-30 05:03:27"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 5 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1560000,
+    "scan_order": 97,
+    "scanned_at": "2026-04-30 05:03:27"
+  },
+  {
+    "raw_name": "realme REALME 6 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 540000,
+    "scan_order": 98,
+    "scanned_at": "2026-04-30 05:03:31"
+  },
+  {
+    "raw_name": "samsung GALAXY A04S 64GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 540000,
+    "scan_order": 99,
+    "scanned_at": "2026-04-30 05:03:31"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 100,
+    "scanned_at": "2026-04-30 05:03:31"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 5 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1560000,
+    "scan_order": 101,
+    "scanned_at": "2026-04-30 05:03:35"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AA",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13430000,
+    "scan_order": 102,
+    "scanned_at": "2026-04-30 05:03:35"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 103,
+    "scanned_at": "2026-04-30 05:03:39"
+  },
+  {
+    "raw_name": "samsung GALAXY S21 ULTRA 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1800000,
+    "scan_order": 104,
+    "scanned_at": "2026-04-30 05:03:39"
+  },
+  {
+    "raw_name": "INFINIX HOT 30 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 660000,
+    "scan_order": 105,
+    "scanned_at": "2026-04-30 05:03:39"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AA",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13430000,
+    "scan_order": 106,
+    "scanned_at": "2026-04-30 05:03:43"
+  },
+  {
+    "raw_name": "samsung GALAXY TAB S7 FE 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1190000,
+    "scan_order": 107,
+    "scanned_at": "2026-04-30 05:03:43"
+  },
+  {
+    "raw_name": "samsung GALAXY S10 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 800000,
+    "scan_order": 108,
+    "scanned_at": "2026-04-30 05:03:43"
+  },
+  {
+    "raw_name": "INFINIX HOT 30 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 660000,
+    "scan_order": 109,
+    "scanned_at": "2026-04-30 05:03:47"
+  },
+  {
+    "raw_name": "Xiaomi REDMI 6A 16GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 80000,
+    "scan_order": 110,
+    "scanned_at": "2026-04-30 05:03:47"
+  },
+  {
+    "raw_name": "INFINIX NOTE 50 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1630000,
+    "scan_order": 111,
+    "scanned_at": "2026-04-30 05:03:47"
+  },
+  {
+    "raw_name": "samsung GALAXY S10 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 800000,
+    "scan_order": 112,
+    "scanned_at": "2026-04-30 05:03:51"
+  },
+  {
+    "raw_name": "samsung GALAXY A35 256GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2170000,
+    "scan_order": 113,
+    "scanned_at": "2026-04-30 05:03:51"
+  },
+  {
+    "raw_name": "OPPO RENO 13 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 3660000,
+    "scan_order": 114,
+    "scanned_at": "2026-04-30 05:03:55"
+  },
+  {
+    "raw_name": "vivo Y16 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 300000,
+    "scan_order": 115,
+    "scanned_at": "2026-04-30 05:03:55"
+  },
+  {
+    "raw_name": "samsung GALAXY A35 256GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2170000,
+    "scan_order": 116,
+    "scanned_at": "2026-04-30 05:03:59"
+  },
+  {
+    "raw_name": "OPPO RENO 5 4G 128GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 670000,
+    "scan_order": 117,
+    "scanned_at": "2026-04-30 05:03:59"
+  },
+  {
+    "raw_name": "samsung GALAXY A34 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1700000,
+    "scan_order": 118,
+    "scanned_at": "2026-04-30 05:03:59"
+  },
+  {
+    "raw_name": "vivo Y16 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 300000,
+    "scan_order": 119,
+    "scanned_at": "2026-04-30 05:04:03"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 FE 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5180000,
+    "scan_order": 120,
+    "scanned_at": "2026-04-30 05:04:03"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 1024GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13640000,
+    "scan_order": 121,
+    "scanned_at": "2026-04-30 05:04:03"
+  },
+  {
+    "raw_name": "samsung GALAXY A34 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1700000,
+    "scan_order": 122,
+    "scanned_at": "2026-04-30 05:04:07"
+  },
+  {
+    "raw_name": "samsung GALAXY A03S 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 270000,
+    "scan_order": 123,
+    "scanned_at": "2026-04-30 05:04:07"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AA",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 13680000,
+    "scan_order": 124,
+    "scanned_at": "2026-04-30 05:04:11"
+  },
+  {
+    "raw_name": "OPPO RENO 5 4G 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 600000,
+    "scan_order": 125,
+    "scanned_at": "2026-04-30 05:04:11"
+  },
+  {
+    "raw_name": "samsung GALAXY A03S 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 270000,
+    "scan_order": 126,
+    "scanned_at": "2026-04-30 05:04:15"
+  },
+  {
+    "raw_name": "OPPO FIND X5 PRO 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1860000,
+    "scan_order": 127,
+    "scanned_at": "2026-04-30 05:04:15"
+  },
+  {
+    "raw_name": "samsung GALAXY A56 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3750000,
+    "scan_order": 128,
+    "scanned_at": "2026-04-30 05:04:15"
+  },
+  {
+    "raw_name": "OPPO RENO 5 4G 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 600000,
+    "scan_order": 129,
+    "scanned_at": "2026-04-30 05:04:19"
+  },
+  {
+    "raw_name": "OPPO A15S 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 390000,
+    "scan_order": 130,
+    "scanned_at": "2026-04-30 05:04:19"
+  },
+  {
+    "raw_name": "samsung GALAXY A15 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1610000,
+    "scan_order": 131,
+    "scanned_at": "2026-04-30 05:04:19"
+  },
+  {
+    "raw_name": "vivo Y20 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 380000,
+    "scan_order": 132,
+    "scanned_at": "2026-04-30 05:04:23"
+  },
+  {
+    "raw_name": "samsung GALAXY A56 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3750000,
+    "scan_order": 133,
+    "scanned_at": "2026-04-30 05:04:23"
+  },
+  {
+    "raw_name": "samsung GALAXY A23 4G 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 490000,
+    "scan_order": 134,
+    "scanned_at": "2026-04-30 05:04:23"
+  },
+  {
+    "raw_name": "vivo Y20 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 380000,
+    "scan_order": 135,
+    "scanned_at": "2026-04-30 05:04:27"
+  },
+  {
+    "raw_name": "samsung GALAXY A52S 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1300000,
+    "scan_order": 136,
+    "scanned_at": "2026-04-30 05:04:27"
+  },
+  {
+    "raw_name": "OPPO A60 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 810000,
+    "scan_order": 137,
+    "scanned_at": "2026-04-30 05:04:31"
+  },
+  {
+    "raw_name": "OPPO A31 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 320000,
+    "scan_order": 138,
+    "scanned_at": "2026-04-30 05:04:31"
+  },
+  {
+    "raw_name": "samsung GALAXY A52S 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1300000,
+    "scan_order": 139,
+    "scanned_at": "2026-04-30 05:04:35"
+  },
+  {
+    "raw_name": "Xiaomi REDMI 10 4G 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 440000,
+    "scan_order": 140,
+    "scanned_at": "2026-04-30 05:04:35"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 12 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1040000,
+    "scan_order": 141,
+    "scanned_at": "2026-04-30 05:04:35"
+  },
+  {
+    "raw_name": "OPPO A11K / A12 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 320000,
+    "scan_order": 142,
+    "scanned_at": "2026-04-30 05:04:39"
+  },
+  {
+    "raw_name": "OPPO A31 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 320000,
+    "scan_order": 143,
+    "scanned_at": "2026-04-30 05:04:39"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 6 256GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6510000,
+    "scan_order": 144,
+    "scanned_at": "2026-04-30 05:04:39"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 12 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1040000,
+    "scan_order": 145,
+    "scanned_at": "2026-04-30 05:04:43"
+  },
+  {
+    "raw_name": "OPPO A11K / A12 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 320000,
+    "scan_order": 146,
+    "scanned_at": "2026-04-30 05:04:43"
+  },
+  {
+    "raw_name": "realme REALME C20 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 250000,
+    "scan_order": 147,
+    "scanned_at": "2026-04-30 05:04:43"
+  },
+  {
+    "raw_name": "INFINIX HOT 20I 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 350000,
+    "scan_order": 148,
+    "scanned_at": "2026-04-30 05:04:47"
+  },
+  {
+    "raw_name": "realme REALME NARZO 50A 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 320000,
+    "scan_order": 149,
+    "scanned_at": "2026-04-30 05:04:47"
+  },
+  {
+    "raw_name": "OPPO A5I 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1020000,
+    "scan_order": 150,
+    "scanned_at": "2026-04-30 05:04:51"
+  },
+  {
+    "raw_name": "realme REALME C20 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 250000,
+    "scan_order": 151,
+    "scanned_at": "2026-04-30 05:04:51"
+  },
+  {
+    "raw_name": "samsung GALAXY A06 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 640000,
+    "scan_order": 152,
+    "scanned_at": "2026-04-30 05:04:51"
+  },
+  {
+    "raw_name": "vivo Y20S G 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 470000,
+    "scan_order": 153,
+    "scanned_at": "2026-04-30 05:04:56"
+  },
+  {
+    "raw_name": "realme REALME NARZO 50A 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 320000,
+    "scan_order": 154,
+    "scanned_at": "2026-04-30 05:04:56"
+  },
+  {
+    "raw_name": "OPPO A5I 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1020000,
+    "scan_order": 155,
+    "scanned_at": "2026-04-30 05:04:56"
+  },
+  {
+    "raw_name": "OPPO A5I 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 830000,
+    "scan_order": 156,
+    "scanned_at": "2026-04-30 05:04:56"
+  },
+  {
+    "raw_name": "vivo Y20S G 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 470000,
+    "scan_order": 157,
+    "scanned_at": "2026-04-30 05:05:00"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 10730000,
+    "scan_order": 158,
+    "scanned_at": "2026-04-30 05:05:00"
+  },
+  {
+    "raw_name": "Xiaomi REDMI 10A 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 440000,
+    "scan_order": 159,
+    "scanned_at": "2026-04-30 05:05:04"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 160,
+    "scanned_at": "2026-04-30 05:05:04"
+  },
+  {
+    "raw_name": "APPLE iPhone SE (3rd generation) 128GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3280000,
+    "scan_order": 161,
+    "scanned_at": "2026-04-30 05:05:08"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 10730000,
+    "scan_order": 162,
+    "scanned_at": "2026-04-30 05:05:08"
+  },
+  {
+    "raw_name": "samsung GALAXY NOTE 20 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1680000,
+    "scan_order": 163,
+    "scanned_at": "2026-04-30 05:05:08"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 164,
+    "scanned_at": "2026-04-30 05:05:12"
+  },
+  {
+    "raw_name": "APPLE iPhone SE (3rd generation) 128GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3280000,
+    "scan_order": 165,
+    "scanned_at": "2026-04-30 05:05:12"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 PLUS 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8460000,
+    "scan_order": 166,
+    "scanned_at": "2026-04-30 05:05:12"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 PLUS 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9030000,
+    "scan_order": 167,
+    "scanned_at": "2026-04-30 05:05:16"
+  },
+  {
+    "raw_name": "realme REALME C11 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 240000,
+    "scan_order": 168,
+    "scanned_at": "2026-04-30 05:05:16"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 PLUS 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8460000,
+    "scan_order": 169,
+    "scanned_at": "2026-04-30 05:05:20"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8110000,
+    "scan_order": 170,
+    "scanned_at": "2026-04-30 05:05:20"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 256GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9270000,
+    "scan_order": 171,
+    "scanned_at": "2026-04-30 05:05:20"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 172,
+    "scanned_at": "2026-04-30 05:05:24"
+  },
+  {
+    "raw_name": "realme REALME C11 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 240000,
+    "scan_order": 173,
+    "scanned_at": "2026-04-30 05:05:24"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8110000,
+    "scan_order": 174,
+    "scanned_at": "2026-04-30 05:05:24"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 175,
+    "scanned_at": "2026-04-30 05:05:28"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 176,
+    "scanned_at": "2026-04-30 05:05:28"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 177,
+    "scanned_at": "2026-04-30 05:05:32"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 178,
+    "scanned_at": "2026-04-30 05:05:32"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 179,
+    "scanned_at": "2026-04-30 05:05:36"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8370000,
+    "scan_order": 180,
+    "scanned_at": "2026-04-30 05:05:36"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8460000,
+    "scan_order": 181,
+    "scanned_at": "2026-04-30 05:05:36"
+  },
+  {
+    "raw_name": "APPLE iPhone 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 8480000,
+    "scan_order": 182,
+    "scanned_at": "2026-04-30 05:05:40"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 183,
+    "scanned_at": "2026-04-30 05:05:40"
+  },
+  {
+    "raw_name": "OPPO A5 PRO 4G 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1450000,
+    "scan_order": 184,
+    "scanned_at": "2026-04-30 05:05:40"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8460000,
+    "scan_order": 185,
+    "scanned_at": "2026-04-30 05:05:44"
+  },
+  {
+    "raw_name": "APPLE iPhone 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 8480000,
+    "scan_order": 186,
+    "scanned_at": "2026-04-30 05:05:44"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 187,
+    "scanned_at": "2026-04-30 05:05:44"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 188,
+    "scanned_at": "2026-04-30 05:05:48"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AA",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8530000,
+    "scan_order": 189,
+    "scanned_at": "2026-04-30 05:05:48"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 190,
+    "scanned_at": "2026-04-30 05:05:52"
+  },
+  {
+    "raw_name": "APPLE iPhone 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 191,
+    "scanned_at": "2026-04-30 05:05:52"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8460000,
+    "scan_order": 192,
+    "scanned_at": "2026-04-30 05:05:52"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AA",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8530000,
+    "scan_order": 193,
+    "scanned_at": "2026-04-30 05:05:57"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 194,
+    "scanned_at": "2026-04-30 05:05:57"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9100000,
+    "scan_order": 195,
+    "scanned_at": "2026-04-30 05:05:57"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8460000,
+    "scan_order": 196,
+    "scanned_at": "2026-04-30 05:06:01"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8460000,
+    "scan_order": 197,
+    "scanned_at": "2026-04-30 05:06:01"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9100000,
+    "scan_order": 198,
+    "scanned_at": "2026-04-30 05:06:01"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8370000,
+    "scan_order": 199,
+    "scanned_at": "2026-04-30 05:06:05"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9100000,
+    "scan_order": 200,
+    "scanned_at": "2026-04-30 05:06:05"
+  },
+  {
+    "raw_name": "samsung GALAXY S21 PLUS 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1450000,
+    "scan_order": 201,
+    "scanned_at": "2026-04-30 05:06:05"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8370000,
+    "scan_order": 202,
+    "scanned_at": "2026-04-30 05:06:09"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 203,
+    "scanned_at": "2026-04-30 05:06:09"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 204,
+    "scanned_at": "2026-04-30 05:06:13"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 205,
+    "scanned_at": "2026-04-30 05:06:13"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 206,
+    "scanned_at": "2026-04-30 05:06:17"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8370000,
+    "scan_order": 207,
+    "scanned_at": "2026-04-30 05:06:17"
+  },
+  {
+    "raw_name": "samsung GALAXY A52 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1020000,
+    "scan_order": 208,
+    "scanned_at": "2026-04-30 05:06:17"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 209,
+    "scanned_at": "2026-04-30 05:06:21"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 210,
+    "scanned_at": "2026-04-30 05:06:21"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 7820000,
+    "scan_order": 211,
+    "scanned_at": "2026-04-30 05:06:21"
+  },
+  {
+    "raw_name": "samsung GALAXY A52 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1020000,
+    "scan_order": 212,
+    "scanned_at": "2026-04-30 05:06:25"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8460000,
+    "scan_order": 213,
+    "scanned_at": "2026-04-30 05:06:25"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 214,
+    "scanned_at": "2026-04-30 05:06:25"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8370000,
+    "scan_order": 215,
+    "scanned_at": "2026-04-30 05:06:29"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 7820000,
+    "scan_order": 216,
+    "scanned_at": "2026-04-30 05:06:29"
+  },
+  {
+    "raw_name": "samsung GALAXY A13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 760000,
+    "scan_order": 217,
+    "scanned_at": "2026-04-30 05:06:29"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 218,
+    "scanned_at": "2026-04-30 05:06:33"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8370000,
+    "scan_order": 219,
+    "scanned_at": "2026-04-30 05:06:33"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 220,
+    "scanned_at": "2026-04-30 05:06:33"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9100000,
+    "scan_order": 221,
+    "scanned_at": "2026-04-30 05:06:37"
+  },
+  {
+    "raw_name": "samsung GALAXY A52 256GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1200000,
+    "scan_order": 222,
+    "scanned_at": "2026-04-30 05:06:37"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8280000,
+    "scan_order": 223,
+    "scanned_at": "2026-04-30 05:06:41"
+  },
+  {
+    "raw_name": "realme REALME 10 PRO PLUS 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1140000,
+    "scan_order": 224,
+    "scanned_at": "2026-04-30 05:06:41"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8110000,
+    "scan_order": 225,
+    "scanned_at": "2026-04-30 05:06:41"
+  },
+  {
+    "raw_name": "samsung GALAXY A52 256GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1200000,
+    "scan_order": 226,
+    "scanned_at": "2026-04-30 05:06:45"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6120000,
+    "scan_order": 227,
+    "scanned_at": "2026-04-30 05:06:45"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5690000,
+    "scan_order": 228,
+    "scanned_at": "2026-04-30 05:06:45"
+  },
+  {
+    "raw_name": "Apple IPHONE 15 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8110000,
+    "scan_order": 229,
+    "scanned_at": "2026-04-30 05:06:49"
+  },
+  {
+    "raw_name": "samsung GALAXY J7 PRIME 32GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 171000,
+    "scan_order": 230,
+    "scanned_at": "2026-04-30 05:06:49"
+  },
+  {
+    "raw_name": "samsung GALAXY A52S 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1300000,
+    "scan_order": 231,
+    "scanned_at": "2026-04-30 05:06:49"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 232,
+    "scanned_at": "2026-04-30 05:06:54"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5690000,
+    "scan_order": 233,
+    "scanned_at": "2026-04-30 05:06:54"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5690000,
+    "scan_order": 234,
+    "scanned_at": "2026-04-30 05:06:54"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 235,
+    "scanned_at": "2026-04-30 05:06:58"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 236,
+    "scanned_at": "2026-04-30 05:06:58"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 237,
+    "scanned_at": "2026-04-30 05:07:01"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5690000,
+    "scan_order": 238,
+    "scanned_at": "2026-04-30 05:07:01"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 239,
+    "scanned_at": "2026-04-30 05:07:06"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 11000000,
+    "scan_order": 240,
+    "scanned_at": "2026-04-30 05:07:06"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 241,
+    "scanned_at": "2026-04-30 05:07:06"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5690000,
+    "scan_order": 242,
+    "scanned_at": "2026-04-30 05:07:10"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 243,
+    "scanned_at": "2026-04-30 05:07:10"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 FE 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4050000,
+    "scan_order": 244,
+    "scanned_at": "2026-04-30 05:07:10"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 245,
+    "scanned_at": "2026-04-30 05:07:14"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6120000,
+    "scan_order": 246,
+    "scanned_at": "2026-04-30 05:07:14"
+  },
+  {
+    "raw_name": "samsung GALAXY A31 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 670000,
+    "scan_order": 247,
+    "scanned_at": "2026-04-30 05:07:14"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6160000,
+    "scan_order": 248,
+    "scanned_at": "2026-04-30 05:07:18"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 FE 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4050000,
+    "scan_order": 249,
+    "scanned_at": "2026-04-30 05:07:18"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 5 512GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1950000,
+    "scan_order": 250,
+    "scanned_at": "2026-04-30 05:07:18"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6160000,
+    "scan_order": 251,
+    "scanned_at": "2026-04-30 05:07:22"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4290000,
+    "scan_order": 252,
+    "scanned_at": "2026-04-30 05:07:22"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 128GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2660000,
+    "scan_order": 253,
+    "scanned_at": "2026-04-30 05:07:26"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 ULTRA 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8100000,
+    "scan_order": 254,
+    "scanned_at": "2026-04-30 05:07:26"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4290000,
+    "scan_order": 255,
+    "scanned_at": "2026-04-30 05:07:30"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 128GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2660000,
+    "scan_order": 256,
+    "scanned_at": "2026-04-30 05:07:30"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6160000,
+    "scan_order": 257,
+    "scanned_at": "2026-04-30 05:07:30"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 1024GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13880000,
+    "scan_order": 258,
+    "scanned_at": "2026-04-30 05:07:34"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 259,
+    "scanned_at": "2026-04-30 05:07:34"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6160000,
+    "scan_order": 260,
+    "scanned_at": "2026-04-30 05:07:38"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 1024GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13880000,
+    "scan_order": 261,
+    "scanned_at": "2026-04-30 05:07:38"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 262,
+    "scanned_at": "2026-04-30 05:07:38"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 263,
+    "scanned_at": "2026-04-30 05:07:42"
+  },
+  {
+    "raw_name": "samsung GALAXY S22 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1400000,
+    "scan_order": 264,
+    "scanned_at": "2026-04-30 05:07:42"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 265,
+    "scanned_at": "2026-04-30 05:07:42"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 266,
+    "scanned_at": "2026-04-30 05:07:46"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 267,
+    "scanned_at": "2026-04-30 05:07:46"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5690000,
+    "scan_order": 268,
+    "scanned_at": "2026-04-30 05:07:46"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 269,
+    "scanned_at": "2026-04-30 05:07:50"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 256GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6200000,
+    "scan_order": 270,
+    "scanned_at": "2026-04-30 05:07:50"
+  },
+  {
+    "raw_name": "samsung GALAXY A36 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2740000,
+    "scan_order": 271,
+    "scanned_at": "2026-04-30 05:07:50"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 256GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6200000,
+    "scan_order": 272,
+    "scanned_at": "2026-04-30 05:07:54"
+  },
+  {
+    "raw_name": "samsung GALAXY A36 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2740000,
+    "scan_order": 273,
+    "scanned_at": "2026-04-30 05:07:54"
+  },
+  {
+    "raw_name": "samsung GALAXY A52S 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1090000,
+    "scan_order": 274,
+    "scanned_at": "2026-04-30 05:07:54"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 275,
+    "scanned_at": "2026-04-30 05:07:58"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6120000,
+    "scan_order": 276,
+    "scanned_at": "2026-04-30 05:07:58"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 277,
+    "scanned_at": "2026-04-30 05:08:02"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5370000,
+    "scan_order": 278,
+    "scanned_at": "2026-04-30 05:08:02"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6120000,
+    "scan_order": 279,
+    "scanned_at": "2026-04-30 05:08:06"
+  },
+  {
+    "raw_name": "samsung GALAXY A16 4G 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1070000,
+    "scan_order": 280,
+    "scanned_at": "2026-04-30 05:08:06"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 281,
+    "scanned_at": "2026-04-30 05:08:06"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5370000,
+    "scan_order": 282,
+    "scanned_at": "2026-04-30 05:08:11"
+  },
+  {
+    "raw_name": "samsung GALAXY A73 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1860000,
+    "scan_order": 283,
+    "scanned_at": "2026-04-30 05:08:11"
+  },
+  {
+    "raw_name": "samsung GALAXY A55 256GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3520000,
+    "scan_order": 284,
+    "scanned_at": "2026-04-30 05:08:11"
+  },
+  {
+    "raw_name": "Apple IPHONE 13 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5650000,
+    "scan_order": 285,
+    "scanned_at": "2026-04-30 05:08:15"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 1024GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13880000,
+    "scan_order": 286,
+    "scanned_at": "2026-04-30 05:08:15"
+  },
+  {
+    "raw_name": "samsung GALAXY A55 256GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3520000,
+    "scan_order": 287,
+    "scanned_at": "2026-04-30 05:08:19"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 FE 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5180000,
+    "scan_order": 288,
+    "scanned_at": "2026-04-30 05:08:19"
+  },
+  {
+    "raw_name": "samsung GALAXY S22 ULTRA 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5610000,
+    "scan_order": 289,
+    "scanned_at": "2026-04-30 05:08:19"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 1024GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13880000,
+    "scan_order": 290,
+    "scanned_at": "2026-04-30 05:08:23"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 3800000,
+    "scan_order": 291,
+    "scanned_at": "2026-04-30 05:08:23"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 4360000,
+    "scan_order": 292,
+    "scanned_at": "2026-04-30 05:08:23"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4160000,
+    "scan_order": 293,
+    "scanned_at": "2026-04-30 05:08:27"
+  },
+  {
+    "raw_name": "samsung GALAXY S22 ULTRA 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5610000,
+    "scan_order": 294,
+    "scanned_at": "2026-04-30 05:08:27"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 295,
+    "scanned_at": "2026-04-30 05:08:27"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 4360000,
+    "scan_order": 296,
+    "scanned_at": "2026-04-30 05:08:31"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4160000,
+    "scan_order": 297,
+    "scanned_at": "2026-04-30 05:08:31"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 4 512GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4920000,
+    "scan_order": 298,
+    "scanned_at": "2026-04-30 05:08:31"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 299,
+    "scanned_at": "2026-04-30 05:08:35"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13170000,
+    "scan_order": 300,
+    "scanned_at": "2026-04-30 05:08:35"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3650000,
+    "scan_order": 301,
+    "scanned_at": "2026-04-30 05:08:35"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 4 512GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4920000,
+    "scan_order": 302,
+    "scanned_at": "2026-04-30 05:08:39"
+  },
+  {
+    "raw_name": "samsung GALAXY S20 FE 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1500000,
+    "scan_order": 303,
+    "scanned_at": "2026-04-30 05:08:39"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 ULTRA 1024GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 11850000,
+    "scan_order": 304,
+    "scanned_at": "2026-04-30 05:08:39"
+  },
+  {
+    "raw_name": "INFINIX NOTE 40 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1330000,
+    "scan_order": 305,
+    "scanned_at": "2026-04-30 05:08:43"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3650000,
+    "scan_order": 306,
+    "scanned_at": "2026-04-30 05:08:43"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 ULTRA 1024GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12330000,
+    "scan_order": 307,
+    "scanned_at": "2026-04-30 05:08:43"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 ULTRA 1024GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 11850000,
+    "scan_order": 308,
+    "scanned_at": "2026-04-30 05:08:47"
+  },
+  {
+    "raw_name": "INFINIX NOTE 40 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1330000,
+    "scan_order": 309,
+    "scanned_at": "2026-04-30 05:08:47"
+  },
+  {
+    "raw_name": "samsung GALAXY NOTE FE 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 500000,
+    "scan_order": 310,
+    "scanned_at": "2026-04-30 05:08:47"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 1024GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13880000,
+    "scan_order": 311,
+    "scanned_at": "2026-04-30 05:08:51"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4160000,
+    "scan_order": 312,
+    "scanned_at": "2026-04-30 05:08:55"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 ULTRA 256GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 7620000,
+    "scan_order": 313,
+    "scanned_at": "2026-04-30 05:08:55"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 1024GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13880000,
+    "scan_order": 314,
+    "scanned_at": "2026-04-30 05:08:59"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6980000,
+    "scan_order": 315,
+    "scanned_at": "2026-04-30 05:08:59"
+  },
+  {
+    "raw_name": "samsung GALAXY S22 ULTRA 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2910000,
+    "scan_order": 316,
+    "scanned_at": "2026-04-30 05:08:59"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 ULTRA 256GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 7620000,
+    "scan_order": 317,
+    "scanned_at": "2026-04-30 05:09:03"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 1024GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13880000,
+    "scan_order": 318,
+    "scanned_at": "2026-04-30 05:09:03"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 1024GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 14050000,
+    "scan_order": 319,
+    "scanned_at": "2026-04-30 05:09:03"
+  },
+  {
+    "raw_name": "samsung GALAXY S22 ULTRA 256GB",
+    "grade": "AI",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2910000,
+    "scan_order": 320,
+    "scanned_at": "2026-04-30 05:09:07"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 PLUS 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 7440000,
+    "scan_order": 321,
+    "scanned_at": "2026-04-30 05:09:07"
+  },
+  {
+    "raw_name": "samsung GALAXY S22 ULTRA 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 5610000,
+    "scan_order": 322,
+    "scanned_at": "2026-04-30 05:09:11"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 PLUS 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3040000,
+    "scan_order": 323,
+    "scanned_at": "2026-04-30 05:09:11"
+  },
+  {
+    "raw_name": "samsung GALAXY A54 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2270000,
+    "scan_order": 324,
+    "scanned_at": "2026-04-30 05:09:15"
+  },
+  {
+    "raw_name": "samsung GALAXY S24 PLUS 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 7440000,
+    "scan_order": 325,
+    "scanned_at": "2026-04-30 05:09:15"
+  },
+  {
+    "raw_name": "samsung GALAXY A13 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 570000,
+    "scan_order": 326,
+    "scanned_at": "2026-04-30 05:09:15"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 PLUS 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3040000,
+    "scan_order": 327,
+    "scanned_at": "2026-04-30 05:09:19"
+  },
+  {
+    "raw_name": "samsung GALAXY A54 5G 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2270000,
+    "scan_order": 328,
+    "scanned_at": "2026-04-30 05:09:19"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 7 512GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9660000,
+    "scan_order": 329,
+    "scanned_at": "2026-04-30 05:09:19"
+  },
+  {
+    "raw_name": "samsung GALAXY A13 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 570000,
+    "scan_order": 330,
+    "scanned_at": "2026-04-30 05:09:23"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 ULTRA 1024GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 8510000,
+    "scan_order": 331,
+    "scanned_at": "2026-04-30 05:09:23"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 FE 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4050000,
+    "scan_order": 332,
+    "scanned_at": "2026-04-30 05:09:23"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 7 512GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9660000,
+    "scan_order": 333,
+    "scanned_at": "2026-04-30 05:09:27"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 5 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1560000,
+    "scan_order": 334,
+    "scanned_at": "2026-04-30 05:09:27"
+  },
+  {
+    "raw_name": "samsung GALAXY A51 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 560000,
+    "scan_order": 335,
+    "scanned_at": "2026-04-30 05:09:27"
+  },
+  {
+    "raw_name": "samsung GALAXY S23 FE 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4050000,
+    "scan_order": 336,
+    "scanned_at": "2026-04-30 05:09:31"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 337,
+    "scanned_at": "2026-04-30 05:09:31"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 5 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 6940000,
+    "scan_order": 338,
+    "scanned_at": "2026-04-30 05:09:31"
+  },
+  {
+    "raw_name": "samsung GALAXY A51 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 560000,
+    "scan_order": 339,
+    "scanned_at": "2026-04-30 05:09:35"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 340,
+    "scanned_at": "2026-04-30 05:09:35"
+  },
+  {
+    "raw_name": "vivo Y33T 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 650000,
+    "scan_order": 341,
+    "scanned_at": "2026-04-30 05:09:39"
+  },
+  {
+    "raw_name": "vivo Y91C 32GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 190000,
+    "scan_order": 342,
+    "scanned_at": "2026-04-30 05:09:39"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 343,
+    "scanned_at": "2026-04-30 05:09:43"
+  },
+  {
+    "raw_name": "vivo Y28 128GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 890000,
+    "scan_order": 344,
+    "scanned_at": "2026-04-30 05:09:43"
+  },
+  {
+    "raw_name": "vivo Y28 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 660000,
+    "scan_order": 345,
+    "scanned_at": "2026-04-30 05:09:43"
+  },
+  {
+    "raw_name": "vivo Y20 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 380000,
+    "scan_order": 346,
+    "scanned_at": "2026-04-30 05:09:47"
+  },
+  {
+    "raw_name": "vivo Y91C 32GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 190000,
+    "scan_order": 347,
+    "scanned_at": "2026-04-30 05:09:47"
+  },
+  {
+    "raw_name": "vivo Y33S 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 570000,
+    "scan_order": 348,
+    "scanned_at": "2026-04-30 05:09:47"
+  },
+  {
+    "raw_name": "vivo Y20 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 380000,
+    "scan_order": 349,
+    "scanned_at": "2026-04-30 05:09:51"
+  },
+  {
+    "raw_name": "vivo Y21S 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 470000,
+    "scan_order": 350,
+    "scanned_at": "2026-04-30 05:09:51"
+  },
+  {
+    "raw_name": "Xiaomi REDMI NOTE 12 PRO 5G 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1050000,
+    "scan_order": 351,
+    "scanned_at": "2026-04-30 05:09:55"
+  },
+  {
+    "raw_name": "INFINIX SMART 7 64GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 520000,
+    "scan_order": 352,
+    "scanned_at": "2026-04-30 05:09:55"
+  },
+  {
+    "raw_name": "vivo Y21S 128GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 470000,
+    "scan_order": 353,
+    "scanned_at": "2026-04-30 05:09:59"
+  },
+  {
+    "raw_name": "vivo V29E 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1330000,
+    "scan_order": 354,
+    "scanned_at": "2026-04-30 05:09:59"
+  },
+  {
+    "raw_name": "vivo Y12S 32GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 220000,
+    "scan_order": 355,
+    "scanned_at": "2026-04-30 05:09:59"
+  },
+  {
+    "raw_name": "INFINIX SMART 7 64GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 520000,
+    "scan_order": 356,
+    "scanned_at": "2026-04-30 05:10:04"
+  },
+  {
+    "raw_name": "Apple IPHONE XS 256GB",
+    "grade": "AJ",
+    "status": "",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1520000,
+    "scan_order": 357,
+    "scanned_at": "2026-04-30 05:10:04"
+  },
+  {
+    "raw_name": "Apple IPHONE XS 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1590000,
+    "scan_order": 358,
+    "scanned_at": "2026-04-30 05:10:04"
+  },
+  {
+    "raw_name": "vivo Y12S 32GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 220000,
+    "scan_order": 359,
+    "scanned_at": "2026-04-30 05:10:08"
+  },
+  {
+    "raw_name": "Xiaomi REDMI 9A 32GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 130000,
+    "scan_order": 360,
+    "scanned_at": "2026-04-30 05:10:08"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2240000,
+    "scan_order": 361,
+    "scanned_at": "2026-04-30 05:10:12"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2240000,
+    "scan_order": 362,
+    "scanned_at": "2026-04-30 05:10:12"
+  },
+  {
+    "raw_name": "Xiaomi REDMI 9A 32GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 130000,
+    "scan_order": 363,
+    "scanned_at": "2026-04-30 05:10:16"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2240000,
+    "scan_order": 364,
+    "scanned_at": "2026-04-30 05:10:16"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2610000,
+    "scan_order": 365,
+    "scanned_at": "2026-04-30 05:10:16"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2240000,
+    "scan_order": 366,
+    "scanned_at": "2026-04-30 05:10:20"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2240000,
+    "scan_order": 367,
+    "scanned_at": "2026-04-30 05:10:20"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2240000,
+    "scan_order": 368,
+    "scanned_at": "2026-04-30 05:10:20"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2610000,
+    "scan_order": 369,
+    "scanned_at": "2026-04-30 05:10:24"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1800000,
+    "scan_order": 370,
+    "scanned_at": "2026-04-30 05:10:24"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2610000,
+    "scan_order": 371,
+    "scanned_at": "2026-04-30 05:10:24"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1800000,
+    "scan_order": 372,
+    "scanned_at": "2026-04-30 05:10:28"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2240000,
+    "scan_order": 373,
+    "scanned_at": "2026-04-30 05:10:28"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2610000,
+    "scan_order": 374,
+    "scanned_at": "2026-04-30 05:10:28"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1800000,
+    "scan_order": 375,
+    "scanned_at": "2026-04-30 05:10:32"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2770000,
+    "scan_order": 376,
+    "scanned_at": "2026-04-30 05:10:32"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2610000,
+    "scan_order": 377,
+    "scanned_at": "2026-04-30 05:10:36"
+  },
+  {
+    "raw_name": "Apple IPHONE SE 2022 64GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3460000,
+    "scan_order": 378,
+    "scanned_at": "2026-04-30 05:10:36"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2770000,
+    "scan_order": 379,
+    "scanned_at": "2026-04-30 05:10:40"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 128GB",
+    "grade": "AG",
+    "status": "",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 2330000,
+    "scan_order": 380,
+    "scanned_at": "2026-04-30 05:10:40"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1800000,
+    "scan_order": 381,
+    "scanned_at": "2026-04-30 05:10:40"
+  },
+  {
+    "raw_name": "Apple IPHONE SE 2022 64GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3460000,
+    "scan_order": 382,
+    "scanned_at": "2026-04-30 05:10:44"
+  },
+  {
+    "raw_name": "Apple IPHONE 8 64GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 1250000,
+    "scan_order": 383,
+    "scanned_at": "2026-04-30 05:10:44"
+  },
+  {
+    "raw_name": "Apple IPHONE 8 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 800000,
+    "scan_order": 384,
+    "scanned_at": "2026-04-30 05:10:44"
+  },
+  {
+    "raw_name": "Apple IPHONE XR 64GB",
+    "grade": "AJ",
+    "status": "",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1800000,
+    "scan_order": 385,
+    "scanned_at": "2026-04-30 05:10:48"
+  },
+  {
+    "raw_name": "Apple IPHONE 8 PLUS 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1240000,
+    "scan_order": 386,
+    "scanned_at": "2026-04-30 05:10:48"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4160000,
+    "scan_order": 387,
+    "scanned_at": "2026-04-30 05:10:52"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3650000,
+    "scan_order": 388,
+    "scanned_at": "2026-04-30 05:10:52"
+  },
+  {
+    "raw_name": "Apple IPHONE 8 PLUS 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1240000,
+    "scan_order": 389,
+    "scanned_at": "2026-04-30 05:10:56"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 4360000,
+    "scan_order": 390,
+    "scanned_at": "2026-04-30 05:10:56"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3650000,
+    "scan_order": 391,
+    "scanned_at": "2026-04-30 05:10:56"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3650000,
+    "scan_order": 392,
+    "scanned_at": "2026-04-30 05:11:00"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3650000,
+    "scan_order": 393,
+    "scanned_at": "2026-04-30 05:11:00"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3650000,
+    "scan_order": 394,
+    "scanned_at": "2026-04-30 05:11:00"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3650000,
+    "scan_order": 395,
+    "scanned_at": "2026-04-30 05:11:04"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 3800000,
+    "scan_order": 396,
+    "scanned_at": "2026-04-30 05:11:04"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3650000,
+    "scan_order": 397,
+    "scanned_at": "2026-04-30 05:11:04"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3710000,
+    "scan_order": 398,
+    "scanned_at": "2026-04-30 05:11:08"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3650000,
+    "scan_order": 399,
+    "scanned_at": "2026-04-30 05:11:08"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3710000,
+    "scan_order": 400,
+    "scanned_at": "2026-04-30 05:11:08"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3710000,
+    "scan_order": 401,
+    "scanned_at": "2026-04-30 05:11:12"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4210000,
+    "scan_order": 402,
+    "scanned_at": "2026-04-30 05:11:12"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3710000,
+    "scan_order": 403,
+    "scanned_at": "2026-04-30 05:11:17"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 4410000,
+    "scan_order": 404,
+    "scanned_at": "2026-04-30 05:11:17"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4210000,
+    "scan_order": 405,
+    "scanned_at": "2026-04-30 05:11:21"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4210000,
+    "scan_order": 406,
+    "scanned_at": "2026-04-30 05:11:21"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4050000,
+    "scan_order": 407,
+    "scanned_at": "2026-04-30 05:11:21"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 4410000,
+    "scan_order": 408,
+    "scanned_at": "2026-04-30 05:11:25"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3710000,
+    "scan_order": 409,
+    "scanned_at": "2026-04-30 05:11:25"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4210000,
+    "scan_order": 410,
+    "scanned_at": "2026-04-30 05:11:25"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4050000,
+    "scan_order": 411,
+    "scanned_at": "2026-04-30 05:11:29"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 5 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3100000,
+    "scan_order": 412,
+    "scanned_at": "2026-04-30 05:11:29"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 6 512GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 10230000,
+    "scan_order": 413,
+    "scanned_at": "2026-04-30 05:11:29"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 128GB",
+    "grade": "AE",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 4210000,
+    "scan_order": 414,
+    "scanned_at": "2026-04-30 05:11:33"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 7 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 15750000,
+    "scan_order": 415,
+    "scanned_at": "2026-04-30 05:11:33"
+  },
+  {
+    "raw_name": "Apple IPHONE 11 64GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "",
+    "stock": 1,
+    "auction_price": 4200000,
+    "scan_order": 416,
+    "scanned_at": "2026-04-30 05:11:37"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 3 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 800000,
+    "scan_order": 417,
+    "scanned_at": "2026-04-30 05:11:37"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 7 256GB",
+    "grade": "AF",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 15750000,
+    "scan_order": 418,
+    "scanned_at": "2026-04-30 05:11:41"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 5 256GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 1560000,
+    "scan_order": 419,
+    "scanned_at": "2026-04-30 05:11:41"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 3 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3160000,
+    "scan_order": 420,
+    "scanned_at": "2026-04-30 05:11:41"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FLIP 3 128GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 800000,
+    "scan_order": 421,
+    "scanned_at": "2026-04-30 05:11:45"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 422,
+    "scanned_at": "2026-04-30 05:11:45"
+  },
+  {
+    "raw_name": "samsung GALAXY S9 PLUS 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 450000,
+    "scan_order": 423,
+    "scanned_at": "2026-04-30 05:11:45"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 424,
+    "scanned_at": "2026-04-30 05:11:49"
+  },
+  {
+    "raw_name": "samsung GALAXY Z FOLD 3 256GB",
+    "grade": "AG",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 3160000,
+    "scan_order": 425,
+    "scanned_at": "2026-04-30 05:11:49"
+  },
+  {
+    "raw_name": "samsung GALAXY S9 PLUS 64GB",
+    "grade": "AJ",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 450000,
+    "scan_order": 426,
+    "scanned_at": "2026-04-30 05:11:49"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 427,
+    "scanned_at": "2026-04-30 05:11:53"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 428,
+    "scanned_at": "2026-04-30 05:11:53"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 256GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12190000,
+    "scan_order": 429,
+    "scanned_at": "2026-04-30 05:11:57"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AC",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13170000,
+    "scan_order": 430,
+    "scanned_at": "2026-04-30 05:11:57"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 431,
+    "scanned_at": "2026-04-30 05:12:01"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 432,
+    "scanned_at": "2026-04-30 05:12:01"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 433,
+    "scanned_at": "2026-04-30 05:12:05"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 256GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12740000,
+    "scan_order": 434,
+    "scanned_at": "2026-04-30 05:12:05"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12990000,
+    "scan_order": 435,
+    "scanned_at": "2026-04-30 05:12:09"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 436,
+    "scanned_at": "2026-04-30 05:12:09"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 256GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12740000,
+    "scan_order": 437,
+    "scanned_at": "2026-04-30 05:12:13"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 256GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 12740000,
+    "scan_order": 438,
+    "scanned_at": "2026-04-30 05:12:13"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 PLUS 512GB",
+    "grade": "AD",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 9920000,
+    "scan_order": 439,
+    "scanned_at": "2026-04-30 05:12:13"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AB",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13240000,
+    "scan_order": 440,
+    "scanned_at": "2026-04-30 05:12:17"
+  },
+  {
+    "raw_name": "samsung GALAXY S25 ULTRA 512GB",
+    "grade": "AA",
+    "status": "Terdaftar",
+    "condition": "Produk Only",
+    "stock": 1,
+    "auction_price": 13430000,
+    "scan_order": 441,
+    "scanned_at": "2026-04-30 05:12:17"
+  }
+]

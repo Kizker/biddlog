@@ -1,0 +1,1129 @@
+UI Collector 2026-04-30-adb-complete-v8
+[WARN] Aplikasi aktif tidak bisa dibaca. Collector akan mencoba membuka id.biddingplus.
+Aplikasi target dibuka. Pastikan halaman Bidding Reguler sudah tampil sebelum scan lanjut.
+Reset posisi daftar ke atas (80 reverse swipe)...
+  reverse swipe 10/80
+  reverse swipe 20/80
+  reverse swipe 30/80
+  reverse swipe 40/80
+  reverse swipe 50/80
+  reverse swipe 60/80
+  reverse swipe 70/80
+  reverse swipe 80/80
+Reset posisi selesai. Mulai scan dari bagian atas daftar.
+Backend scan: ADB
+Buka halaman Bidding Reguler, lalu biarkan collector scroll otomatis.
+[1] Membaca teks UI...
+[1] Teks terbaca: 5 | 2.5s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S10 PLUS 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,080,000 | samsung GALAXY Z FOLD 6 512GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,900,000 | realme REALME 13 PLUS 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,480,000 | Xiaomi REDMI 12 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 490,000
+  + Item 1: samsung GALAXY S10 PLUS 128GB | grade=AE | harga=2080000
+  + Item 2: samsung GALAXY Z FOLD 6 512GB | grade=AF | harga=10900000
+  + Item 3: realme REALME 13 PLUS 5G 256GB | grade=AD | harga=1480000
+  + Item 4: Xiaomi REDMI 12 128GB | grade=AJ | harga=490000
+[1] Baru: 4 | overlap: 0 | delta: - | total terkumpul: 4/441 | layar sama: 0 | tanpa item baru: 0
+[1] Scroll dikirim. Bisa lanjut: ya
+[2] Membaca teks UI...
+[2] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY Z FOLD 6 512GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,900,000 | realme REALME 13 PLUS 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,480,000 | Xiaomi REDMI 12 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 490,000 | samsung GALAXY S22 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,390,000 | vivo Y27 4G 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 480,000
+  + Item 5: samsung GALAXY Z FOLD 6 512GB | grade=AF | harga=10900000
+  + Item 6: samsung GALAXY S22 256GB | grade=AF | harga=3390000
+  + Item 7: vivo Y27 4G 128GB | grade=AJ | harga=480000
+[2] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 7/441 | layar sama: 0 | tanpa item baru: 0
+[2] Scroll dikirim. Bisa lanjut: ya
+[3] Membaca teks UI...
+[3] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Xiaomi REDMI 12 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 490,000 | samsung GALAXY S22 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,390,000 | vivo Y27 4G 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 480,000 | OPPO A16 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 380,000 | samsung GALAXY S25 PLUS 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,880,000
+  + Item 8: samsung GALAXY S25 PLUS 256GB | grade=AB | harga=9880000
+  + Item 9: Xiaomi REDMI 12 128GB | grade=AJ | harga=490000
+  + Item 10: OPPO A16 32GB | grade=AG | harga=380000
+[3] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 10/441 | layar sama: 0 | tanpa item baru: 0
+[3] Scroll dikirim. Bisa lanjut: ya
+[4] Membaca teks UI...
+[4] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | vivo Y27 4G 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 480,000 | OPPO A16 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 380,000 | samsung GALAXY S25 PLUS 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,880,000 | realme REALME C17 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 570,000
+  + Item 11: samsung GALAXY S25 PLUS 256GB | grade=AB | harga=9880000
+  + Item 12: realme REALME C17 256GB | grade=AF | harga=570000
+[4] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 12/441 | layar sama: 0 | tanpa item baru: 0
+[4] Scroll dikirim. Bisa lanjut: ya
+[5] Membaca teks UI...
+[5] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 PLUS 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,880,000 | realme REALME C17 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 570,000 | samsung GALAXY A16 5G 256GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,680,000 | samsung GALAXY A13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 760,000
+  + Item 13: samsung GALAXY A16 5G 256GB | grade=AC | harga=1680000
+  + Item 14: samsung GALAXY A13 128GB | grade=AG | harga=760000
+[5] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 14/441 | layar sama: 0 | tanpa item baru: 0
+[5] Scroll dikirim. Bisa lanjut: ya
+[6] Membaca teks UI...
+[6] Teks terbaca: 6 | 2.4s | produk terlihat: 5 | contoh: Bidding Reguler | realme REALME C17 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 570,000 | samsung GALAXY A16 5G 256GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,680,000 | samsung GALAXY A13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 760,000 | samsung GALAXY A12 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 540,000 | samsung GALAXY A55 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,280,000
+  + Item 15: realme REALME C17 256GB | grade=AF | harga=570000
+  + Item 16: samsung GALAXY A12 128GB | grade=AG | harga=540000
+  + Item 17: samsung GALAXY A55 256GB | grade=AD | harga=3280000
+[6] Baru: 3 | overlap: 2 | delta: 623 | total terkumpul: 17/441 | layar sama: 0 | tanpa item baru: 0
+[6] Scroll dikirim. Bisa lanjut: ya
+[7] Membaca teks UI...
+[7] Teks terbaca: 5 | 2.4s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 760,000 | samsung GALAXY A12 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 540,000 | samsung GALAXY A55 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,280,000 | Xiaomi REDMI NOTE 11 PRO 4G 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 900,000
+  + Item 18: samsung GALAXY A13 128GB | grade=AG | harga=760000
+  + Item 19: Xiaomi REDMI NOTE 11 PRO 4G 128GB | grade=AD | harga=900000
+[7] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 19/441 | layar sama: 0 | tanpa item baru: 0
+[7] Scroll dikirim. Bisa lanjut: ya
+[8] Membaca teks UI...
+[8] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A55 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,280,000 | Xiaomi REDMI NOTE 11 PRO 4G 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 900,000 | OPPO A5I 128GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 960,000 | samsung GALAXY TAB A7 LITE 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 350,000
+  + Item 20: OPPO A5I 128GB | grade=AF | harga=960000
+  + Item 21: samsung GALAXY TAB A7 LITE 32GB | grade=AJ | harga=350000
+[8] Baru: 2 | overlap: 2 | delta: 597 | total terkumpul: 21/441 | layar sama: 0 | tanpa item baru: 0
+[8] Scroll dikirim. Bisa lanjut: ya
+[9] Membaca teks UI...
+[9] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Xiaomi REDMI NOTE 11 PRO 4G 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 900,000 | OPPO A5I 128GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 960,000 | samsung GALAXY TAB A7 LITE 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 350,000 | samsung GALAXY S20 FE 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,600,000 | samsung GALAXY A73 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,100,000
+  + Item 22: samsung GALAXY A73 256GB | grade=AI | harga=1100000
+  + Item 23: Xiaomi REDMI NOTE 11 PRO 4G 128GB | grade=AD | harga=900000
+  + Item 24: samsung GALAXY S20 FE 128GB | grade=AF | harga=1600000
+[9] Baru: 3 | overlap: 2 | delta: 598 | total terkumpul: 24/441 | layar sama: 0 | tanpa item baru: 0
+[9] Scroll dikirim. Bisa lanjut: ya
+[10] Membaca teks UI...
+[10] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY TAB A7 LITE 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 350,000 | samsung GALAXY S20 FE 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,600,000 | samsung GALAXY A73 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,100,000 | samsung GALAXY A50 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 320,000
+  + Item 25: samsung GALAXY TAB A7 LITE 32GB | grade=AJ | harga=350000
+  + Item 26: samsung GALAXY A73 256GB | grade=AI | harga=1100000
+  + Item 27: samsung GALAXY A50 64GB | grade=AG | harga=320000
+[10] Baru: 3 | overlap: 1 | delta: 602 | total terkumpul: 27/441 | layar sama: 0 | tanpa item baru: 0
+[10] Scroll dikirim. Bisa lanjut: ya
+[11] Membaca teks UI...
+[11] Teks terbaca: 5 | 2.2s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A73 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,100,000 | samsung GALAXY A50 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 320,000 | OPPO A17 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 490,000 | samsung GALAXY Z FLIP 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,560,000
+  + Item 28: OPPO A17 64GB | grade=AG | harga=490000
+  + Item 29: samsung GALAXY Z FLIP 5 256GB | grade=AJ | harga=1560000
+[11] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 29/441 | layar sama: 0 | tanpa item baru: 0
+[11] Scroll dikirim. Bisa lanjut: ya
+[12] Membaca teks UI...
+[12] Teks terbaca: 6 | 2.4s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A50 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 320,000 | OPPO A17 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 490,000 | samsung GALAXY Z FLIP 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,560,000 | samsung GALAXY S23 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,880,000 | Xiaomi REDMI NOTE 12 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 680,000
+  + Item 30: Xiaomi REDMI NOTE 12 128GB | grade=AF | harga=680000
+  + Item 31: samsung GALAXY A50 64GB | grade=AG | harga=320000
+  + Item 32: samsung GALAXY S23 256GB | grade=AI | harga=2880000
+[12] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 32/441 | layar sama: 0 | tanpa item baru: 0
+[12] Scroll dikirim. Bisa lanjut: ya
+[13] Membaca teks UI...
+[13] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY Z FLIP 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,560,000 | samsung GALAXY S23 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,880,000 | Xiaomi REDMI NOTE 12 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 680,000 | OPPO A1K 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 170,000
+  + Item 33: samsung GALAXY Z FLIP 5 256GB | grade=AJ | harga=1560000
+  + Item 34: Xiaomi REDMI NOTE 12 128GB | grade=AF | harga=680000
+  + Item 35: OPPO A1K 32GB | grade=AJ | harga=170000
+[13] Baru: 3 | overlap: 1 | delta: 605 | total terkumpul: 35/441 | layar sama: 0 | tanpa item baru: 0
+[13] Scroll dikirim. Bisa lanjut: ya
+[14] Membaca teks UI...
+[14] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Xiaomi REDMI NOTE 12 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 680,000 | OPPO A1K 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 170,000 | samsung GALAXY A54 5G 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,220,000 | samsung GALAXY A16 4G 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000
+  + Item 36: samsung GALAXY A54 5G 128GB | grade=AJ | harga=1220000
+  + Item 37: samsung GALAXY A16 4G 128GB | grade=AJ | harga=800000
+[14] Baru: 2 | overlap: 2 | delta: 601 | total terkumpul: 37/441 | layar sama: 0 | tanpa item baru: 0
+[14] Scroll dikirim. Bisa lanjut: ya
+[15] Membaca teks UI...
+[15] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | OPPO A1K 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 170,000 | samsung GALAXY A54 5G 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,220,000 | samsung GALAXY A16 4G 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000 | samsung GALAXY A53 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,150,000 | samsung GALAXY S10 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,860,000
+  + Item 38: OPPO A1K 32GB | grade=AJ | harga=170000
+  + Item 39: samsung GALAXY A53 256GB | grade=AG | harga=1150000
+  + Item 40: samsung GALAXY S10 128GB | grade=AF | harga=1860000
+[15] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 40/441 | layar sama: 0 | tanpa item baru: 0
+[15] Scroll dikirim. Bisa lanjut: ya
+[16] Membaca teks UI...
+[16] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A16 4G 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000 | samsung GALAXY A53 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,150,000 | samsung GALAXY S10 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,860,000 | samsung GALAXY S24 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,110,000 | Xiaomi REDMI NOTE 14 5G 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,820,000
+  + Item 41: Xiaomi REDMI NOTE 14 5G 256GB | grade=AD | harga=1820000
+  + Item 42: samsung GALAXY A16 4G 128GB | grade=AJ | harga=800000
+  + Item 43: samsung GALAXY S24 256GB | grade=AD | harga=6110000
+[16] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 43/441 | layar sama: 0 | tanpa item baru: 0
+[16] Scroll dikirim. Bisa lanjut: ya
+[17] Membaca teks UI...
+[17] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S10 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,860,000 | samsung GALAXY S24 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,110,000 | Xiaomi REDMI NOTE 14 5G 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,820,000 | realme REALME 5I 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 280,000
+  + Item 44: samsung GALAXY S10 128GB | grade=AF | harga=1860000
+  + Item 45: Xiaomi REDMI NOTE 14 5G 256GB | grade=AD | harga=1820000
+  + Item 46: realme REALME 5I 64GB | grade=AJ | harga=280000
+[17] Baru: 3 | overlap: 1 | delta: 600 | total terkumpul: 46/441 | layar sama: 0 | tanpa item baru: 0
+[17] Scroll dikirim. Bisa lanjut: ya
+[18] Membaca teks UI...
+[18] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Xiaomi REDMI NOTE 14 5G 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,820,000 | realme REALME 5I 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 280,000 | OPPO A17 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 490,000 | samsung GALAXY S22 ULTRA 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,430,000
+  + Item 47: OPPO A17 64GB | grade=AG | harga=490000
+  + Item 48: samsung GALAXY S22 ULTRA 256GB | grade=AE | harga=5430000
+[18] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 48/441 | layar sama: 0 | tanpa item baru: 0
+[18] Scroll dikirim. Bisa lanjut: ya
+[19] Membaca teks UI...
+[19] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | realme REALME 5I 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 280,000 | OPPO A17 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 490,000 | samsung GALAXY S22 ULTRA 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,430,000 | samsung GALAXY A14 5G 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 660,000 | samsung GALAXY S24 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,730,000
+  + Item 49: realme REALME 5I 64GB | grade=AJ | harga=280000
+  + Item 50: samsung GALAXY A14 5G 128GB | grade=AG | harga=660000
+  + Item 51: samsung GALAXY S24 ULTRA 512GB | grade=AD | harga=10730000
+[19] Baru: 3 | overlap: 2 | delta: 598 | total terkumpul: 51/441 | layar sama: 0 | tanpa item baru: 0
+[19] Scroll dikirim. Bisa lanjut: ya
+[20] Membaca teks UI...
+[20] Teks terbaca: 5 | 2.2s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S22 ULTRA 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,430,000 | samsung GALAXY A14 5G 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 660,000 | samsung GALAXY S24 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,730,000 | vivo V40 LITE 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,370,000
+  + Item 52: samsung GALAXY S22 ULTRA 256GB | grade=AE | harga=5430000
+  + Item 53: vivo V40 LITE 128GB | grade=AD | harga=1370000
+[20] Baru: 2 | overlap: 2 | delta: 623 | total terkumpul: 53/441 | layar sama: 0 | tanpa item baru: 0
+[20] Scroll dikirim. Bisa lanjut: ya
+[21] Membaca teks UI...
+[21] Teks terbaca: 5 | 2.4s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S24 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,730,000 | vivo V40 LITE 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,370,000 | vivo Y15S 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 250,000 | OPPO A17 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 350,000
+  + Item 54: samsung GALAXY S24 ULTRA 512GB | grade=AD | harga=10730000
+  + Item 55: vivo Y15S 64GB | grade=AJ | harga=250000
+  + Item 56: OPPO A17 64GB | grade=AJ | harga=350000
+[21] Baru: 3 | overlap: 1 | delta: 602 | total terkumpul: 56/441 | layar sama: 0 | tanpa item baru: 0
+[21] Scroll dikirim. Bisa lanjut: ya
+[22] Membaca teks UI...
+[22] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | vivo V40 LITE 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,370,000 | vivo Y15S 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 250,000 | OPPO A17 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 350,000 | samsung GALAXY A23 4G 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 690,000 | Xiaomi REDMI NOTE 14 5G 512GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,920,000
+  + Item 57: vivo V40 LITE 128GB | grade=AD | harga=1370000
+  + Item 58: samsung GALAXY A23 4G 128GB | grade=AF | harga=690000
+  + Item 59: Xiaomi REDMI NOTE 14 5G 512GB | grade=AD | harga=1920000
+[22] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 59/441 | layar sama: 0 | tanpa item baru: 0
+[22] Scroll dikirim. Bisa lanjut: ya
+[23] Membaca teks UI...
+[23] Teks terbaca: 6 | 2.4s | produk terlihat: 5 | contoh: Bidding Reguler | OPPO A17 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 350,000 | samsung GALAXY A23 4G 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 690,000 | Xiaomi REDMI NOTE 14 5G 512GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,920,000 | samsung GALAXY S22 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,740,000 | samsung GALAXY NOTE 20 ULTRA 5G 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,130,000
+  + Item 60: OPPO A17 64GB | grade=AJ | harga=350000
+  + Item 61: samsung GALAXY S22 128GB | grade=AI | harga=1740000
+  + Item 62: samsung GALAXY NOTE 20 ULTRA 5G 256GB | grade=AI | harga=2130000
+[23] Baru: 3 | overlap: 2 | delta: 599 | total terkumpul: 62/441 | layar sama: 0 | tanpa item baru: 0
+[23] Scroll dikirim. Bisa lanjut: ya
+[24] Membaca teks UI...
+[24] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Xiaomi REDMI NOTE 14 5G 512GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,920,000 | samsung GALAXY S22 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,740,000 | samsung GALAXY NOTE 20 ULTRA 5G 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,130,000 | samsung GALAXY NOTE 8 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 400,000 | samsung GALAXY A55 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,430,000
+  + Item 63: Xiaomi REDMI NOTE 14 5G 512GB | grade=AD | harga=1920000
+  + Item 64: samsung GALAXY NOTE 8 64GB | grade=AJ | harga=400000
+  + Item 65: samsung GALAXY A55 256GB | grade=AD | harga=3430000
+[24] Baru: 3 | overlap: 2 | delta: 622 | total terkumpul: 65/441 | layar sama: 0 | tanpa item baru: 0
+[24] Scroll dikirim. Bisa lanjut: ya
+[25] Membaca teks UI...
+[25] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY NOTE 20 ULTRA 5G 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,130,000 | samsung GALAXY NOTE 8 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 400,000 | samsung GALAXY A55 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,430,000 | samsung GALAXY S23 PLUS 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,120,000
+  + Item 66: samsung GALAXY NOTE 20 ULTRA 5G 256GB | grade=AI | harga=2130000
+  + Item 67: samsung GALAXY S23 PLUS 256GB | grade=AI | harga=3120000
+[25] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 67/441 | layar sama: 0 | tanpa item baru: 0
+[25] Scroll dikirim. Bisa lanjut: ya
+[26] Membaca teks UI...
+[26] Teks terbaca: 4 | 2.3s | produk terlihat: 3 | contoh: Bidding Reguler | samsung GALAXY A55 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,430,000 | samsung GALAXY S23 PLUS 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,120,000 | samsung GALAXY S24 FE 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,180,000
+  + Item 68: samsung GALAXY S24 FE 256GB | grade=AD | harga=5180000
+[26] Baru: 1 | overlap: 2 | delta: 599 | total terkumpul: 68/441 | layar sama: 0 | tanpa item baru: 0
+[26] Scroll dikirim. Bisa lanjut: ya
+[27] Membaca teks UI...
+[27] Teks terbaca: 5 | 2.2s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S23 PLUS 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,120,000 | samsung GALAXY S24 FE 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,180,000 | samsung GALAXY A73 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,860,000 | samsung GALAXY NOTE 10 LITE 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,430,000
+  + Item 69: samsung GALAXY S23 PLUS 256GB | grade=AI | harga=3120000
+  + Item 70: samsung GALAXY A73 256GB | grade=AF | harga=1860000
+  + Item 71: samsung GALAXY NOTE 10 LITE 128GB | grade=AD | harga=1430000
+[27] Baru: 3 | overlap: 1 | delta: 600 | total terkumpul: 71/441 | layar sama: 0 | tanpa item baru: 0
+[27] Scroll dikirim. Bisa lanjut: ya
+[28] Membaca teks UI...
+[28] Teks terbaca: 5 | 2.2s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S24 FE 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,180,000 | samsung GALAXY A73 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,860,000 | samsung GALAXY NOTE 10 LITE 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,430,000 | samsung GALAXY A55 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,430,000
+  + Item 72: samsung GALAXY S24 FE 256GB | grade=AD | harga=5180000
+  + Item 73: samsung GALAXY A55 256GB | grade=AD | harga=3430000
+[28] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 73/441 | layar sama: 0 | tanpa item baru: 0
+[28] Scroll dikirim. Bisa lanjut: ya
+[29] Membaca teks UI...
+[29] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY NOTE 10 LITE 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,430,000 | samsung GALAXY A55 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,430,000 | samsung GALAXY S23 ULTRA 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,210,000 | samsung GALAXY A54 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,270,000
+  + Item 74: samsung GALAXY NOTE 10 LITE 128GB | grade=AD | harga=1430000
+  + Item 75: samsung GALAXY S23 ULTRA 256GB | grade=AF | harga=7210000
+  + Item 76: samsung GALAXY A54 5G 256GB | grade=AD | harga=2270000
+[29] Baru: 3 | overlap: 1 | delta: 623 | total terkumpul: 76/441 | layar sama: 0 | tanpa item baru: 0
+[29] Scroll dikirim. Bisa lanjut: ya
+[30] Membaca teks UI...
+[30] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S23 ULTRA 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,210,000 | samsung GALAXY A54 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,270,000 | OPPO A77S 128GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 590,000 | vivo Y21D 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,880,000
+  + Item 77: OPPO A77S 128GB | grade=AG | harga=590000
+  + Item 78: vivo Y21D 256GB | grade=AD | harga=1880000
+[30] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 78/441 | layar sama: 0 | tanpa item baru: 0
+[30] Scroll dikirim. Bisa lanjut: ya
+[31] Membaca teks UI...
+[31] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A54 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,270,000 | OPPO A77S 128GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 590,000 | vivo Y21D 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,880,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY A10S 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 220,000
+  + Item 79: samsung GALAXY A54 5G 256GB | grade=AD | harga=2270000
+  + Item 80: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+  + Item 81: samsung GALAXY A10S 32GB | grade=AG | harga=220000
+[31] Baru: 3 | overlap: 2 | delta: 598 | total terkumpul: 81/441 | layar sama: 0 | tanpa item baru: 0
+[31] Scroll dikirim. Bisa lanjut: ya
+[32] Membaca teks UI...
+[32] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | vivo Y21D 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,880,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY A10S 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 220,000 | vivo Y17 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 230,000
+  + Item 82: vivo Y21D 256GB | grade=AD | harga=1880000
+  + Item 83: vivo Y17 128GB | grade=AJ | harga=230000
+[32] Baru: 2 | overlap: 2 | delta: 623 | total terkumpul: 83/441 | layar sama: 0 | tanpa item baru: 0
+[32] Scroll dikirim. Bisa lanjut: ya
+[33] Membaca teks UI...
+[33] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A10S 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 220,000 | vivo Y17 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 230,000 | samsung GALAXY Z FLIP 5 512GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,950,000 | samsung GALAXY A33 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 950,000
+  + Item 84: samsung GALAXY A10S 32GB | grade=AG | harga=220000
+  + Item 85: samsung GALAXY Z FLIP 5 512GB | grade=AJ | harga=1950000
+  + Item 86: samsung GALAXY A33 128GB | grade=AF | harga=950000
+[33] Baru: 3 | overlap: 1 | delta: 602 | total terkumpul: 86/441 | layar sama: 0 | tanpa item baru: 0
+[33] Scroll dikirim. Bisa lanjut: ya
+[34] Membaca teks UI...
+[34] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | vivo Y17 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 230,000 | samsung GALAXY Z FLIP 5 512GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,950,000 | samsung GALAXY A33 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 950,000 | samsung GALAXY S25 PLUS 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,510,000 | OPPO RENO 8 5G 256GB AJ (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 960,000
+  + Item 87: vivo Y17 128GB | grade=AJ | harga=230000
+  + Item 88: samsung GALAXY S25 PLUS 256GB | grade=AE | harga=9510000
+  + Item 89: OPPO RENO 8 5G 256GB | grade=AJ | harga=960000
+[34] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 89/441 | layar sama: 0 | tanpa item baru: 0
+[34] Scroll dikirim. Bisa lanjut: ya
+[35] Membaca teks UI...
+[35] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A33 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 950,000 | samsung GALAXY S25 PLUS 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,510,000 | OPPO RENO 8 5G 256GB AJ (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 960,000 | samsung GALAXY S25 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,190,000 | INFINIX HOT 30I 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 630,000
+  + Item 90: INFINIX HOT 30I 128GB | grade=AG | harga=630000
+  + Item 91: samsung GALAXY A33 128GB | grade=AF | harga=950000
+  + Item 92: samsung GALAXY S25 ULTRA 256GB | grade=AD | harga=12190000
+[35] Baru: 3 | overlap: 2 | delta: 622 | total terkumpul: 92/441 | layar sama: 0 | tanpa item baru: 0
+[35] Scroll dikirim. Bisa lanjut: ya
+[36] Membaca teks UI...
+[36] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | OPPO RENO 8 5G 256GB AJ (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 960,000 | samsung GALAXY S25 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,190,000 | INFINIX HOT 30I 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 630,000 | realme REALME 6 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 540,000
+  + Item 93: OPPO RENO 8 5G 256GB | grade=AJ | harga=960000
+  + Item 94: INFINIX HOT 30I 128GB | grade=AG | harga=630000
+  + Item 95: realme REALME 6 128GB | grade=AG | harga=540000
+[36] Baru: 3 | overlap: 1 | delta: 604 | total terkumpul: 95/441 | layar sama: 0 | tanpa item baru: 0
+[36] Scroll dikirim. Bisa lanjut: ya
+[37] Membaca teks UI...
+[37] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | INFINIX HOT 30I 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 630,000 | realme REALME 6 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 540,000 | samsung GALAXY S25 ULTRA 512GB AA (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 13,680,000 | samsung GALAXY Z FLIP 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,560,000
+  + Item 96: samsung GALAXY S25 ULTRA 512GB | grade=AA | harga=13680000
+  + Item 97: samsung GALAXY Z FLIP 5 256GB | grade=AJ | harga=1560000
+[37] Baru: 2 | overlap: 2 | delta: 598 | total terkumpul: 97/441 | layar sama: 0 | tanpa item baru: 0
+[37] Scroll dikirim. Bisa lanjut: ya
+[38] Membaca teks UI...
+[38] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | realme REALME 6 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 540,000 | samsung GALAXY S25 ULTRA 512GB AA (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 13,680,000 | samsung GALAXY Z FLIP 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,560,000 | samsung GALAXY A04S 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 540,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000
+  + Item 98: realme REALME 6 128GB | grade=AG | harga=540000
+  + Item 99: samsung GALAXY A04S 64GB | grade=AE | harga=540000
+  + Item 100: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+[38] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 100/441 | layar sama: 0 | tanpa item baru: 0
+[38] Scroll dikirim. Bisa lanjut: ya
+[39] Membaca teks UI...
+[39] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY Z FLIP 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,560,000 | samsung GALAXY A04S 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 540,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY S25 ULTRA 512GB AA (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,430,000
+  + Item 101: samsung GALAXY Z FLIP 5 256GB | grade=AJ | harga=1560000
+  + Item 102: samsung GALAXY S25 ULTRA 512GB | grade=AA | harga=13430000
+[39] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 102/441 | layar sama: 0 | tanpa item baru: 0
+[39] Scroll dikirim. Bisa lanjut: ya
+[40] Membaca teks UI...
+[40] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY S25 ULTRA 512GB AA (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,430,000 | samsung GALAXY S21 ULTRA 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,800,000 | INFINIX HOT 30 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 660,000
+  + Item 103: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+  + Item 104: samsung GALAXY S21 ULTRA 256GB | grade=AI | harga=1800000
+  + Item 105: INFINIX HOT 30 128GB | grade=AG | harga=660000
+[40] Baru: 3 | overlap: 1 | delta: 600 | total terkumpul: 105/441 | layar sama: 0 | tanpa item baru: 0
+[40] Scroll dikirim. Bisa lanjut: ya
+[41] Membaca teks UI...
+[41] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AA (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,430,000 | samsung GALAXY S21 ULTRA 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,800,000 | INFINIX HOT 30 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 660,000 | samsung GALAXY TAB S7 FE 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,190,000 | samsung GALAXY S10 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000
+  + Item 106: samsung GALAXY S25 ULTRA 512GB | grade=AA | harga=13430000
+  + Item 107: samsung GALAXY TAB S7 FE 128GB | grade=AJ | harga=1190000
+  + Item 108: samsung GALAXY S10 128GB | grade=AJ | harga=800000
+[41] Baru: 3 | overlap: 2 | delta: 598 | total terkumpul: 108/441 | layar sama: 0 | tanpa item baru: 0
+[41] Scroll dikirim. Bisa lanjut: ya
+[42] Membaca teks UI...
+[42] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | INFINIX HOT 30 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 660,000 | samsung GALAXY TAB S7 FE 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,190,000 | samsung GALAXY S10 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000 | Xiaomi REDMI 6A 16GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 80,000 | INFINIX NOTE 50 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,630,000
+  + Item 109: INFINIX HOT 30 128GB | grade=AG | harga=660000
+  + Item 110: Xiaomi REDMI 6A 16GB | grade=AJ | harga=80000
+  + Item 111: INFINIX NOTE 50 256GB | grade=AD | harga=1630000
+[42] Baru: 3 | overlap: 2 | delta: 623 | total terkumpul: 111/441 | layar sama: 0 | tanpa item baru: 0
+[42] Scroll dikirim. Bisa lanjut: ya
+[43] Membaca teks UI...
+[43] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S10 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000 | Xiaomi REDMI 6A 16GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 80,000 | INFINIX NOTE 50 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,630,000 | samsung GALAXY A35 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,170,000
+  + Item 112: samsung GALAXY S10 128GB | grade=AJ | harga=800000
+  + Item 113: samsung GALAXY A35 256GB | grade=AE | harga=2170000
+[43] Baru: 2 | overlap: 2 | delta: 599 | total terkumpul: 113/441 | layar sama: 0 | tanpa item baru: 0
+[43] Scroll dikirim. Bisa lanjut: ya
+[44] Membaca teks UI...
+[44] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | INFINIX NOTE 50 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,630,000 | samsung GALAXY A35 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,170,000 | OPPO RENO 13 5G 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,660,000 | vivo Y16 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 300,000
+  + Item 114: OPPO RENO 13 5G 256GB | grade=AD | harga=3660000
+  + Item 115: vivo Y16 128GB | grade=AJ | harga=300000
+[44] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 115/441 | layar sama: 0 | tanpa item baru: 0
+[44] Scroll dikirim. Bisa lanjut: ya
+[45] Membaca teks UI...
+[45] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A35 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,170,000 | OPPO RENO 13 5G 256GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,660,000 | vivo Y16 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 300,000 | OPPO RENO 5 4G 128GB AI (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 670,000 | samsung GALAXY A34 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,700,000
+  + Item 116: samsung GALAXY A35 256GB | grade=AE | harga=2170000
+  + Item 117: OPPO RENO 5 4G 128GB | grade=AI | harga=670000
+  + Item 118: samsung GALAXY A34 5G 256GB | grade=AD | harga=1700000
+[45] Baru: 3 | overlap: 2 | delta: 623 | total terkumpul: 118/441 | layar sama: 0 | tanpa item baru: 0
+[45] Scroll dikirim. Bisa lanjut: ya
+[46] Membaca teks UI...
+[46] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | vivo Y16 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 300,000 | OPPO RENO 5 4G 128GB AI (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 670,000 | samsung GALAXY A34 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,700,000 | samsung GALAXY S24 FE 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,180,000 | samsung GALAXY S25 ULTRA 1024GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,640,000
+  + Item 119: vivo Y16 128GB | grade=AJ | harga=300000
+  + Item 120: samsung GALAXY S24 FE 256GB | grade=AD | harga=5180000
+  + Item 121: samsung GALAXY S25 ULTRA 1024GB | grade=AF | harga=13640000
+[46] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 121/441 | layar sama: 0 | tanpa item baru: 0
+[46] Scroll dikirim. Bisa lanjut: ya
+[47] Membaca teks UI...
+[47] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A34 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,700,000 | samsung GALAXY S24 FE 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,180,000 | samsung GALAXY S25 ULTRA 1024GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,640,000 | samsung GALAXY A03S 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 270,000
+  + Item 122: samsung GALAXY A34 5G 256GB | grade=AD | harga=1700000
+  + Item 123: samsung GALAXY A03S 32GB | grade=AG | harga=270000
+[47] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 123/441 | layar sama: 0 | tanpa item baru: 0
+[47] Scroll dikirim. Bisa lanjut: ya
+[48] Membaca teks UI...
+[48] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 1024GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,640,000 | samsung GALAXY A03S 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 270,000 | samsung GALAXY S25 ULTRA 512GB AA (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 13,680,000 | OPPO RENO 5 4G 128GB AJ (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 600,000
+  + Item 124: samsung GALAXY S25 ULTRA 512GB | grade=AA | harga=13680000
+  + Item 125: OPPO RENO 5 4G 128GB | grade=AJ | harga=600000
+[48] Baru: 2 | overlap: 2 | delta: 599 | total terkumpul: 125/441 | layar sama: 0 | tanpa item baru: 0
+[48] Scroll dikirim. Bisa lanjut: ya
+[49] Membaca teks UI...
+[49] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A03S 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 270,000 | samsung GALAXY S25 ULTRA 512GB AA (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 13,680,000 | OPPO RENO 5 4G 128GB AJ (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 600,000 | OPPO FIND X5 PRO 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,860,000 | samsung GALAXY A56 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,750,000
+  + Item 126: samsung GALAXY A03S 32GB | grade=AG | harga=270000
+  + Item 127: OPPO FIND X5 PRO 256GB | grade=AI | harga=1860000
+  + Item 128: samsung GALAXY A56 256GB | grade=AD | harga=3750000
+[49] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 128/441 | layar sama: 0 | tanpa item baru: 0
+[49] Scroll dikirim. Bisa lanjut: ya
+[50] Membaca teks UI...
+[50] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | OPPO RENO 5 4G 128GB AJ (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 600,000 | OPPO FIND X5 PRO 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,860,000 | samsung GALAXY A56 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,750,000 | OPPO A15S 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 390,000 | samsung GALAXY A15 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,610,000
+  + Item 129: OPPO RENO 5 4G 128GB | grade=AJ | harga=600000
+  + Item 130: OPPO A15S 64GB | grade=AG | harga=390000
+  + Item 131: samsung GALAXY A15 5G 256GB | grade=AD | harga=1610000
+[50] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 131/441 | layar sama: 0 | tanpa item baru: 0
+[50] Scroll dikirim. Bisa lanjut: ya
+[51] Membaca teks UI...
+[51] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A56 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,750,000 | OPPO A15S 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 390,000 | samsung GALAXY A15 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,610,000 | samsung GALAXY A23 4G 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 490,000 | vivo Y20 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 380,000
+  + Item 132: vivo Y20 64GB | grade=AG | harga=380000
+  + Item 133: samsung GALAXY A56 256GB | grade=AD | harga=3750000
+  + Item 134: samsung GALAXY A23 4G 128GB | grade=AJ | harga=490000
+[51] Baru: 3 | overlap: 2 | delta: 599 | total terkumpul: 134/441 | layar sama: 0 | tanpa item baru: 0
+[51] Scroll dikirim. Bisa lanjut: ya
+[52] Membaca teks UI...
+[52] Teks terbaca: 5 | 2.4s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A15 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,610,000 | samsung GALAXY A23 4G 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 490,000 | vivo Y20 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 380,000 | samsung GALAXY A52S 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,300,000
+  + Item 135: vivo Y20 64GB | grade=AG | harga=380000
+  + Item 136: samsung GALAXY A52S 256GB | grade=AF | harga=1300000
+[52] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 136/441 | layar sama: 0 | tanpa item baru: 0
+[52] Scroll dikirim. Bisa lanjut: ya
+[53] Membaca teks UI...
+[53] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | vivo Y20 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 380,000 | samsung GALAXY A52S 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,300,000 | OPPO A60 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 810,000 | OPPO A31 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 320,000
+  + Item 137: OPPO A60 256GB | grade=AJ | harga=810000
+  + Item 138: OPPO A31 128GB | grade=AG | harga=320000
+[53] Baru: 2 | overlap: 2 | delta: 597 | total terkumpul: 138/441 | layar sama: 0 | tanpa item baru: 0
+[53] Scroll dikirim. Bisa lanjut: ya
+[54] Membaca teks UI...
+[54] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A52S 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,300,000 | OPPO A60 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 810,000 | OPPO A31 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 320,000 | Xiaomi REDMI 10 4G 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 440,000 | Xiaomi REDMI NOTE 12 256GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,040,000
+  + Item 139: samsung GALAXY A52S 256GB | grade=AF | harga=1300000
+  + Item 140: Xiaomi REDMI 10 4G 128GB | grade=AF | harga=440000
+  + Item 141: Xiaomi REDMI NOTE 12 256GB | grade=AF | harga=1040000
+[54] Baru: 3 | overlap: 2 | delta: 596 | total terkumpul: 141/441 | layar sama: 0 | tanpa item baru: 0
+[54] Scroll dikirim. Bisa lanjut: ya
+[55] Membaca teks UI...
+[55] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | OPPO A31 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 320,000 | Xiaomi REDMI 10 4G 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 440,000 | Xiaomi REDMI NOTE 12 256GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,040,000 | samsung GALAXY Z FLIP 6 256GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,510,000 | OPPO A11K / A12 32GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 320,000
+  + Item 142: OPPO A11K / A12 32GB | grade=AG | harga=320000
+  + Item 143: OPPO A31 128GB | grade=AG | harga=320000
+  + Item 144: samsung GALAXY Z FLIP 6 256GB | grade=AC | harga=6510000
+[55] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 144/441 | layar sama: 0 | tanpa item baru: 0
+[55] Scroll dikirim. Bisa lanjut: ya
+[56] Membaca teks UI...
+[56] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Xiaomi REDMI NOTE 12 256GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,040,000 | samsung GALAXY Z FLIP 6 256GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,510,000 | OPPO A11K / A12 32GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 320,000 | realme REALME C20 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 250,000
+  + Item 145: Xiaomi REDMI NOTE 12 256GB | grade=AF | harga=1040000
+  + Item 146: OPPO A11K / A12 32GB | grade=AG | harga=320000
+  + Item 147: realme REALME C20 32GB | grade=AG | harga=250000
+[56] Baru: 3 | overlap: 1 | delta: 600 | total terkumpul: 147/441 | layar sama: 0 | tanpa item baru: 0
+[56] Scroll dikirim. Bisa lanjut: ya
+[57] Membaca teks UI...
+[57] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | OPPO A11K / A12 32GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 320,000 | realme REALME C20 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 250,000 | INFINIX HOT 20I 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 350,000 | realme REALME NARZO 50A 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 320,000
+  + Item 148: INFINIX HOT 20I 128GB | grade=AJ | harga=350000
+  + Item 149: realme REALME NARZO 50A 64GB | grade=AJ | harga=320000
+[57] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 149/441 | layar sama: 0 | tanpa item baru: 0
+[57] Scroll dikirim. Bisa lanjut: ya
+[58] Membaca teks UI...
+[58] Teks terbaca: 6 | 2.4s | produk terlihat: 5 | contoh: Bidding Reguler | realme REALME C20 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 250,000 | INFINIX HOT 20I 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 350,000 | realme REALME NARZO 50A 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 320,000 | samsung GALAXY A06 64GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 640,000 | OPPO A5I 128GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,020,000
+  + Item 150: OPPO A5I 128GB | grade=AD | harga=1020000
+  + Item 151: realme REALME C20 32GB | grade=AG | harga=250000
+  + Item 152: samsung GALAXY A06 64GB | grade=AF | harga=640000
+[58] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 152/441 | layar sama: 0 | tanpa item baru: 0
+[58] Scroll dikirim. Bisa lanjut: ya
+[59] Membaca teks UI...
+[59] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | realme REALME NARZO 50A 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 320,000 | samsung GALAXY A06 64GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 640,000 | OPPO A5I 128GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,020,000 | OPPO A5I 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 830,000 | vivo Y20S G 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 470,000
+  + Item 153: vivo Y20S G 128GB | grade=AG | harga=470000
+  + Item 154: realme REALME NARZO 50A 64GB | grade=AJ | harga=320000
+  + Item 155: OPPO A5I 128GB | grade=AD | harga=1020000
+  + Item 156: OPPO A5I 128GB | grade=AG | harga=830000
+[59] Baru: 4 | overlap: 1 | delta: 623 | total terkumpul: 156/441 | layar sama: 0 | tanpa item baru: 0
+[59] Scroll dikirim. Bisa lanjut: ya
+[60] Membaca teks UI...
+[60] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | OPPO A5I 128GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,020,000 | OPPO A5I 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 830,000 | vivo Y20S G 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 470,000 | samsung GALAXY S24 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,730,000
+  + Item 157: vivo Y20S G 128GB | grade=AG | harga=470000
+  + Item 158: samsung GALAXY S24 ULTRA 512GB | grade=AD | harga=10730000
+[60] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 158/441 | layar sama: 0 | tanpa item baru: 0
+[60] Scroll dikirim. Bisa lanjut: ya
+[61] Membaca teks UI...
+[61] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | vivo Y20S G 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 470,000 | samsung GALAXY S24 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,730,000 | Xiaomi REDMI 10A 64GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 440,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000
+  + Item 159: Xiaomi REDMI 10A 64GB | grade=AF | harga=440000
+  + Item 160: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+[61] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 160/441 | layar sama: 0 | tanpa item baru: 0
+[61] Scroll dikirim. Bisa lanjut: ya
+[62] Membaca teks UI...
+[62] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S24 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,730,000 | Xiaomi REDMI 10A 64GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 440,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY NOTE 20 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,680,000 | APPLE iPhone SE (3rd generation) 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,280,000
+  + Item 161: APPLE iPhone SE (3rd generation) 128GB | grade=AI | harga=3280000
+  + Item 162: samsung GALAXY S24 ULTRA 512GB | grade=AD | harga=10730000
+  + Item 163: samsung GALAXY NOTE 20 256GB | grade=AG | harga=1680000
+[62] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 163/441 | layar sama: 0 | tanpa item baru: 0
+[62] Scroll dikirim. Bisa lanjut: ya
+[63] Membaca teks UI...
+[63] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY NOTE 20 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,680,000 | APPLE iPhone SE (3rd generation) 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,280,000 | Apple IPHONE 15 PLUS 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000
+  + Item 164: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+  + Item 165: APPLE iPhone SE (3rd generation) 128GB | grade=AI | harga=3280000
+  + Item 166: Apple IPHONE 15 PLUS 128GB | grade=AF | harga=8460000
+[63] Baru: 3 | overlap: 1 | delta: 600 | total terkumpul: 166/441 | layar sama: 0 | tanpa item baru: 0
+[63] Scroll dikirim. Bisa lanjut: ya
+[64] Membaca teks UI...
+[64] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | APPLE iPhone SE (3rd generation) 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,280,000 | Apple IPHONE 15 PLUS 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000 | Apple IPHONE 15 PLUS 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,030,000 | realme REALME C11 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 240,000
+  + Item 167: Apple IPHONE 15 PLUS 128GB | grade=AD | harga=9030000
+  + Item 168: realme REALME C11 32GB | grade=AG | harga=240000
+[64] Baru: 2 | overlap: 2 | delta: 593 | total terkumpul: 168/441 | layar sama: 0 | tanpa item baru: 0
+[64] Scroll dikirim. Bisa lanjut: ya
+[65] Membaca teks UI...
+[65] Teks terbaca: 6 | 2.4s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 PLUS 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000 | Apple IPHONE 15 PLUS 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,030,000 | realme REALME C11 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 240,000 | Apple IPHONE 15 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,110,000 | Apple IPHONE 15 256GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,270,000
+  + Item 169: Apple IPHONE 15 PLUS 128GB | grade=AF | harga=8460000
+  + Item 170: Apple IPHONE 15 128GB | grade=AE | harga=8110000
+  + Item 171: Apple IPHONE 15 256GB | grade=AC | harga=9270000
+[65] Baru: 3 | overlap: 2 | delta: 623 | total terkumpul: 171/441 | layar sama: 0 | tanpa item baru: 0
+[65] Scroll dikirim. Bisa lanjut: ya
+[66] Membaca teks UI...
+[66] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | realme REALME C11 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 240,000 | Apple IPHONE 15 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,110,000 | Apple IPHONE 15 256GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,270,000 | Apple IPHONE 15 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,110,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000
+  + Item 172: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 173: realme REALME C11 32GB | grade=AG | harga=240000
+  + Item 174: Apple IPHONE 15 128GB | grade=AE | harga=8110000
+[66] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 174/441 | layar sama: 0 | tanpa item baru: 0
+[66] Scroll dikirim. Bisa lanjut: ya
+[67] Membaca teks UI...
+[67] Teks terbaca: 5 | 2.2s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 15 256GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,270,000 | Apple IPHONE 15 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,110,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000
+  + Item 175: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 176: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+[67] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 176/441 | layar sama: 0 | tanpa item baru: 0
+[67] Scroll dikirim. Bisa lanjut: ya
+[68] Membaca teks UI...
+[68] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000
+  + Item 177: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 178: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+[68] Baru: 2 | overlap: 2 | delta: 588 | total terkumpul: 178/441 | layar sama: 0 | tanpa item baru: 0
+[68] Scroll dikirim. Bisa lanjut: ya
+[69] Membaca teks UI...
+[69] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,370,000 | Apple IPHONE 15 128GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000
+  + Item 179: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 180: Apple IPHONE 15 128GB | grade=AC | harga=8370000
+  + Item 181: Apple IPHONE 15 128GB | grade=AB | harga=8460000
+[69] Baru: 3 | overlap: 2 | delta: 605 | total terkumpul: 181/441 | layar sama: 0 | tanpa item baru: 0
+[69] Scroll dikirim. Bisa lanjut: ya
+[70] Membaca teks UI...
+[70] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,370,000 | Apple IPHONE 15 128GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000 | OPPO A5 PRO 4G 256GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,450,000 | APPLE iPhone 15 128GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 8,480,000
+  + Item 182: APPLE iPhone 15 128GB | grade=AD | harga=8480000
+  + Item 183: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 184: OPPO A5 PRO 4G 256GB | grade=AG | harga=1450000
+[70] Baru: 3 | overlap: 2 | delta: 601 | total terkumpul: 184/441 | layar sama: 0 | tanpa item baru: 0
+[70] Scroll dikirim. Bisa lanjut: ya
+[71] Membaca teks UI...
+[71] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000 | OPPO A5 PRO 4G 256GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,450,000 | APPLE iPhone 15 128GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 8,480,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000
+  + Item 185: Apple IPHONE 15 128GB | grade=AB | harga=8460000
+  + Item 186: APPLE iPhone 15 128GB | grade=AD | harga=8480000
+  + Item 187: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+[71] Baru: 3 | overlap: 1 | delta: 622 | total terkumpul: 187/441 | layar sama: 0 | tanpa item baru: 0
+[71] Scroll dikirim. Bisa lanjut: ya
+[72] Membaca teks UI...
+[72] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | APPLE iPhone 15 128GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 8,480,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AA (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,530,000
+  + Item 188: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 189: Apple IPHONE 15 128GB | grade=AA | harga=8530000
+[72] Baru: 2 | overlap: 2 | delta: 584 | total terkumpul: 189/441 | layar sama: 0 | tanpa item baru: 0
+[72] Scroll dikirim. Bisa lanjut: ya
+[73] Membaca teks UI...
+[73] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AA (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,530,000 | APPLE iPhone 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000
+  + Item 190: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 191: APPLE iPhone 15 128GB | grade=AD | harga=8280000
+  + Item 192: Apple IPHONE 15 128GB | grade=AB | harga=8460000
+[73] Baru: 3 | overlap: 2 | delta: 601 | total terkumpul: 192/441 | layar sama: 0 | tanpa item baru: 0
+[73] Scroll dikirim. Bisa lanjut: ya
+[74] Membaca teks UI...
+[74] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AA (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,530,000 | APPLE iPhone 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | Apple IPHONE 15 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,100,000
+  + Item 193: Apple IPHONE 15 128GB | grade=AA | harga=8530000
+  + Item 194: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+  + Item 195: Apple IPHONE 15 256GB | grade=AD | harga=9100000
+[74] Baru: 3 | overlap: 2 | delta: 601 | total terkumpul: 195/441 | layar sama: 0 | tanpa item baru: 0
+[74] Scroll dikirim. Bisa lanjut: ya
+[75] Membaca teks UI...
+[75] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | Apple IPHONE 15 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,100,000 | Apple IPHONE 15 128GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000 | Apple IPHONE 15 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,100,000
+  + Item 196: Apple IPHONE 15 128GB | grade=AB | harga=8460000
+  + Item 197: Apple IPHONE 15 128GB | grade=AB | harga=8460000
+  + Item 198: Apple IPHONE 15 256GB | grade=AD | harga=9100000
+[75] Baru: 3 | overlap: 2 | delta: 622 | total terkumpul: 198/441 | layar sama: 0 | tanpa item baru: 0
+[75] Scroll dikirim. Bisa lanjut: ya
+[76] Membaca teks UI...
+[76] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,100,000 | Apple IPHONE 15 128GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000 | Apple IPHONE 15 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,100,000 | samsung GALAXY S21 PLUS 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,450,000 | Apple IPHONE 15 128GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,370,000
+  + Item 199: Apple IPHONE 15 128GB | grade=AC | harga=8370000
+  + Item 200: Apple IPHONE 15 256GB | grade=AD | harga=9100000
+  + Item 201: samsung GALAXY S21 PLUS 256GB | grade=AI | harga=1450000
+[76] Baru: 3 | overlap: 2 | delta: 597 | total terkumpul: 201/441 | layar sama: 0 | tanpa item baru: 0
+[76] Scroll dikirim. Bisa lanjut: ya
+[77] Membaca teks UI...
+[77] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 15 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,100,000 | samsung GALAXY S21 PLUS 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,450,000 | Apple IPHONE 15 128GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,370,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000
+  + Item 202: Apple IPHONE 15 128GB | grade=AC | harga=8370000
+  + Item 203: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+[77] Baru: 2 | overlap: 2 | delta: 603 | total terkumpul: 203/441 | layar sama: 0 | tanpa item baru: 0
+[77] Scroll dikirim. Bisa lanjut: ya
+[78] Membaca teks UI...
+[78] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,370,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000
+  + Item 204: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 205: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+[78] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 205/441 | layar sama: 0 | tanpa item baru: 0
+[78] Scroll dikirim. Bisa lanjut: ya
+[79] Membaca teks UI...
+[79] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,370,000 | samsung GALAXY A52 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,020,000
+  + Item 206: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 207: Apple IPHONE 15 128GB | grade=AC | harga=8370000
+  + Item 208: samsung GALAXY A52 256GB | grade=AF | harga=1020000
+[79] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 208/441 | layar sama: 0 | tanpa item baru: 0
+[79] Scroll dikirim. Bisa lanjut: ya
+[80] Membaca teks UI...
+[80] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,370,000 | samsung GALAXY A52 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,020,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,820,000
+  + Item 209: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 210: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 211: Apple IPHONE 15 128GB | grade=AF | harga=7820000
+[80] Baru: 3 | overlap: 2 | delta: 623 | total terkumpul: 211/441 | layar sama: 0 | tanpa item baru: 0
+[80] Scroll dikirim. Bisa lanjut: ya
+[81] Membaca teks UI...
+[81] Teks terbaca: 6 | 2.4s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A52 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,020,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,820,000 | Apple IPHONE 15 128GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000
+  + Item 212: samsung GALAXY A52 256GB | grade=AF | harga=1020000
+  + Item 213: Apple IPHONE 15 128GB | grade=AB | harga=8460000
+  + Item 214: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+[81] Baru: 3 | overlap: 2 | delta: 623 | total terkumpul: 214/441 | layar sama: 0 | tanpa item baru: 0
+[81] Scroll dikirim. Bisa lanjut: ya
+[82] Membaca teks UI...
+[82] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,820,000 | Apple IPHONE 15 128GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,460,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY A13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 760,000 | Apple IPHONE 15 128GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,370,000
+  + Item 215: Apple IPHONE 15 128GB | grade=AC | harga=8370000
+  + Item 216: Apple IPHONE 15 128GB | grade=AF | harga=7820000
+  + Item 217: samsung GALAXY A13 128GB | grade=AG | harga=760000
+[82] Baru: 3 | overlap: 2 | delta: 603 | total terkumpul: 217/441 | layar sama: 0 | tanpa item baru: 0
+[82] Scroll dikirim. Bisa lanjut: ya
+[83] Membaca teks UI...
+[83] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY A13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 760,000 | Apple IPHONE 15 128GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,370,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000
+  + Item 218: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+  + Item 219: Apple IPHONE 15 128GB | grade=AC | harga=8370000
+  + Item 220: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+[83] Baru: 3 | overlap: 1 | delta: 602 | total terkumpul: 220/441 | layar sama: 0 | tanpa item baru: 0
+[83] Scroll dikirim. Bisa lanjut: ya
+[84] Membaca teks UI...
+[84] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,370,000 | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,100,000 | samsung GALAXY A52 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,200,000
+  + Item 221: Apple IPHONE 15 256GB | grade=AD | harga=9100000
+  + Item 222: samsung GALAXY A52 256GB | grade=AE | harga=1200000
+[84] Baru: 2 | overlap: 2 | delta: 603 | total terkumpul: 222/441 | layar sama: 0 | tanpa item baru: 0
+[84] Scroll dikirim. Bisa lanjut: ya
+[85] Membaca teks UI...
+[85] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,280,000 | Apple IPHONE 15 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,100,000 | samsung GALAXY A52 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,200,000 | realme REALME 10 PRO PLUS 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,140,000 | Apple IPHONE 15 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,110,000
+  + Item 223: Apple IPHONE 15 128GB | grade=AD | harga=8280000
+  + Item 224: realme REALME 10 PRO PLUS 128GB | grade=AD | harga=1140000
+  + Item 225: Apple IPHONE 15 128GB | grade=AE | harga=8110000
+[85] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 225/441 | layar sama: 0 | tanpa item baru: 0
+[85] Scroll dikirim. Bisa lanjut: ya
+[86] Membaca teks UI...
+[86] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A52 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,200,000 | realme REALME 10 PRO PLUS 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,140,000 | Apple IPHONE 15 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,110,000 | Apple IPHONE 13 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,120,000 | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000
+  + Item 226: samsung GALAXY A52 256GB | grade=AE | harga=1200000
+  + Item 227: Apple IPHONE 13 256GB | grade=AG | harga=6120000
+  + Item 228: Apple IPHONE 13 128GB | grade=AF | harga=5690000
+[86] Baru: 3 | overlap: 2 | delta: 599 | total terkumpul: 228/441 | layar sama: 0 | tanpa item baru: 0
+[86] Scroll dikirim. Bisa lanjut: ya
+[87] Membaca teks UI...
+[87] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 15 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,110,000 | Apple IPHONE 13 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,120,000 | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000 | samsung GALAXY J7 PRIME 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 171,000 | samsung GALAXY A52S 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,300,000
+  + Item 229: Apple IPHONE 15 128GB | grade=AE | harga=8110000
+  + Item 230: samsung GALAXY J7 PRIME 32GB | grade=AG | harga=171000
+  + Item 231: samsung GALAXY A52S 256GB | grade=AF | harga=1300000
+[87] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 231/441 | layar sama: 0 | tanpa item baru: 0
+[87] Scroll dikirim. Bisa lanjut: ya
+[88] Membaca teks UI...
+[88] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000 | samsung GALAXY J7 PRIME 32GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 171,000 | samsung GALAXY A52S 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,300,000 | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000
+  + Item 232: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 233: Apple IPHONE 13 128GB | grade=AF | harga=5690000
+  + Item 234: Apple IPHONE 13 128GB | grade=AF | harga=5690000
+[88] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 234/441 | layar sama: 0 | tanpa item baru: 0
+[88] Scroll dikirim. Bisa lanjut: ya
+[89] Membaca teks UI...
+[89] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A52S 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,300,000 | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000
+  + Item 235: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 236: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+[89] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 236/441 | layar sama: 0 | tanpa item baru: 0
+[89] Scroll dikirim. Bisa lanjut: ya
+[90] Membaca teks UI...
+[90] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000
+  + Item 237: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 238: Apple IPHONE 13 128GB | grade=AF | harga=5690000
+[90] Baru: 2 | overlap: 2 | delta: 599 | total terkumpul: 238/441 | layar sama: 0 | tanpa item baru: 0
+[90] Scroll dikirim. Bisa lanjut: ya
+[91] Membaca teks UI...
+[91] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000 | samsung GALAXY S24 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 11,000,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000
+  + Item 239: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 240: samsung GALAXY S24 ULTRA 512GB | grade=AB | harga=11000000
+  + Item 241: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+[91] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 241/441 | layar sama: 0 | tanpa item baru: 0
+[91] Scroll dikirim. Bisa lanjut: ya
+[92] Membaca teks UI...
+[92] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000 | samsung GALAXY S24 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 11,000,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | samsung GALAXY S23 FE 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,050,000
+  + Item 242: Apple IPHONE 13 128GB | grade=AF | harga=5690000
+  + Item 243: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 244: samsung GALAXY S23 FE 256GB | grade=AF | harga=4050000
+[92] Baru: 3 | overlap: 2 | delta: 599 | total terkumpul: 244/441 | layar sama: 0 | tanpa item baru: 0
+[92] Scroll dikirim. Bisa lanjut: ya
+[93] Membaca teks UI...
+[93] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | samsung GALAXY S23 FE 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,050,000 | Apple IPHONE 13 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,120,000 | samsung GALAXY A31 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 670,000
+  + Item 245: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 246: Apple IPHONE 13 256GB | grade=AG | harga=6120000
+  + Item 247: samsung GALAXY A31 128GB | grade=AF | harga=670000
+[93] Baru: 3 | overlap: 2 | delta: 601 | total terkumpul: 247/441 | layar sama: 0 | tanpa item baru: 0
+[93] Scroll dikirim. Bisa lanjut: ya
+[94] Membaca teks UI...
+[94] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S23 FE 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,050,000 | Apple IPHONE 13 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,120,000 | samsung GALAXY A31 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 670,000 | samsung GALAXY Z FLIP 5 512GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,950,000 | Apple IPHONE 13 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,160,000
+  + Item 248: Apple IPHONE 13 256GB | grade=AF | harga=6160000
+  + Item 249: samsung GALAXY S23 FE 256GB | grade=AF | harga=4050000
+  + Item 250: samsung GALAXY Z FLIP 5 512GB | grade=AJ | harga=1950000
+[94] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 250/441 | layar sama: 0 | tanpa item baru: 0
+[94] Scroll dikirim. Bisa lanjut: ya
+[95] Membaca teks UI...
+[95] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A31 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 670,000 | samsung GALAXY Z FLIP 5 512GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,950,000 | Apple IPHONE 13 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,160,000 | samsung GALAXY S23 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,290,000
+  + Item 251: Apple IPHONE 13 256GB | grade=AF | harga=6160000
+  + Item 252: samsung GALAXY S23 128GB | grade=AF | harga=4290000
+[95] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 252/441 | layar sama: 0 | tanpa item baru: 0
+[95] Scroll dikirim. Bisa lanjut: ya
+[96] Membaca teks UI...
+[96] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 13 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,160,000 | samsung GALAXY S23 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,290,000 | samsung GALAXY S23 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,100,000 | samsung GALAXY S23 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,660,000
+  + Item 253: samsung GALAXY S23 128GB | grade=AI | harga=2660000
+  + Item 254: samsung GALAXY S23 ULTRA 256GB | grade=AD | harga=8100000
+[96] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 254/441 | layar sama: 0 | tanpa item baru: 0
+[96] Scroll dikirim. Bisa lanjut: ya
+[97] Membaca teks UI...
+[97] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S23 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,290,000 | samsung GALAXY S23 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,100,000 | samsung GALAXY S23 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,660,000 | Apple IPHONE 13 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,160,000
+  + Item 255: samsung GALAXY S23 128GB | grade=AF | harga=4290000
+  + Item 256: samsung GALAXY S23 128GB | grade=AI | harga=2660000
+  + Item 257: Apple IPHONE 13 256GB | grade=AF | harga=6160000
+[97] Baru: 3 | overlap: 1 | delta: 599 | total terkumpul: 257/441 | layar sama: 0 | tanpa item baru: 0
+[97] Scroll dikirim. Bisa lanjut: ya
+[98] Membaca teks UI...
+[98] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S23 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,660,000 | Apple IPHONE 13 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,160,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000
+  + Item 258: samsung GALAXY S25 ULTRA 1024GB | grade=AD | harga=13880000
+  + Item 259: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+[98] Baru: 2 | overlap: 2 | delta: 598 | total terkumpul: 259/441 | layar sama: 0 | tanpa item baru: 0
+[98] Scroll dikirim. Bisa lanjut: ya
+[99] Membaca teks UI...
+[99] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 13 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,160,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000
+  + Item 260: Apple IPHONE 13 256GB | grade=AF | harga=6160000
+  + Item 261: samsung GALAXY S25 ULTRA 1024GB | grade=AD | harga=13880000
+  + Item 262: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+[99] Baru: 3 | overlap: 1 | delta: 599 | total terkumpul: 262/441 | layar sama: 0 | tanpa item baru: 0
+[99] Scroll dikirim. Bisa lanjut: ya
+[100] Membaca teks UI...
+[100] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | samsung GALAXY S22 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,400,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000
+  + Item 263: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+  + Item 264: samsung GALAXY S22 128GB | grade=AJ | harga=1400000
+  + Item 265: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+[100] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 265/441 | layar sama: 0 | tanpa item baru: 0
+[100] Scroll dikirim. Bisa lanjut: ya
+[101] Membaca teks UI...
+[101] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | samsung GALAXY S22 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,400,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000
+  + Item 266: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 267: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 268: Apple IPHONE 13 128GB | grade=AF | harga=5690000
+[101] Baru: 3 | overlap: 2 | delta: 622 | total terkumpul: 268/441 | layar sama: 0 | tanpa item baru: 0
+[101] Scroll dikirim. Bisa lanjut: ya
+[102] Membaca teks UI...
+[102] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000 | samsung GALAXY S24 256GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,200,000 | samsung GALAXY A36 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,740,000
+  + Item 269: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 270: samsung GALAXY S24 256GB | grade=AC | harga=6200000
+  + Item 271: samsung GALAXY A36 256GB | grade=AD | harga=2740000
+[102] Baru: 3 | overlap: 2 | delta: 601 | total terkumpul: 271/441 | layar sama: 0 | tanpa item baru: 0
+[102] Scroll dikirim. Bisa lanjut: ya
+[103] Membaca teks UI...
+[103] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,690,000 | samsung GALAXY S24 256GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,200,000 | samsung GALAXY A36 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,740,000 | samsung GALAXY A52S 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,090,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000
+  + Item 272: samsung GALAXY S24 256GB | grade=AC | harga=6200000
+  + Item 273: samsung GALAXY A36 256GB | grade=AD | harga=2740000
+  + Item 274: samsung GALAXY A52S 256GB | grade=AG | harga=1090000
+[103] Baru: 3 | overlap: 2 | delta: 475 | total terkumpul: 274/441 | layar sama: 0 | tanpa item baru: 0
+[103] Scroll dikirim. Bisa lanjut: ya
+[104] Membaca teks UI...
+[104] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A36 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,740,000 | samsung GALAXY A52S 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,090,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,120,000
+  + Item 275: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 276: Apple IPHONE 13 256GB | grade=AG | harga=6120000
+[104] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 276/441 | layar sama: 0 | tanpa item baru: 0
+[104] Scroll dikirim. Bisa lanjut: ya
+[105] Membaca teks UI...
+[105] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,120,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,370,000
+  + Item 277: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 278: Apple IPHONE 13 128GB | grade=AI | harga=5370000
+[105] Baru: 2 | overlap: 2 | delta: 601 | total terkumpul: 278/441 | layar sama: 0 | tanpa item baru: 0
+[105] Scroll dikirim. Bisa lanjut: ya
+[106] Membaca teks UI...
+[106] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 13 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,120,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | Apple IPHONE 13 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,370,000 | samsung GALAXY A16 4G 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,070,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000
+  + Item 279: Apple IPHONE 13 256GB | grade=AG | harga=6120000
+  + Item 280: samsung GALAXY A16 4G 128GB | grade=AG | harga=1070000
+  + Item 281: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+[106] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 281/441 | layar sama: 0 | tanpa item baru: 0
+[106] Scroll dikirim. Bisa lanjut: ya
+[107] Membaca teks UI...
+[107] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,370,000 | samsung GALAXY A16 4G 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,070,000 | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | samsung GALAXY A73 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,860,000 | samsung GALAXY A55 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,520,000
+  + Item 282: Apple IPHONE 13 128GB | grade=AI | harga=5370000
+  + Item 283: samsung GALAXY A73 256GB | grade=AF | harga=1860000
+  + Item 284: samsung GALAXY A55 256GB | grade=AB | harga=3520000
+[107] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 284/441 | layar sama: 0 | tanpa item baru: 0
+[107] Scroll dikirim. Bisa lanjut: ya
+[108] Membaca teks UI...
+[108] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 13 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,650,000 | samsung GALAXY A73 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,860,000 | samsung GALAXY A55 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,520,000 | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000
+  + Item 285: Apple IPHONE 13 128GB | grade=AG | harga=5650000
+  + Item 286: samsung GALAXY S25 ULTRA 1024GB | grade=AD | harga=13880000
+[108] Baru: 2 | overlap: 2 | delta: 623 | total terkumpul: 286/441 | layar sama: 0 | tanpa item baru: 0
+[108] Scroll dikirim. Bisa lanjut: ya
+[109] Membaca teks UI...
+[109] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A55 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,520,000 | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000 | samsung GALAXY S24 FE 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,180,000 | samsung GALAXY S22 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,610,000
+  + Item 287: samsung GALAXY A55 256GB | grade=AB | harga=3520000
+  + Item 288: samsung GALAXY S24 FE 256GB | grade=AD | harga=5180000
+  + Item 289: samsung GALAXY S22 ULTRA 256GB | grade=AD | harga=5610000
+[109] Baru: 3 | overlap: 1 | delta: 599 | total terkumpul: 289/441 | layar sama: 0 | tanpa item baru: 0
+[109] Scroll dikirim. Bisa lanjut: ya
+[110] Membaca teks UI...
+[110] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000 | samsung GALAXY S24 FE 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,180,000 | samsung GALAXY S22 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,610,000 | Apple IPHONE 11 64GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,800,000 | Apple IPHONE 11 128GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 4,360,000
+  + Item 290: samsung GALAXY S25 ULTRA 1024GB | grade=AD | harga=13880000
+  + Item 291: Apple IPHONE 11 64GB | grade=AF | harga=3800000
+  + Item 292: Apple IPHONE 11 128GB | grade=AF | harga=4360000
+[110] Baru: 3 | overlap: 2 | delta: 622 | total terkumpul: 292/441 | layar sama: 0 | tanpa item baru: 0
+[110] Scroll dikirim. Bisa lanjut: ya
+[111] Membaca teks UI...
+[111] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S22 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,610,000 | Apple IPHONE 11 64GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,800,000 | Apple IPHONE 11 128GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 4,360,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | Apple IPHONE 11 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,160,000
+  + Item 293: Apple IPHONE 11 128GB | grade=AF | harga=4160000
+  + Item 294: samsung GALAXY S22 ULTRA 256GB | grade=AD | harga=5610000
+  + Item 295: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+[111] Baru: 3 | overlap: 2 | delta: 607 | total terkumpul: 295/441 | layar sama: 0 | tanpa item baru: 0
+[111] Scroll dikirim. Bisa lanjut: ya
+[112] Membaca teks UI...
+[112] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 11 128GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 4,360,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | Apple IPHONE 11 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,160,000 | samsung GALAXY Z FOLD 4 512GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,920,000
+  + Item 296: Apple IPHONE 11 128GB | grade=AF | harga=4360000
+  + Item 297: Apple IPHONE 11 128GB | grade=AF | harga=4160000
+  + Item 298: samsung GALAXY Z FOLD 4 512GB | grade=AG | harga=4920000
+[112] Baru: 3 | overlap: 1 | delta: 602 | total terkumpul: 298/441 | layar sama: 0 | tanpa item baru: 0
+[112] Scroll dikirim. Bisa lanjut: ya
+[113] Membaca teks UI...
+[113] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | Apple IPHONE 11 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,160,000 | samsung GALAXY Z FOLD 4 512GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,920,000 | samsung GALAXY S25 ULTRA 512GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,170,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000
+  + Item 299: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+  + Item 300: samsung GALAXY S25 ULTRA 512GB | grade=AC | harga=13170000
+  + Item 301: Apple IPHONE 11 64GB | grade=AF | harga=3650000
+[113] Baru: 3 | overlap: 2 | delta: 598 | total terkumpul: 301/441 | layar sama: 0 | tanpa item baru: 0
+[113] Scroll dikirim. Bisa lanjut: ya
+[114] Membaca teks UI...
+[114] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY Z FOLD 4 512GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,920,000 | samsung GALAXY S25 ULTRA 512GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,170,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | samsung GALAXY S20 FE 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,500,000 | samsung GALAXY S24 ULTRA 1024GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 11,850,000
+  + Item 302: samsung GALAXY Z FOLD 4 512GB | grade=AG | harga=4920000
+  + Item 303: samsung GALAXY S20 FE 128GB | grade=AG | harga=1500000
+  + Item 304: samsung GALAXY S24 ULTRA 1024GB | grade=AF | harga=11850000
+[114] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 304/441 | layar sama: 0 | tanpa item baru: 0
+[114] Scroll dikirim. Bisa lanjut: ya
+[115] Membaca teks UI...
+[115] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | samsung GALAXY S20 FE 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,500,000 | samsung GALAXY S24 ULTRA 1024GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 11,850,000 | samsung GALAXY S24 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,330,000 | INFINIX NOTE 40 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,330,000
+  + Item 305: INFINIX NOTE 40 256GB | grade=AD | harga=1330000
+  + Item 306: Apple IPHONE 11 64GB | grade=AF | harga=3650000
+  + Item 307: samsung GALAXY S24 ULTRA 1024GB | grade=AD | harga=12330000
+[115] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 307/441 | layar sama: 0 | tanpa item baru: 0
+[115] Scroll dikirim. Bisa lanjut: ya
+[116] Membaca teks UI...
+[116] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S24 ULTRA 1024GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 11,850,000 | samsung GALAXY S24 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,330,000 | INFINIX NOTE 40 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,330,000 | samsung GALAXY NOTE FE 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 500,000
+  + Item 308: samsung GALAXY S24 ULTRA 1024GB | grade=AF | harga=11850000
+  + Item 309: INFINIX NOTE 40 256GB | grade=AD | harga=1330000
+  + Item 310: samsung GALAXY NOTE FE 64GB | grade=AF | harga=500000
+[116] Baru: 3 | overlap: 1 | delta: 605 | total terkumpul: 310/441 | layar sama: 0 | tanpa item baru: 0
+[116] Scroll dikirim. Bisa lanjut: ya
+[117] Membaca teks UI...
+[117] Teks terbaca: 4 | 2.4s | produk terlihat: 3 | contoh: Bidding Reguler | INFINIX NOTE 40 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,330,000 | samsung GALAXY NOTE FE 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 500,000 | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000
+  + Item 311: samsung GALAXY S25 ULTRA 1024GB | grade=AD | harga=13880000
+[117] Baru: 1 | overlap: 2 | delta: 600 | total terkumpul: 311/441 | layar sama: 0 | tanpa item baru: 0
+[117] Scroll dikirim. Bisa lanjut: ya
+[118] Membaca teks UI...
+[118] Teks terbaca: 5 | 2.4s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY NOTE FE 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 500,000 | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000 | Apple IPHONE 11 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,160,000 | samsung GALAXY S23 ULTRA 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,620,000
+  + Item 312: Apple IPHONE 11 128GB | grade=AF | harga=4160000
+  + Item 313: samsung GALAXY S23 ULTRA 256GB | grade=AE | harga=7620000
+[118] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 313/441 | layar sama: 0 | tanpa item baru: 0
+[118] Scroll dikirim. Bisa lanjut: ya
+[119] Membaca teks UI...
+[119] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000 | Apple IPHONE 11 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,160,000 | samsung GALAXY S23 ULTRA 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,620,000 | samsung GALAXY S24 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,980,000 | samsung GALAXY S22 ULTRA 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,910,000
+  + Item 314: samsung GALAXY S25 ULTRA 1024GB | grade=AD | harga=13880000
+  + Item 315: samsung GALAXY S24 512GB | grade=AB | harga=6980000
+  + Item 316: samsung GALAXY S22 ULTRA 256GB | grade=AI | harga=2910000
+[119] Baru: 3 | overlap: 2 | delta: 597 | total terkumpul: 316/441 | layar sama: 0 | tanpa item baru: 0
+[119] Scroll dikirim. Bisa lanjut: ya
+[120] Membaca teks UI...
+[120] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S23 ULTRA 256GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,620,000 | samsung GALAXY S24 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,980,000 | samsung GALAXY S22 ULTRA 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,910,000 | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000 | samsung GALAXY S25 ULTRA 1024GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 14,050,000
+  + Item 317: samsung GALAXY S23 ULTRA 256GB | grade=AE | harga=7620000
+  + Item 318: samsung GALAXY S25 ULTRA 1024GB | grade=AD | harga=13880000
+  + Item 319: samsung GALAXY S25 ULTRA 1024GB | grade=AC | harga=14050000
+[120] Baru: 3 | overlap: 2 | delta: 623 | total terkumpul: 319/441 | layar sama: 0 | tanpa item baru: 0
+[120] Scroll dikirim. Bisa lanjut: ya
+[121] Membaca teks UI...
+[121] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S22 ULTRA 256GB AI (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,910,000 | samsung GALAXY S25 ULTRA 1024GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,880,000 | samsung GALAXY S25 ULTRA 1024GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 14,050,000 | samsung GALAXY S24 PLUS 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,440,000
+  + Item 320: samsung GALAXY S22 ULTRA 256GB | grade=AI | harga=2910000
+  + Item 321: samsung GALAXY S24 PLUS 512GB | grade=AD | harga=7440000
+[121] Baru: 2 | overlap: 2 | delta: 598 | total terkumpul: 321/441 | layar sama: 0 | tanpa item baru: 0
+[121] Scroll dikirim. Bisa lanjut: ya
+[122] Membaca teks UI...
+[122] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 1024GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 14,050,000 | samsung GALAXY S24 PLUS 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,440,000 | samsung GALAXY S22 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,610,000 | samsung GALAXY S23 PLUS 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,040,000
+  + Item 322: samsung GALAXY S22 ULTRA 256GB | grade=AD | harga=5610000
+  + Item 323: samsung GALAXY S23 PLUS 256GB | grade=AJ | harga=3040000
+[122] Baru: 2 | overlap: 2 | delta: 604 | total terkumpul: 323/441 | layar sama: 0 | tanpa item baru: 0
+[122] Scroll dikirim. Bisa lanjut: ya
+[123] Membaca teks UI...
+[123] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S24 PLUS 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 7,440,000 | samsung GALAXY S22 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 5,610,000 | samsung GALAXY S23 PLUS 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,040,000 | samsung GALAXY A13 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 570,000 | samsung GALAXY A54 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,270,000
+  + Item 324: samsung GALAXY A54 5G 256GB | grade=AD | harga=2270000
+  + Item 325: samsung GALAXY S24 PLUS 512GB | grade=AD | harga=7440000
+  + Item 326: samsung GALAXY A13 128GB | grade=AJ | harga=570000
+[123] Baru: 3 | overlap: 2 | delta: 597 | total terkumpul: 326/441 | layar sama: 0 | tanpa item baru: 0
+[123] Scroll dikirim. Bisa lanjut: ya
+[124] Membaca teks UI...
+[124] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S23 PLUS 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,040,000 | samsung GALAXY A13 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 570,000 | samsung GALAXY A54 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,270,000 | samsung GALAXY Z FLIP 7 512GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,660,000
+  + Item 327: samsung GALAXY S23 PLUS 256GB | grade=AJ | harga=3040000
+  + Item 328: samsung GALAXY A54 5G 256GB | grade=AD | harga=2270000
+  + Item 329: samsung GALAXY Z FLIP 7 512GB | grade=AE | harga=9660000
+[124] Baru: 3 | overlap: 1 | delta: 598 | total terkumpul: 329/441 | layar sama: 0 | tanpa item baru: 0
+[124] Scroll dikirim. Bisa lanjut: ya
+[125] Membaca teks UI...
+[125] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY A13 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 570,000 | samsung GALAXY A54 5G 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,270,000 | samsung GALAXY Z FLIP 7 512GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,660,000 | samsung GALAXY S23 ULTRA 1024GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,510,000 | samsung GALAXY S23 FE 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,050,000
+  + Item 330: samsung GALAXY A13 128GB | grade=AJ | harga=570000
+  + Item 331: samsung GALAXY S23 ULTRA 1024GB | grade=AF | harga=8510000
+  + Item 332: samsung GALAXY S23 FE 256GB | grade=AF | harga=4050000
+[125] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 332/441 | layar sama: 0 | tanpa item baru: 0
+[125] Scroll dikirim. Bisa lanjut: ya
+[126] Membaca teks UI...
+[126] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY Z FLIP 7 512GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,660,000 | samsung GALAXY S23 ULTRA 1024GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 8,510,000 | samsung GALAXY S23 FE 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,050,000 | samsung GALAXY Z FLIP 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,560,000 | samsung GALAXY A51 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 560,000
+  + Item 333: samsung GALAXY Z FLIP 7 512GB | grade=AE | harga=9660000
+  + Item 334: samsung GALAXY Z FLIP 5 256GB | grade=AJ | harga=1560000
+  + Item 335: samsung GALAXY A51 128GB | grade=AG | harga=560000
+[126] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 335/441 | layar sama: 0 | tanpa item baru: 0
+[126] Scroll dikirim. Bisa lanjut: ya
+[127] Membaca teks UI...
+[127] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S23 FE 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,050,000 | samsung GALAXY Z FLIP 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,560,000 | samsung GALAXY A51 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 560,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY Z FOLD 5 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,940,000
+  + Item 336: samsung GALAXY S23 FE 256GB | grade=AF | harga=4050000
+  + Item 337: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+  + Item 338: samsung GALAXY Z FOLD 5 256GB | grade=AF | harga=6940000
+[127] Baru: 3 | overlap: 2 | delta: 622 | total terkumpul: 338/441 | layar sama: 0 | tanpa item baru: 0
+[127] Scroll dikirim. Bisa lanjut: ya
+[128] Membaca teks UI...
+[128] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY A51 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 560,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY Z FOLD 5 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,940,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000
+  + Item 339: samsung GALAXY A51 128GB | grade=AG | harga=560000
+  + Item 340: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+[128] Baru: 2 | overlap: 2 | delta: 601 | total terkumpul: 340/441 | layar sama: 0 | tanpa item baru: 0
+[128] Scroll dikirim. Bisa lanjut: ya
+[129] Membaca teks UI...
+[129] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY Z FOLD 5 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 6,940,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | vivo Y33T 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 650,000 | vivo Y91C 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 190,000
+  + Item 341: vivo Y33T 128GB | grade=AD | harga=650000
+  + Item 342: vivo Y91C 32GB | grade=AJ | harga=190000
+[129] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 342/441 | layar sama: 0 | tanpa item baru: 0
+[129] Scroll dikirim. Bisa lanjut: ya
+[130] Membaca teks UI...
+[130] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | vivo Y33T 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 650,000 | vivo Y91C 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 190,000 | vivo Y28 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 890,000 | vivo Y28 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 660,000
+  + Item 343: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+  + Item 344: vivo Y28 128GB | grade=AD | harga=890000
+  + Item 345: vivo Y28 128GB | grade=AJ | harga=660000
+[130] Baru: 3 | overlap: 2 | delta: 622 | total terkumpul: 345/441 | layar sama: 0 | tanpa item baru: 0
+[130] Scroll dikirim. Bisa lanjut: ya
+[131] Membaca teks UI...
+[131] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | vivo Y91C 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 190,000 | vivo Y28 128GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 890,000 | vivo Y28 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 660,000 | vivo Y33S 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 570,000 | vivo Y20 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 380,000
+  + Item 346: vivo Y20 64GB | grade=AG | harga=380000
+  + Item 347: vivo Y91C 32GB | grade=AJ | harga=190000
+  + Item 348: vivo Y33S 128GB | grade=AG | harga=570000
+[131] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 348/441 | layar sama: 0 | tanpa item baru: 0
+[131] Scroll dikirim. Bisa lanjut: ya
+[132] Membaca teks UI...
+[132] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | vivo Y28 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 660,000 | vivo Y33S 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 570,000 | vivo Y20 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 380,000 | vivo Y21S 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 470,000
+  + Item 349: vivo Y20 64GB | grade=AG | harga=380000
+  + Item 350: vivo Y21S 128GB | grade=AG | harga=470000
+[132] Baru: 2 | overlap: 2 | delta: 599 | total terkumpul: 350/441 | layar sama: 0 | tanpa item baru: 0
+[132] Scroll dikirim. Bisa lanjut: ya
+[133] Membaca teks UI...
+[133] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | vivo Y20 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 380,000 | vivo Y21S 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 470,000 | Xiaomi REDMI NOTE 12 PRO 5G 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,050,000 | INFINIX SMART 7 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 520,000
+  + Item 351: Xiaomi REDMI NOTE 12 PRO 5G 256GB | grade=AG | harga=1050000
+  + Item 352: INFINIX SMART 7 64GB | grade=AE | harga=520000
+[133] Baru: 2 | overlap: 2 | delta: 601 | total terkumpul: 352/441 | layar sama: 0 | tanpa item baru: 0
+[133] Scroll dikirim. Bisa lanjut: ya
+[134] Membaca teks UI...
+[134] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | vivo Y21S 128GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 470,000 | Xiaomi REDMI NOTE 12 PRO 5G 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,050,000 | INFINIX SMART 7 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 520,000 | vivo V29E 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,330,000 | vivo Y12S 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 220,000
+  + Item 353: vivo Y21S 128GB | grade=AG | harga=470000
+  + Item 354: vivo V29E 256GB | grade=AD | harga=1330000
+  + Item 355: vivo Y12S 32GB | grade=AJ | harga=220000
+[134] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 355/441 | layar sama: 0 | tanpa item baru: 0
+[134] Scroll dikirim. Bisa lanjut: ya
+[135] Membaca teks UI...
+[135] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | INFINIX SMART 7 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 520,000 | vivo V29E 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,330,000 | vivo Y12S 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 220,000 | Apple IPHONE XS 256GB AJ (International) Produk Only Stok : 1 Harga Lelang IDR 1,520,000 | Apple IPHONE XS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,590,000
+  + Item 356: INFINIX SMART 7 64GB | grade=AE | harga=520000
+  + Item 357: Apple IPHONE XS 256GB | grade=AJ | harga=1520000
+  + Item 358: Apple IPHONE XS 64GB | grade=AJ | harga=1590000
+[135] Baru: 3 | overlap: 2 | delta: 622 | total terkumpul: 358/441 | layar sama: 0 | tanpa item baru: 0
+[135] Scroll dikirim. Bisa lanjut: ya
+[136] Membaca teks UI...
+[136] Teks terbaca: 5 | 2.2s | produk terlihat: 4 | contoh: Bidding Reguler | vivo Y12S 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 220,000 | Apple IPHONE XS 256GB AJ (International) Produk Only Stok : 1 Harga Lelang IDR 1,520,000 | Apple IPHONE XS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,590,000 | Xiaomi REDMI 9A 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 130,000
+  + Item 359: vivo Y12S 32GB | grade=AJ | harga=220000
+  + Item 360: Xiaomi REDMI 9A 32GB | grade=AJ | harga=130000
+[136] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 360/441 | layar sama: 0 | tanpa item baru: 0
+[136] Scroll dikirim. Bisa lanjut: ya
+[137] Membaca teks UI...
+[137] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE XS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,590,000 | Xiaomi REDMI 9A 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 130,000 | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000 | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000
+  + Item 361: Apple IPHONE XR 64GB | grade=AJ | harga=2240000
+  + Item 362: Apple IPHONE XR 64GB | grade=AJ | harga=2240000
+[137] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 362/441 | layar sama: 0 | tanpa item baru: 0
+[137] Scroll dikirim. Bisa lanjut: ya
+[138] Membaca teks UI...
+[138] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Xiaomi REDMI 9A 32GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 130,000 | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000 | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000 | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000 | Apple IPHONE XR 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,610,000
+  + Item 363: Xiaomi REDMI 9A 32GB | grade=AJ | harga=130000
+  + Item 364: Apple IPHONE XR 64GB | grade=AJ | harga=2240000
+  + Item 365: Apple IPHONE XR 64GB | grade=AG | harga=2610000
+[138] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 365/441 | layar sama: 0 | tanpa item baru: 0
+[138] Scroll dikirim. Bisa lanjut: ya
+[139] Membaca teks UI...
+[139] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000 | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000 | Apple IPHONE XR 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,610,000 | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000 | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000
+  + Item 366: Apple IPHONE XR 64GB | grade=AJ | harga=2240000
+  + Item 367: Apple IPHONE XR 64GB | grade=AJ | harga=2240000
+  + Item 368: Apple IPHONE XR 64GB | grade=AJ | harga=2240000
+[139] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 368/441 | layar sama: 0 | tanpa item baru: 0
+[139] Scroll dikirim. Bisa lanjut: ya
+[140] Membaca teks UI...
+[140] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE XR 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,610,000 | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000 | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000 | Apple IPHONE XR 64GB AJ (International) Produk Only Stok : 1 Harga Lelang IDR 1,800,000 | Apple IPHONE XR 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,610,000
+  + Item 369: Apple IPHONE XR 64GB | grade=AG | harga=2610000
+  + Item 370: Apple IPHONE XR 64GB | grade=AJ | harga=1800000
+  + Item 371: Apple IPHONE XR 64GB | grade=AG | harga=2610000
+[140] Baru: 3 | overlap: 2 | delta: 601 | total terkumpul: 371/441 | layar sama: 0 | tanpa item baru: 0
+[140] Scroll dikirim. Bisa lanjut: ya
+[141] Membaca teks UI...
+[141] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE XR 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,240,000 | Apple IPHONE XR 64GB AJ (International) Produk Only Stok : 1 Harga Lelang IDR 1,800,000 | Apple IPHONE XR 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,610,000 | Apple IPHONE XR 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,610,000 | Apple IPHONE XR 64GB AJ (International) Produk Only Stok : 1 Harga Lelang IDR 1,800,000
+  + Item 372: Apple IPHONE XR 64GB | grade=AJ | harga=1800000
+  + Item 373: Apple IPHONE XR 64GB | grade=AJ | harga=2240000
+  + Item 374: Apple IPHONE XR 64GB | grade=AG | harga=2610000
+[141] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 374/441 | layar sama: 0 | tanpa item baru: 0
+[141] Scroll dikirim. Bisa lanjut: ya
+[142] Membaca teks UI...
+[142] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE XR 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,610,000 | Apple IPHONE XR 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,610,000 | Apple IPHONE XR 64GB AJ (International) Produk Only Stok : 1 Harga Lelang IDR 1,800,000 | Apple IPHONE XR 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,770,000
+  + Item 375: Apple IPHONE XR 64GB | grade=AJ | harga=1800000
+  + Item 376: Apple IPHONE XR 64GB | grade=AF | harga=2770000
+[142] Baru: 2 | overlap: 2 | delta: 598 | total terkumpul: 376/441 | layar sama: 0 | tanpa item baru: 0
+[142] Scroll dikirim. Bisa lanjut: ya
+[143] Membaca teks UI...
+[143] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE XR 64GB AJ (International) Produk Only Stok : 1 Harga Lelang IDR 1,800,000 | Apple IPHONE XR 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,770,000 | Apple IPHONE XR 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,610,000 | Apple IPHONE SE 2022 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,460,000
+  + Item 377: Apple IPHONE XR 64GB | grade=AG | harga=2610000
+  + Item 378: Apple IPHONE SE 2022 64GB | grade=AE | harga=3460000
+[143] Baru: 2 | overlap: 2 | delta: 596 | total terkumpul: 378/441 | layar sama: 0 | tanpa item baru: 0
+[143] Scroll dikirim. Bisa lanjut: ya
+[144] Membaca teks UI...
+[144] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE XR 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,770,000 | Apple IPHONE XR 64GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 2,610,000 | Apple IPHONE SE 2022 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,460,000 | Apple IPHONE XR 128GB AG (International) Produk Only Stok : 1 Harga Lelang IDR 2,330,000 | Apple IPHONE XR 64GB AJ (International ) Produk Only Stok : 1 Harga Lelang IDR 1,800,000
+  + Item 379: Apple IPHONE XR 64GB | grade=AF | harga=2770000
+  + Item 380: Apple IPHONE XR 128GB | grade=AG | harga=2330000
+  + Item 381: Apple IPHONE XR 64GB | grade=AJ | harga=1800000
+[144] Baru: 3 | overlap: 2 | delta: 601 | total terkumpul: 381/441 | layar sama: 0 | tanpa item baru: 0
+[144] Scroll dikirim. Bisa lanjut: ya
+[145] Membaca teks UI...
+[145] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE SE 2022 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,460,000 | Apple IPHONE XR 128GB AG (International) Produk Only Stok : 1 Harga Lelang IDR 2,330,000 | Apple IPHONE XR 64GB AJ (International ) Produk Only Stok : 1 Harga Lelang IDR 1,800,000 | Apple IPHONE 8 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,250,000 | Apple IPHONE 8 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000
+  + Item 382: Apple IPHONE SE 2022 64GB | grade=AE | harga=3460000
+  + Item 383: Apple IPHONE 8 64GB | grade=AG | harga=1250000
+  + Item 384: Apple IPHONE 8 256GB | grade=AJ | harga=800000
+[145] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 384/441 | layar sama: 0 | tanpa item baru: 0
+[145] Scroll dikirim. Bisa lanjut: ya
+[146] Membaca teks UI...
+[146] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE XR 64GB AJ (International ) Produk Only Stok : 1 Harga Lelang IDR 1,800,000 | Apple IPHONE 8 64GB AG (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 1,250,000 | Apple IPHONE 8 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000 | Apple IPHONE 8 PLUS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,240,000
+  + Item 385: Apple IPHONE XR 64GB | grade=AJ | harga=1800000
+  + Item 386: Apple IPHONE 8 PLUS 64GB | grade=AJ | harga=1240000
+[146] Baru: 2 | overlap: 2 | delta: 601 | total terkumpul: 386/441 | layar sama: 0 | tanpa item baru: 0
+[146] Scroll dikirim. Bisa lanjut: ya
+[147] Membaca teks UI...
+[147] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 8 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000 | Apple IPHONE 8 PLUS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,240,000 | Apple IPHONE 11 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,160,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000
+  + Item 387: Apple IPHONE 11 128GB | grade=AF | harga=4160000
+  + Item 388: Apple IPHONE 11 64GB | grade=AF | harga=3650000
+[147] Baru: 2 | overlap: 2 | delta: 601 | total terkumpul: 388/441 | layar sama: 0 | tanpa item baru: 0
+[147] Scroll dikirim. Bisa lanjut: ya
+[148] Membaca teks UI...
+[148] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 8 PLUS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,240,000 | Apple IPHONE 11 128GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,160,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | Apple IPHONE 11 128GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 4,360,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000
+  + Item 389: Apple IPHONE 8 PLUS 64GB | grade=AJ | harga=1240000
+  + Item 390: Apple IPHONE 11 128GB | grade=AF | harga=4360000
+  + Item 391: Apple IPHONE 11 64GB | grade=AF | harga=3650000
+[148] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 391/441 | layar sama: 0 | tanpa item baru: 0
+[148] Scroll dikirim. Bisa lanjut: ya
+[149] Membaca teks UI...
+[149] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | Apple IPHONE 11 128GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 4,360,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000
+  + Item 392: Apple IPHONE 11 64GB | grade=AF | harga=3650000
+  + Item 393: Apple IPHONE 11 64GB | grade=AF | harga=3650000
+  + Item 394: Apple IPHONE 11 64GB | grade=AF | harga=3650000
+[149] Baru: 3 | overlap: 2 | delta: 602 | total terkumpul: 394/441 | layar sama: 0 | tanpa item baru: 0
+[149] Scroll dikirim. Bisa lanjut: ya
+[150] Membaca teks UI...
+[150] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | Apple IPHONE 11 64GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,800,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000
+  + Item 395: Apple IPHONE 11 64GB | grade=AF | harga=3650000
+  + Item 396: Apple IPHONE 11 64GB | grade=AF | harga=3800000
+  + Item 397: Apple IPHONE 11 64GB | grade=AF | harga=3650000
+[150] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 397/441 | layar sama: 0 | tanpa item baru: 0
+[150] Scroll dikirim. Bisa lanjut: ya
+[151] Membaca teks UI...
+[151] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | Apple IPHONE 11 64GB AF (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 3,800,000 | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | Apple IPHONE 11 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,710,000 | Apple IPHONE 11 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,710,000
+  + Item 398: Apple IPHONE 11 64GB | grade=AE | harga=3710000
+  + Item 399: Apple IPHONE 11 64GB | grade=AF | harga=3650000
+  + Item 400: Apple IPHONE 11 64GB | grade=AE | harga=3710000
+[151] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 400/441 | layar sama: 0 | tanpa item baru: 0
+[151] Scroll dikirim. Bisa lanjut: ya
+[152] Membaca teks UI...
+[152] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 11 64GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,650,000 | Apple IPHONE 11 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,710,000 | Apple IPHONE 11 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,710,000 | Apple IPHONE 11 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,210,000
+  + Item 401: Apple IPHONE 11 64GB | grade=AE | harga=3710000
+  + Item 402: Apple IPHONE 11 128GB | grade=AE | harga=4210000
+[152] Baru: 2 | overlap: 2 | delta: 536 | total terkumpul: 402/441 | layar sama: 0 | tanpa item baru: 0
+[152] Scroll dikirim. Bisa lanjut: ya
+[153] Membaca teks UI...
+[153] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 11 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,710,000 | Apple IPHONE 11 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,210,000 | Apple IPHONE 11 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,710,000 | Apple IPHONE 11 128GB AE (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 4,410,000
+  + Item 403: Apple IPHONE 11 64GB | grade=AE | harga=3710000
+  + Item 404: Apple IPHONE 11 128GB | grade=AE | harga=4410000
+[153] Baru: 2 | overlap: 2 | delta: 591 | total terkumpul: 404/441 | layar sama: 0 | tanpa item baru: 0
+[153] Scroll dikirim. Bisa lanjut: ya
+[154] Membaca teks UI...
+[154] Teks terbaca: 6 | 2.4s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 11 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,210,000 | Apple IPHONE 11 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,710,000 | Apple IPHONE 11 128GB AE (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 4,410,000 | Apple IPHONE 11 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,210,000 | Apple IPHONE 11 64GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,050,000
+  + Item 405: Apple IPHONE 11 128GB | grade=AE | harga=4210000
+  + Item 406: Apple IPHONE 11 128GB | grade=AE | harga=4210000
+  + Item 407: Apple IPHONE 11 64GB | grade=AD | harga=4050000
+[154] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 407/441 | layar sama: 0 | tanpa item baru: 0
+[154] Scroll dikirim. Bisa lanjut: ya
+[155] Membaca teks UI...
+[155] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 11 128GB AE (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 4,410,000 | Apple IPHONE 11 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,210,000 | Apple IPHONE 11 64GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,050,000 | Apple IPHONE 11 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,710,000 | Apple IPHONE 11 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,210,000
+  + Item 408: Apple IPHONE 11 128GB | grade=AE | harga=4410000
+  + Item 409: Apple IPHONE 11 64GB | grade=AE | harga=3710000
+  + Item 410: Apple IPHONE 11 128GB | grade=AE | harga=4210000
+[155] Baru: 3 | overlap: 2 | delta: 622 | total terkumpul: 410/441 | layar sama: 0 | tanpa item baru: 0
+[155] Scroll dikirim. Bisa lanjut: ya
+[156] Membaca teks UI...
+[156] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | Apple IPHONE 11 64GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,050,000 | Apple IPHONE 11 64GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,710,000 | Apple IPHONE 11 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,210,000 | samsung GALAXY Z FOLD 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,100,000 | samsung GALAXY Z FOLD 6 512GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,230,000
+  + Item 411: Apple IPHONE 11 64GB | grade=AD | harga=4050000
+  + Item 412: samsung GALAXY Z FOLD 5 256GB | grade=AJ | harga=3100000
+  + Item 413: samsung GALAXY Z FOLD 6 512GB | grade=AG | harga=10230000
+[156] Baru: 3 | overlap: 2 | delta: 623 | total terkumpul: 413/441 | layar sama: 0 | tanpa item baru: 0
+[156] Scroll dikirim. Bisa lanjut: ya
+[157] Membaca teks UI...
+[157] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | Apple IPHONE 11 128GB AE (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 4,210,000 | samsung GALAXY Z FOLD 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,100,000 | samsung GALAXY Z FOLD 6 512GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,230,000 | samsung GALAXY Z FOLD 7 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 15,750,000
+  + Item 414: Apple IPHONE 11 128GB | grade=AE | harga=4210000
+  + Item 415: samsung GALAXY Z FOLD 7 256GB | grade=AF | harga=15750000
+[157] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 415/441 | layar sama: 0 | tanpa item baru: 0
+[157] Scroll dikirim. Bisa lanjut: ya
+[158] Membaca teks UI...
+[158] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY Z FOLD 6 512GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 10,230,000 | samsung GALAXY Z FOLD 7 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 15,750,000 | Apple IPHONE 11 64GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 4,200,000 | samsung GALAXY Z FLIP 3 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000
+  + Item 416: Apple IPHONE 11 64GB | grade=AD | harga=4200000
+  + Item 417: samsung GALAXY Z FLIP 3 128GB | grade=AJ | harga=800000
+[158] Baru: 2 | overlap: 2 | delta: 599 | total terkumpul: 417/441 | layar sama: 0 | tanpa item baru: 0
+[158] Scroll dikirim. Bisa lanjut: ya
+[159] Membaca teks UI...
+[159] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY Z FOLD 7 256GB AF (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 15,750,000 | Apple IPHONE 11 64GB AD (Terdaftar) Fullset Stok : 1 Harga Lelang IDR 4,200,000 | samsung GALAXY Z FLIP 3 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000 | samsung GALAXY Z FLIP 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,560,000 | samsung GALAXY Z FOLD 3 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,160,000
+  + Item 418: samsung GALAXY Z FOLD 7 256GB | grade=AF | harga=15750000
+  + Item 419: samsung GALAXY Z FLIP 5 256GB | grade=AJ | harga=1560000
+  + Item 420: samsung GALAXY Z FOLD 3 256GB | grade=AG | harga=3160000
+[159] Baru: 3 | overlap: 2 | delta: 600 | total terkumpul: 420/441 | layar sama: 0 | tanpa item baru: 0
+[159] Scroll dikirim. Bisa lanjut: ya
+[160] Membaca teks UI...
+[160] Teks terbaca: 6 | 2.3s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY Z FLIP 3 128GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 800,000 | samsung GALAXY Z FLIP 5 256GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 1,560,000 | samsung GALAXY Z FOLD 3 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,160,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY S9 PLUS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 450,000
+  + Item 421: samsung GALAXY Z FLIP 3 128GB | grade=AJ | harga=800000
+  + Item 422: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+  + Item 423: samsung GALAXY S9 PLUS 64GB | grade=AJ | harga=450000
+[160] Baru: 3 | overlap: 2 | delta: 623 | total terkumpul: 423/441 | layar sama: 0 | tanpa item baru: 0
+[160] Scroll dikirim. Bisa lanjut: ya
+[161] Membaca teks UI...
+[161] Teks terbaca: 6 | 2.2s | produk terlihat: 5 | contoh: Bidding Reguler | samsung GALAXY Z FOLD 3 256GB AG (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 3,160,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY S9 PLUS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 450,000 | samsung GALAXY S9 PLUS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 450,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000
+  + Item 424: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+  + Item 425: samsung GALAXY Z FOLD 3 256GB | grade=AG | harga=3160000
+  + Item 426: samsung GALAXY S9 PLUS 64GB | grade=AJ | harga=450000
+[161] Baru: 3 | overlap: 2 | delta: 597 | total terkumpul: 426/441 | layar sama: 0 | tanpa item baru: 0
+[161] Scroll dikirim. Bisa lanjut: ya
+[162] Membaca teks UI...
+[162] Teks terbaca: 5 | 2.4s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S9 PLUS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 450,000 | samsung GALAXY S9 PLUS 64GB AJ (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 450,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000
+  + Item 427: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+  + Item 428: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+[162] Baru: 2 | overlap: 2 | delta: 600 | total terkumpul: 428/441 | layar sama: 0 | tanpa item baru: 0
+[162] Scroll dikirim. Bisa lanjut: ya
+[163] Membaca teks UI...
+[163] Teks terbaca: 5 | 2.2s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY S25 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,190,000 | samsung GALAXY S25 ULTRA 512GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,170,000
+  + Item 429: samsung GALAXY S25 ULTRA 256GB | grade=AD | harga=12190000
+  + Item 430: samsung GALAXY S25 ULTRA 512GB | grade=AC | harga=13170000
+[163] Baru: 2 | overlap: 2 | delta: 602 | total terkumpul: 430/441 | layar sama: 0 | tanpa item baru: 0
+[163] Scroll dikirim. Bisa lanjut: ya
+[164] Membaca teks UI...
+[164] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY S25 ULTRA 256GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,190,000 | samsung GALAXY S25 ULTRA 512GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,170,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000
+  + Item 431: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+  + Item 432: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+[164] Baru: 2 | overlap: 2 | delta: 597 | total terkumpul: 432/441 | layar sama: 0 | tanpa item baru: 0
+[164] Scroll dikirim. Bisa lanjut: ya
+[165] Membaca teks UI...
+[165] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AC (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,170,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY S25 ULTRA 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,740,000
+  + Item 433: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+  + Item 434: samsung GALAXY S25 ULTRA 256GB | grade=AB | harga=12740000
+[165] Baru: 2 | overlap: 2 | delta: 553 | total terkumpul: 434/441 | layar sama: 0 | tanpa item baru: 0
+[165] Scroll dikirim. Bisa lanjut: ya
+[166] Membaca teks UI...
+[166] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY S25 ULTRA 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,990,000 | samsung GALAXY S25 ULTRA 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,740,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000
+  + Item 435: samsung GALAXY S25 ULTRA 512GB | grade=AD | harga=12990000
+  + Item 436: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+[166] Baru: 2 | overlap: 2 | delta: 622 | total terkumpul: 436/441 | layar sama: 0 | tanpa item baru: 0
+[166] Scroll dikirim. Bisa lanjut: ya
+[167] Membaca teks UI...
+[167] Teks terbaca: 5 | 2.2s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,740,000 | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY S25 ULTRA 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,740,000 | samsung GALAXY S25 PLUS 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,920,000
+  + Item 437: samsung GALAXY S25 ULTRA 256GB | grade=AB | harga=12740000
+  + Item 438: samsung GALAXY S25 ULTRA 256GB | grade=AB | harga=12740000
+  + Item 439: samsung GALAXY S25 PLUS 512GB | grade=AD | harga=9920000
+[167] Baru: 3 | overlap: 1 | delta: 600 | total terkumpul: 439/441 | layar sama: 0 | tanpa item baru: 0
+[167] Scroll dikirim. Bisa lanjut: ya
+[168] Membaca teks UI...
+[168] Teks terbaca: 5 | 2.3s | produk terlihat: 4 | contoh: Bidding Reguler | samsung GALAXY S25 ULTRA 512GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,240,000 | samsung GALAXY S25 ULTRA 256GB AB (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 12,740,000 | samsung GALAXY S25 PLUS 512GB AD (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 9,920,000 | samsung GALAXY S25 ULTRA 512GB AA (Terdaftar) Produk Only Stok : 1 Harga Lelang IDR 13,430,000
+  + Item 440: samsung GALAXY S25 ULTRA 512GB | grade=AB | harga=13240000
+  + Item 441: samsung GALAXY S25 ULTRA 512GB | grade=AA | harga=13430000
+[168] Baru: 2 | overlap: 2 | delta: 599 | total terkumpul: 441/441 | layar sama: 0 | tanpa item baru: 0
+Stop: target total 441 unit sudah tercapai.
+Selesai. 441 item disimpan.

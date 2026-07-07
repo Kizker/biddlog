@@ -1,0 +1,28 @@
+{
+  "collector_version": "2026-05-03-invoice-v1",
+  "account": "mubdi",
+  "started_at": "2026-07-07 08:18:44",
+  "finished_at": "2026-07-07 08:19:16",
+  "expected_total": null,
+  "collected_count": 10,
+  "target_reached": false,
+  "output_json": "output\\invoice\\invoice-mubdi.json",
+  "output_csv": "output\\invoice\\invoice-mubdi.csv",
+  "combined_json": "output\\invoice\\invoice-items.json",
+  "combined_csv": "output\\invoice\\invoice-items.csv",
+  "audit_fields": [
+    "scan_marker",
+    "scan_session_id",
+    "screen_no",
+    "screen_item_no",
+    "source_bounds",
+    "source_hash",
+    "source_text"
+  ],
+  "warnings": {
+    "missing_price_count": 0,
+    "missing_grade_count": 0,
+    "scan_warning_count": 0,
+    "scan_warnings": []
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "collector_version": "2026-05-03-recovery-scroll-v16",
+  "backend": "adb",
+  "scan_profile": "accuracy",
+  "scroll_settings": {
+    "scroll_pause_seconds": 0.45,
+    "scroll_start_ratio": 0.68,
+    "scroll_end_ratio": 0.45,
+    "scroll_duration_ms": 220
+  },
+  "started_at": "2026-07-07 17:48:24",
+  "finished_at": "2026-07-07 17:50:51",
+  "expected_total": null,
+  "collected_count": 150,
+  "target_reached": false,
+  "output_json": "output/scan-list/bidding-items.json",
+  "output_csv": "output/scan-list/bidding-items.csv",
+  "audit_fields": [
+    "scan_marker",
+    "scan_session_id",
+    "screen_no",
+    "screen_item_no",
+    "source_bounds",
+    "source_hash",
+    "source_text"
+  ],
+  "warnings": {
+    "missing_condition_count": 0,
+    "missing_condition_markers": [],
+    "missing_status_count": 0,
+    "missing_status_markers": [],
+    "scan_warning_count": 0,
+    "scan_warnings": [],
+    "forced_duplicate_count": 0,
+    "recovery_scroll_count": 0
+  }
+}
