@@ -357,7 +357,7 @@ function CollectorGuide() {
         </div>
         <div className="command-list compact">
           {command('cd "Documents\\bidlog\\collector"')}
-          {command('"C:\\laragon\\bin\\python\\python-3.10\\python.exe" check_setup.py')}
+          {command('python check_setup.py')}
         </div>
         <p className="guide-note">
           Jalankan lewat Command Prompt. Browser tidak bisa membaca status USB secara langsung, jadi status dicek lewat script lokal.
@@ -383,12 +383,12 @@ function CollectorGuide() {
         <h2>Setup pertama kali</h2>
         <div className="command-list">
           {command('cd "Documents\\bidlog\\collector"')}
-          {command('set "PATH=C:\\platform-tools;C:\\laragon\\bin\\nodejs\\node-v20.19.3-win-x64;%PATH%"')}
+          {command('set "PATH=C:\\platform-tools;%PATH%"')}
           {command('set ANDROID_HOME=C:\\')}
           {command('set ANDROID_SDK_ROOT=C:\\')}
           {command('npm install -g appium')}
           {command('appium driver install uiautomator2')}
-          {command('"C:\\laragon\\bin\\python\\python-3.10\\python.exe" -m pip install -r requirements.txt')}
+          {command('pip install -r requirements.txt')}
         </div>
         <p className="guide-note">
           Langkah install cukup dilakukan sekali. Perintah set PATH hanya berlaku untuk terminal CMD yang sedang dibuka.
@@ -400,11 +400,11 @@ function CollectorGuide() {
         <h2>Urutan cek harian</h2>
         <div className="command-list">
           {command('cd "Documents\\bidlog\\collector"')}
-          {command('set "PATH=C:\\platform-tools;C:\\laragon\\bin\\nodejs\\node-v20.19.3-win-x64;%PATH%"')}
+          {command('set "PATH=C:\\platform-tools;%PATH%"')}
           {command('set ANDROID_HOME=C:\\')}
           {command('set ANDROID_SDK_ROOT=C:\\')}
           {command('adb devices')}
-          {command('"C:\\laragon\\bin\\python\\python-3.10\\python.exe" check_setup.py')}
+          {command('python check_setup.py')}
           {command('appium --base-path /')}
         </div>
         <p className="guide-note">
@@ -421,7 +421,7 @@ function CollectorGuide() {
         </p>
         <div className="command-list">
           {command('cd "Documents\\bidlog\\collector"')}
-          {command('set "PATH=C:\\platform-tools;C:\\laragon\\bin\\nodejs\\node-v20.19.3-win-x64;%PATH%"')}
+          {command('set "PATH=C:\\platform-tools;%PATH%"')}
           {command('set ANDROID_HOME=C:\\')}
           {command('set ANDROID_SDK_ROOT=C:\\')}
         </div>
@@ -431,7 +431,7 @@ function CollectorGuide() {
             <strong>Scan keseluruhan</strong>
             <p>Dipakai untuk scan normal dari atas sampai daftar mentok atau total UI terbaca.</p>
             <div className="command-list compact">
-              {command('"C:\\laragon\\bin\\python\\python-3.10\\python.exe" appium_collector.py --backend adb --phone-feedback')}
+              {command('python appium_collector.py --backend adb --phone-feedback')}
             </div>
           </div>
           <div className="scan-mode-card">
@@ -439,7 +439,7 @@ function CollectorGuide() {
             <strong>Scan dengan target harian</strong>
             <p>Ganti angka sesuai total barang hari itu. Untuk hari ini gunakan 415.</p>
             <div className="command-list compact">
-              {command('"C:\\laragon\\bin\\python\\python-3.10\\python.exe" appium_collector.py --backend adb --expected-total 415 --phone-feedback')}
+              {command('python appium_collector.py --backend adb --expected-total 415 --phone-feedback')}
             </div>
           </div>
           <div className="scan-mode-card">
@@ -447,7 +447,7 @@ function CollectorGuide() {
             <strong>Cek 10 barang teratas</strong>
             <p>Dipakai untuk memastikan urutan awal sudah sesuai sebelum scan penuh.</p>
             <div className="command-list compact">
-              {command('"C:\\laragon\\bin\\python\\python-3.10\\python.exe" appium_collector.py --backend adb --expected-total 10 --phone-feedback')}
+              {command('python appium_collector.py --backend adb --expected-total 10 --phone-feedback')}
             </div>
           </div>
         </div>
@@ -483,21 +483,21 @@ function CollectorGuide() {
             <p className="section-label">Menik</p>
             <strong>Scan invoice akun Menik</strong>
             <div className="command-list compact">
-              {command('"C:\\laragon\\bin\\python\\python-3.10\\python.exe" invoice_collector.py --account menik --no-launch --phone-feedback')}
+              {command('python invoice_collector.py --account menik --no-launch --phone-feedback')}
             </div>
           </div>
           <div className="scan-mode-card">
             <p className="section-label">Mubdi</p>
             <strong>Scan invoice akun Mubdi</strong>
             <div className="command-list compact">
-              {command('"C:\\laragon\\bin\\python\\python-3.10\\python.exe" invoice_collector.py --account mubdi --no-launch --phone-feedback')}
+              {command('python invoice_collector.py --account mubdi --no-launch --phone-feedback')}
             </div>
           </div>
           <div className="scan-mode-card">
             <p className="section-label">Aldi</p>
             <strong>Scan invoice akun Aldi</strong>
             <div className="command-list compact">
-              {command('"C:\\laragon\\bin\\python\\python-3.10\\python.exe" invoice_collector.py --account aldi --no-launch --phone-feedback')}
+              {command('python invoice_collector.py --account aldi --no-launch --phone-feedback')}
             </div>
           </div>
         </div>
@@ -529,7 +529,7 @@ function CollectorGuide() {
           <p><strong>HP belum terhubung:</strong> kabel belum tersambung, USB mode salah, atau USB Debugging belum aktif.</p>
           <p><strong>HP belum diizinkan:</strong> prompt Allow USB debugging belum disetujui di layar HP.</p>
           <p><strong>Android SDK Environment perlu diset:</strong> jalankan set ANDROID_HOME=C:\ dan set ANDROID_SDK_ROOT=C:\ sebelum membuka Appium server.</p>
-          <p><strong>Appium CLI belum dikenali:</strong> jalankan perintah set PATH di atas agar CMD mengenali appium dari Node Laragon.</p>
+          <p><strong>Appium CLI belum dikenali:</strong> pastikan Node.js sudah terinstall dan ada di PATH, lalu jalankan perintah set PATH di atas.</p>
           <p><strong>Appium server belum aktif:</strong> jalankan appium --base-path / di terminal terpisah setelah semua perintah set selesai.</p>
           <p><strong>UiAutomator2 belum ada:</strong> jalankan appium driver install uiautomator2.</p>
         </div>

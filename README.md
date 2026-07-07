@@ -75,7 +75,7 @@ python check_setup.py
 Jalankan sebelum collector dipakai:
 
 ```bat
-set "PATH=C:\platform-tools;C:\laragon\bin\nodejs\node-v20.19.3-win-x64;%PATH%"
+set "PATH=C:\platform-tools;%PATH%"
 set ANDROID_HOME=C:\
 set ANDROID_SDK_ROOT=C:\
 adb devices
@@ -86,7 +86,7 @@ Di terminal lain:
 
 ```bat
 cd "Documents\bidlog\collector"
-set "PATH=C:\platform-tools;C:\laragon\bin\nodejs\node-v20.19.3-win-x64;%PATH%"
+set "PATH=C:\platform-tools;%PATH%"
 set ANDROID_HOME=C:\
 set ANDROID_SDK_ROOT=C:\
 "C:\laragon\bin\python\python-3.10\python.exe" appium_collector.py --backend adb
@@ -95,7 +95,7 @@ set ANDROID_SDK_ROOT=C:\
 Command normal akan reset posisi daftar ke atas lebih dulu, membaca `Total Unit` dari UI jika tersedia, lalu scroll sampai target tercapai atau daftar mentok. Aman untuk hari dengan ratusan sampai 1000+ barang karena batas default collector adalah 1500 scroll. Untuk test cepat tanpa reset posisi:
 
 ```bat
-"C:\laragon\bin\python\python-3.10\python.exe" appium_collector.py --backend adb --max-scrolls 3 --no-reset-position
+python appium_collector.py --backend adb --max-scrolls 3 --no-reset-position
 ```
 
 ## Setup Scanner Invoice
@@ -112,12 +112,12 @@ Command scan invoice:
 
 ```bat
 cd "Documents\bidlog\collector"
-set "PATH=C:\platform-tools;C:\laragon\bin\nodejs\node-v20.19.3-win-x64;%PATH%"
+set "PATH=C:\platform-tools;%PATH%"
 set ANDROID_HOME=C:\
 set ANDROID_SDK_ROOT=C:\
-"C:\laragon\bin\python\python-3.10\python.exe" invoice_collector.py --account menik --no-launch --phone-feedback
-"C:\laragon\bin\python\python-3.10\python.exe" invoice_collector.py --account mubdi --no-launch --phone-feedback
-"C:\laragon\bin\python\python-3.10\python.exe" invoice_collector.py --account aldi --no-launch --phone-feedback
+python invoice_collector.py --account menik --no-launch --phone-feedback
+python invoice_collector.py --account mubdi --no-launch --phone-feedback
+python invoice_collector.py --account aldi --no-launch --phone-feedback
 ```
 
 Package aplikasi invoice otomatis:
