@@ -68,7 +68,7 @@ appium driver install uiautomator2
 Periksa status setup:
 
 ```powershell
-cd "Documents\bidlog\collector"
+cd collector
 python check_setup.py
 ```
 
@@ -85,11 +85,11 @@ appium --base-path /
 Di terminal lain:
 
 ```bat
-cd "Documents\bidlog\collector"
+cd collector
 set "PATH=C:\platform-tools;%PATH%"
 set ANDROID_HOME=C:\
 set ANDROID_SDK_ROOT=C:\
-"C:\laragon\bin\python\python-3.10\python.exe" appium_collector.py --backend adb
+python appium_collector.py --backend adb
 ```
 
 Command normal akan reset posisi daftar ke atas lebih dulu, membaca `Total Unit` dari UI jika tersedia, lalu scroll sampai target tercapai atau daftar mentok. Aman untuk hari dengan ratusan sampai 1000+ barang karena batas default collector adalah 1500 scroll. Untuk test cepat tanpa reset posisi:

@@ -356,7 +356,7 @@ function CollectorGuide() {
           </div>
         </div>
         <div className="command-list compact">
-          {command('cd "Documents\\bidlog\\collector"')}
+          {command('cd [folder-project]\\collector')}
           {command('python check_setup.py')}
         </div>
         <p className="guide-note">
@@ -382,7 +382,7 @@ function CollectorGuide() {
         <p className="section-label">Perintah Laptop</p>
         <h2>Setup pertama kali</h2>
         <div className="command-list">
-          {command('cd "Documents\\bidlog\\collector"')}
+          {command('cd [folder-project]\\collector')}
           {command('set "PATH=C:\\platform-tools;%PATH%"')}
           {command('set ANDROID_HOME=C:\\')}
           {command('set ANDROID_SDK_ROOT=C:\\')}
@@ -399,7 +399,7 @@ function CollectorGuide() {
         <p className="section-label">Sebelum Scan</p>
         <h2>Urutan cek harian</h2>
         <div className="command-list">
-          {command('cd "Documents\\bidlog\\collector"')}
+          {command('cd [folder-project]\\collector')}
           {command('set "PATH=C:\\platform-tools;%PATH%"')}
           {command('set ANDROID_HOME=C:\\')}
           {command('set ANDROID_SDK_ROOT=C:\\')}
@@ -420,7 +420,7 @@ function CollectorGuide() {
           tambahkan expected total agar collector tidak berhenti terlalu cepat saat menemukan banyak unit identik.
         </p>
         <div className="command-list">
-          {command('cd "Documents\\bidlog\\collector"')}
+          {command('cd [folder-project]\\collector')}
           {command('set "PATH=C:\\platform-tools;%PATH%"')}
           {command('set ANDROID_HOME=C:\\')}
           {command('set ANDROID_SDK_ROOT=C:\\')}
