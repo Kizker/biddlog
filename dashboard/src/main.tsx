@@ -1602,7 +1602,7 @@ function App() {
   const [serverLoading, setServerLoading] = useState(false);
   const [scanStatus, setScanStatus] = useState<ScanStatus>(emptyScanStatus);
   const [adbConnected, setAdbConnected] = useState<boolean | null>(null);
-  const [scanPolling, setScanPolling] = useState(false);
+  const [, setScanPolling] = useState(false);
   const scanPollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   async function loadFromServer(path: string, label: string) {
