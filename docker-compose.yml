@@ -7,3 +7,26 @@ services:
     restart: unless-stopped
     ports:
       - "8081:80"
+    volumes:
+      - collector-output:/app/collector/output:ro
+    depends_on:
+      - collector
+
+  collector:
+    build:
+      context: ./collector
+      dockerfile: Dockerfile
+    container_name: bidlog_collector
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - collector-output:/app/collector/output
+    environment:
+      - SCAN_API_PORT=5000
+      - ADB_SERVER_SOCKET=tcp:host.docker.internal:5037
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  collector-output:

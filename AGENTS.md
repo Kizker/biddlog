@@ -9,19 +9,22 @@ Terdiri dari dua sub-sistem utama:
 ## Karakteristik Project
 - Stack utama: Python 3.10+, ADB (Android Debug Bridge), XML Parser, JSON & CSV Data Storage.
 - Dashboard: JavaScript/Vite/React, di-deploy via Docker (Nginx Alpine) di VPS Hostinger.
+- Collector API: Python Flask, di-deploy via Docker di VPS Hostinger (bisa di-trigger remote dari dashboard).
 - Data exchange format: JSON (`bidding-items.json`, `invoice-items.json`, `invoice-[account].json`) dan CSV.
 
 ## Deployment & Infrastruktur
 - **URL Live**: https://biddlog.site
 - **VPS**: Hostinger — IP `72.62.127.119`
 - **Panel**: FASTPANEL (`https://72.62.127.119:8888`, user `fastuser`)
-- **Container**: Docker multi-stage (Node 20 build → Nginx Alpine serve)
-- **Port**: `8081` (host) → `80` (container Docker)
+- **Container**: Docker multi-container (dashboard Nginx + collector Python API)
+- **Port Dashboard**: `8081` (host) → `80` (container `bidlog_dashboard`)
+- **Port Scan API**: `5000` (internal container `bidlog_collector`, diproxy via Nginx)
 - **SSL**: Let's Encrypt (fullchain.pem via certbot)
 - **Reverse Proxy**: Nginx host → `http://127.0.0.1:8081`
 - **Nginx Config**: `/etc/nginx/conf.d/biddlog.site.conf`
 - **Folder Deploy**: `/var/www/fastuser/data/www/biddlog.site`
 - **GitHub Repo**: `https://github.com/Kizker/biddlog.git`
+- **Remote Scan**: SSH reverse tunnel ADB port 5037 dari laptop ke VPS
 
 ### Cara Update Dashboard di Server
 ```bash
@@ -39,11 +42,15 @@ docker compose up -d --build
 ## Struktur Penting
 - `collector/appium_collector.py`: Script ADB/Appium untuk memindai barang bidding reguler.
 - `collector/invoice_collector.py`: Script ADB/Appium khusus memindai invoice/riwayat barang per akun (`menik`, `mubdi`, `aldi`).
+- `collector/scan_api.py`: REST API (Flask) untuk trigger scan remote dari dashboard.
+- `collector/Dockerfile`: Docker image Python + ADB client.
 - `collector/output/invoice/`: Folder output hasil scan invoice.
 - `dashboard/`: Source code web analyzer (Vite + React).
 - `dashboard/Dockerfile`: Multi-stage Docker build.
-- `dashboard/nginx.conf`: Config Nginx di dalam container Docker.
-- `docker-compose.yml`: Orchestrator Docker untuk deployment.
+- `dashboard/nginx.conf`: Config Nginx di dalam container Docker (proxy /api/ ke collector).
+- `docker-compose.yml`: Orchestrator Docker multi-container (dashboard + collector).
+- `scripts/start-adb-tunnel.ps1`: Script Windows untuk SSH reverse tunnel ADB.
+- `scripts/start-adb-tunnel.sh`: Script Linux/Mac untuk SSH reverse tunnel ADB.
 
 ## Cara Kerja di Project Ini
 - Selalu uji menggunakan device Android fisik atau emulator yang terhubung via ADB (`adb devices`).
@@ -87,3 +94,21 @@ docker compose up -d --build
     3. Nginx config FASTPANEL tidak ter-load (`fastpanel2-sites/` bukan di `conf.d/`) → manual copy config ke `conf.d/`.
     4. Sertifikat SSL parking selalu disajikan meski SNI benar → `systemctl restart nginx` (bukan `reload`).
   - Hasil: Dashboard live di https://biddlog.site dengan SSL Let's Encrypt valid.
+
+- **2026-07-09**: Migrasi Collector ke VPS (Remote Scan via SSH Tunnel).
+  - Arsitektur: HP Android ◄─USB─► Laptop (ADB Server) ◄─SSH Tunnel port 5037─► VPS (Collector + API)
+  - File baru yang dibuat:
+    1. `collector/Dockerfile` — Container Python 3.10 + ADB client.
+    2. `collector/scan_api.py` — REST API Flask untuk trigger scan dari dashboard.
+    3. `collector/requirements-server.txt` — Dependensi Flask + Flask-CORS.
+    4. `collector/.dockerignore` — Exclude .venv, __pycache__, output.
+    5. `scripts/start-adb-tunnel.ps1` — SSH reverse tunnel Windows (auto-reconnect).
+    6. `scripts/start-adb-tunnel.sh` — SSH reverse tunnel Linux/Mac.
+  - File yang dimodifikasi:
+    1. `docker-compose.yml` — Tambah service `collector` + shared volume `collector-output`.
+    2. `dashboard/nginx.conf` — Proxy `/api/` ke collector container + `/data/` alias ke output.
+    3. `dashboard/src/main.tsx` — Tombol "Load dari Server", panel "Remote Scan", status ADB.
+    4. `dashboard/src/style.css` — CSS untuk komponen baru (scan buttons, status dot, log viewer).
+    5. `README.md` — Section VPS Remote Scan, arsitektur, API endpoints.
+  - API Endpoints: `/api/scan/start`, `/api/scan/status`, `/api/scan/stop`, `/api/data/<path>`, `/api/adb/status`, `/api/health`.
+  - Dashboard UI baru: tombol "🌐 Load dari Server" di Analyzer & Hasil Bidding, panel Remote Scan dengan start/stop/status/log.

@@ -1436,6 +1436,23 @@ function ResultChecker() {
               onChange={(event) => importInvoiceFile(event.target.files?.[0])}
             />
           </label>
+          <button
+            type="button"
+            className="server-load-btn"
+            onClick={async () => {
+              try {
+                const response = await fetch('/api/data/invoice/invoice-items.json');
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const text = await response.text();
+                setInvoiceJson(text);
+                setInvoiceFileName('🌐 invoice-items.json (Server)');
+              } catch (err) {
+                alert(`Gagal memuat invoice dari server: ${err instanceof Error ? err.message : err}`);
+              }
+            }}
+          >
+            🌐 Load Invoice dari Server
+          </button>
           {missingInvoice ? (
             <p className="checker-error">File invoice tidak bisa dibaca sebagai JSON array.</p>
           ) : null}
@@ -1545,6 +1562,28 @@ function ResultChecker() {
   );
 }
 
+type ScanStatus = {
+  status: 'idle' | 'running' | 'done' | 'error';
+  type: string | null;
+  account: string | null;
+  started_at: string | null;
+  finished_at: string | null;
+  collected_count: number;
+  error: string | null;
+  log_tail: string[];
+};
+
+const emptyScanStatus: ScanStatus = {
+  status: 'idle',
+  type: null,
+  account: null,
+  started_at: null,
+  finished_at: null,
+  collected_count: 0,
+  error: null,
+  log_tail: [],
+};
+
 function App() {
   const [activeView, setActiveView] = useState<ActiveView>('analyzer');
   const [rawJson, setRawJson] = useState('');
@@ -1558,6 +1597,100 @@ function App() {
   const [copiedItemCodes, setCopiedItemCodes] = useState(false);
   const sidebarRef = useRef<HTMLElement | null>(null);
   const [sidebarHeight, setSidebarHeight] = useState(0);
+
+  // --- Remote scan state ---
+  const [serverLoading, setServerLoading] = useState(false);
+  const [scanStatus, setScanStatus] = useState<ScanStatus>(emptyScanStatus);
+  const [adbConnected, setAdbConnected] = useState<boolean | null>(null);
+  const [scanPolling, setScanPolling] = useState(false);
+  const scanPollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  async function loadFromServer(path: string, label: string) {
+    setServerLoading(true);
+    try {
+      const response = await fetch(`/api/data/${path}`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const text = await response.text();
+      setRawJson(text);
+      setImportedFileName(`🌐 ${label}`);
+      setFilters(emptyFilters);
+      setSearch('');
+    } catch (err) {
+      alert(`Gagal memuat data dari server: ${err instanceof Error ? err.message : err}`);
+    } finally {
+      setServerLoading(false);
+    }
+  }
+
+  async function fetchScanStatus() {
+    try {
+      const response = await fetch('/api/scan/status');
+      if (response.ok) {
+        const data = await response.json();
+        setScanStatus(data as ScanStatus);
+        return data as ScanStatus;
+      }
+    } catch { /* ignore */ }
+    return null;
+  }
+
+  async function checkAdbStatus() {
+    try {
+      const response = await fetch('/api/adb/status');
+      if (response.ok) {
+        const data = await response.json();
+        setAdbConnected(data.connected as boolean);
+      }
+    } catch {
+      setAdbConnected(false);
+    }
+  }
+
+  async function startScan(type: string, account?: string, options?: Record<string, unknown>) {
+    try {
+      const response = await fetch('/api/scan/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, account, options: options || {} }),
+      });
+      if (!response.ok) {
+        const err = await response.json();
+        alert(err.error || 'Gagal memulai scan');
+        return;
+      }
+      // Start polling
+      startScanPolling();
+    } catch (err) {
+      alert(`Gagal memulai scan: ${err instanceof Error ? err.message : err}`);
+    }
+  }
+
+  function startScanPolling() {
+    if (scanPollRef.current) clearInterval(scanPollRef.current);
+    setScanPolling(true);
+    scanPollRef.current = setInterval(async () => {
+      const status = await fetchScanStatus();
+      if (status && status.status !== 'running') {
+        stopScanPolling();
+      }
+    }, 2000);
+  }
+
+  function stopScanPolling() {
+    if (scanPollRef.current) {
+      clearInterval(scanPollRef.current);
+      scanPollRef.current = null;
+    }
+    setScanPolling(false);
+  }
+
+  async function stopScan() {
+    try {
+      await fetch('/api/scan/stop', { method: 'POST' });
+      await fetchScanStatus();
+      stopScanPolling();
+    } catch { /* ignore */ }
+  }
 
   useLayoutEffect(() => {
     if (activeView !== 'analyzer' || !sidebarRef.current) return undefined;
@@ -1857,6 +1990,74 @@ function App() {
                   onChange={(event) => importJsonFile(event.target.files?.[0])}
                 />
               </label>
+              <button
+                type="button"
+                className="server-load-btn"
+                disabled={serverLoading}
+                onClick={() => loadFromServer('scan-list/bidding-items.json', 'bidding-items.json (Server)')}
+              >
+                {serverLoading ? '⏳ Memuat...' : '🌐 Load dari Server'}
+              </button>
+            </section>
+
+            <section className="remote-scan-panel">
+              <p className="section-label">Remote Scan</p>
+              <div className="scan-status-bar">
+                <span className={`scan-dot scan-dot--${scanStatus.status}`} />
+                <span>
+                  {scanStatus.status === 'idle' && 'Siap'}
+                  {scanStatus.status === 'running' && `Scanning... (${scanStatus.collected_count} item)`}
+                  {scanStatus.status === 'done' && `Selesai — ${scanStatus.collected_count} item`}
+                  {scanStatus.status === 'error' && `Error: ${scanStatus.error || 'unknown'}`}
+                </span>
+                {adbConnected !== null && (
+                  <span className={`adb-badge ${adbConnected ? 'adb-badge--ok' : 'adb-badge--off'}`}>
+                    {adbConnected ? '📱 ADB OK' : '📱 ADB OFF'}
+                  </span>
+                )}
+              </div>
+              <div className="scan-actions">
+                {scanStatus.status === 'running' ? (
+                  <button type="button" className="scan-btn scan-btn--stop" onClick={stopScan}>
+                    ⏹ Stop Scan
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="scan-btn scan-btn--start"
+                      onClick={() => startScan('bidding', undefined, { phone_feedback: true })}
+                    >
+                      ▶ Scan Bidding
+                    </button>
+                    <button
+                      type="button"
+                      className="scan-btn scan-btn--invoice"
+                      onClick={() => {
+                        const account = prompt('Akun invoice (menik/mubdi/aldi):');
+                        if (account && ['menik', 'mubdi', 'aldi'].includes(account.toLowerCase())) {
+                          startScan('invoice', account.toLowerCase(), { phone_feedback: true });
+                        }
+                      }}
+                    >
+                      📋 Scan Invoice
+                    </button>
+                  </>
+                )}
+                <button
+                  type="button"
+                  className="scan-btn scan-btn--check"
+                  onClick={() => { checkAdbStatus(); fetchScanStatus(); }}
+                >
+                  🔄 Refresh
+                </button>
+              </div>
+              {scanStatus.log_tail.length > 0 && (
+                <details className="scan-log">
+                  <summary>Log ({scanStatus.log_tail.length} baris)</summary>
+                  <pre>{scanStatus.log_tail.join('\n')}</pre>
+                </details>
+              )}
             </section>
 
             <section className="sort-panel" aria-labelledby="sort-panel-title">
