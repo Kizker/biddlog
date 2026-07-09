@@ -14,11 +14,21 @@ import time
 import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from appium import webdriver
-from appium.options.android import UiAutomator2Options
-from selenium.common.exceptions import WebDriverException
+if TYPE_CHECKING:
+    from appium import webdriver
+    from appium.options.android import UiAutomator2Options
+    from selenium.common.exceptions import WebDriverException
+
+
+def _import_appium():
+    """Lazy-import Appium & Selenium. Only needed for --backend appium."""
+    # pylint: disable=import-outside-toplevel
+    from appium import webdriver as _webdriver
+    from appium.options.android import UiAutomator2Options as _Options
+    from selenium.common.exceptions import WebDriverException as _WDE
+    return _webdriver, _Options, _WDE
 
 
 GRADE_RE = re.compile(r"\b(A{1,2}|AB|AC|AD|AE|AF|AG|AH|AI|AJ)\b", re.IGNORECASE)
@@ -349,10 +359,11 @@ def collect_visible_items_from_source(page_source: str, scanned_at: str) -> list
 
 
 def collect_visible_texts(driver: webdriver.Remote) -> list[str]:
+    _, _, WebDriverException_ = _import_appium()
     try:
         page_source = driver.page_source
         return collect_visible_texts_from_source(page_source)
-    except WebDriverException as exc:
+    except WebDriverException_ as exc:
         log(f"[WARN] Appium page_source gagal, coba baca via ADB: {exc.msg}")
         return collect_visible_texts_from_adb()
 
@@ -897,6 +908,7 @@ def ensure_target_app_foreground(app_package: str) -> None:
 
 
 def scroll_down(driver: webdriver.Remote) -> bool:
+    _, _, WebDriverException_ = _import_appium()
     size = driver.get_window_size()
     screen_width = int(size.get("width", 0) or 0)
     screen_height = int(size.get("height", 0) or 0)
@@ -921,7 +933,7 @@ def scroll_down(driver: webdriver.Remote) -> bool:
             },
         )
         return bool(result) if isinstance(result, bool) else True
-    except WebDriverException as exc:
+    except WebDriverException_ as exc:
         log(f"[WARN] scrollGesture gagal, coba fallback swipe: {exc.msg}")
 
     start_x = screen_width // 2
@@ -930,7 +942,7 @@ def scroll_down(driver: webdriver.Remote) -> bool:
     try:
         driver.swipe(start_x, start_y, start_x, end_y, 650)
         return True
-    except WebDriverException as exc:
+    except WebDriverException_ as exc:
         log(f"[WARN] Appium swipe gagal, coba ADB input swipe: {exc.msg}")
 
     code, output = run_adb_command(
@@ -1005,7 +1017,8 @@ def assert_android_sdk_env_ready() -> None:
 
 
 def create_appium_driver(config: dict[str, Any]) -> webdriver.Remote:
-    options = UiAutomator2Options()
+    webdriver_, UiAutomator2Options_, WebDriverException_ = _import_appium()
+    options = UiAutomator2Options_()
     options.platform_name = config["platformName"]
     options.automation_name = config["automationName"]
     options.device_name = config["deviceName"]
@@ -1020,8 +1033,8 @@ def create_appium_driver(config: dict[str, Any]) -> webdriver.Remote:
 
     try:
         log("Menghubungkan ke Appium server...")
-        return webdriver.Remote(config["appiumServer"], options=options)
-    except WebDriverException as exc:
+        return webdriver_.Remote(config["appiumServer"], options=options)
+    except WebDriverException_ as exc:
         message = str(exc)
         if "ANDROID_HOME" in message or "ANDROID_SDK_ROOT" in message:
             print_android_sdk_error()

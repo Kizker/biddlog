@@ -293,6 +293,70 @@ def adb_status():
             "error": "ADB timeout. Periksa SSH tunnel.",
         })
 
+UPLOAD_KEY = os.environ.get("UPLOAD_KEY", "biddlog2026")
+
+ALLOWED_UPLOAD_PATHS = {
+    "scan-list/bidding-items.json",
+    "scan-list/bidding-items.csv",
+    "scan-list/scan-summary.json",
+    "invoice/invoice-items.json",
+    "invoice/invoice-menik.json",
+    "invoice/invoice-menik.csv",
+    "invoice/invoice-mubdi.json",
+    "invoice/invoice-mubdi.csv",
+    "invoice/invoice-aldi.json",
+    "invoice/invoice-aldi.csv",
+}
+
+
+@app.route("/api/data/upload", methods=["POST"])
+def upload_data():
+    """Upload scan result files from portable collector.
+
+    Expects multipart form-data with:
+      - file: the JSON/CSV file
+      - path: target relative path (e.g. 'scan-list/bidding-items.json')
+      - key:  upload key for basic auth
+    """
+    key = request.form.get("key", "")
+    if key != UPLOAD_KEY:
+        return jsonify({"error": "Upload key tidak valid."}), 403
+
+    target_path = request.form.get("path", "")
+    if target_path not in ALLOWED_UPLOAD_PATHS:
+        return jsonify({
+            "error": f"Path upload tidak diizinkan: {target_path}",
+            "allowed": sorted(ALLOWED_UPLOAD_PATHS),
+        }), 400
+
+    uploaded_file = request.files.get("file")
+    if not uploaded_file:
+        return jsonify({"error": "Tidak ada file yang dikirim."}), 400
+
+    safe_path = Path(target_path)
+    if ".." in safe_path.parts:
+        return jsonify({"error": "Path tidak valid"}), 400
+
+    full_path = OUTPUT_DIR / safe_path
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Save with backup
+    if full_path.exists():
+        backup_path = full_path.with_suffix(full_path.suffix + ".bak")
+        try:
+            backup_path.write_bytes(full_path.read_bytes())
+        except Exception:
+            pass
+
+    uploaded_file.save(str(full_path))
+
+    return jsonify({
+        "status": "ok",
+        "path": target_path,
+        "size": full_path.stat().st_size,
+        "uploaded_at": datetime.now(timezone.utc).isoformat(),
+    })
+
 
 @app.route("/api/health")
 def health():
