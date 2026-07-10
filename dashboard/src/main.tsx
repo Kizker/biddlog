@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.css';
 
@@ -96,7 +96,7 @@ type ParsedInvoiceItem = LooseItemCode & {
   consumedBy?: string;
 };
 
-type ActiveView = 'analyzer' | 'guide' | 'checker';
+type ActiveView = 'analyzer' | 'scanner' | 'checker';
 type FilterKey = 'brands' | 'models' | 'storages' | 'grades' | 'statuses';
 type FilterState = Record<FilterKey, string[]>;
 type SortMode = 'scan' | 'catalog';
@@ -1359,6 +1359,32 @@ function ResultChecker() {
   const [invoiceJson, setInvoiceJson] = useState('');
   const [invoiceFileName, setInvoiceFileName] = useState('');
   const [copied, setCopied] = useState(false);
+  const [apiReady, setApiReady] = useState(() => !!(window as any)._biddlogAPI);
+
+  useEffect(() => {
+    if (apiReady) return;
+    const handler = () => setApiReady(true);
+    window.addEventListener('pywebviewready', handler);
+    return () => window.removeEventListener('pywebviewready', handler);
+  }, [apiReady]);
+
+  async function loadInvoiceFromServer() {
+    try {
+      const response = await fetch('/api/data/invoice/invoice-items.json');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const text = await response.text();
+      setInvoiceJson(text);
+      setInvoiceFileName('🌐 invoice-items.json (Otomatis)');
+    } catch (err) {
+      console.error('Gagal memuat invoice dari server:', err);
+    }
+  }
+
+  useEffect(() => {
+    if (!apiReady) return;
+    loadInvoiceFromServer();
+    (window as any)._autoLoadInvoiceData = loadInvoiceFromServer;
+  }, [apiReady]);
 
   function importInvoiceFile(file: File | undefined) {
     if (!file) {
@@ -1584,6 +1610,114 @@ const emptyScanStatus: ScanStatus = {
   log_tail: [],
 };
 
+function ScannerPanel({
+  scanStatus,
+  adbConnected,
+  onStart,
+  onStop,
+  onCheckAdb,
+  onFetchStatus
+}: {
+  scanStatus: ScanStatus;
+  adbConnected: boolean | null;
+  onStart: (type: string, account?: string, options?: any) => void;
+  onStop: () => void;
+  onCheckAdb: () => void;
+  onFetchStatus: () => void;
+}) {
+  return (
+    <section className="scanner-layout" style={{ display: 'flex', gap: '24px', padding: '24px', maxWidth: '1200px', margin: '0 auto', height: '100%', boxSizing: 'border-box' }}>
+      <div className="panel" style={{ flex: '0 0 320px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div>
+          <h2>📱 Scanner ADB</h2>
+          <p style={{ color: 'var(--muted)', fontSize: '13px', marginTop: '8px' }}>
+            Pastikan HP terhubung via kabel USB dan USB Debugging aktif. Layar HP harus menyala.
+          </p>
+        </div>
+
+        <div className="scan-status-bar" style={{ padding: '12px', background: 'var(--bg)', borderRadius: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <span className={`scan-dot scan-dot--${scanStatus.status}`} />
+            <strong style={{ fontSize: '14px' }}>
+              {scanStatus.status === 'idle' && 'Scanner Siap'}
+              {scanStatus.status === 'running' && `Scanning... (${scanStatus.collected_count})`}
+              {scanStatus.status === 'done' && `Selesai (${scanStatus.collected_count})`}
+              {scanStatus.status === 'error' && `Error`}
+            </strong>
+          </div>
+          {adbConnected !== null && (
+            <span className={`adb-badge ${adbConnected ? 'adb-badge--ok' : 'adb-badge--off'}`} style={{ display: 'inline-block' }}>
+              {adbConnected ? '📱 ADB OK Terhubung' : '📱 ADB OFF / Terputus'}
+            </span>
+          )}
+        </div>
+
+        <div className="scan-actions" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {scanStatus.status === 'running' ? (
+            <button type="button" className="scan-btn scan-btn--stop" onClick={onStop} style={{ padding: '12px' }}>
+              ⏹ Stop Scan
+            </button>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="scan-btn scan-btn--start"
+                onClick={() => onStart('bidding', undefined, { phone_feedback: true })}
+                style={{ padding: '12px', backgroundColor: 'var(--blue)', color: 'white' }}
+                disabled={scanStatus.status === 'running'}
+              >
+                {scanStatus.status === 'running' && scanStatus.type === 'bidding' ? <span className="spinner">↻</span> : '▶'} Scan Bidding Reguler
+              </button>
+              <button
+                type="button"
+                className="scan-btn scan-btn--invoice"
+                onClick={() => {
+                  const account = prompt('Akun invoice (menik/mubdi/aldi):');
+                  if (account && ['menik', 'mubdi', 'aldi'].includes(account.toLowerCase())) {
+                    onStart('invoice', account.toLowerCase(), { phone_feedback: true });
+                  }
+                }}
+                style={{ padding: '12px', backgroundColor: 'var(--green)', color: 'white' }}
+                disabled={scanStatus.status === 'running'}
+              >
+                {scanStatus.status === 'running' && scanStatus.type === 'invoice' ? <span className="spinner">↻</span> : '📋'} Scan Invoice/Riwayat
+              </button>
+            </>
+          )}
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={() => { onCheckAdb(); onFetchStatus(); }}
+          >
+            🔄 Refresh Status
+          </button>
+        </div>
+        
+        <div style={{ marginTop: 'auto', fontSize: '12px', color: 'var(--muted)', borderTop: '1px solid var(--line)', paddingTop: '16px' }}>
+          <strong>Tips:</strong>
+          <ul style={{ paddingLeft: '16px', marginTop: '8px' }}>
+            <li>Data otomatis tersimpan ke lokal</li>
+            <li>Tab Analyzer & Hasil Bidding akan otomatis diperbarui setelah scan selesai</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="panel" style={{ flex: '1', maxHeight: '400px', padding: '0', display: 'flex', flexDirection: 'column', background: '#1e1e2e', color: '#a6accd', overflow: 'hidden' }}>
+        <div style={{ padding: '12px 16px', borderBottom: '1px solid #303348', background: '#181825', fontWeight: 'bold', fontSize: '13px', color: '#cdd6f4' }}>
+          Terminal Log
+        </div>
+        <div style={{ padding: '16px', overflowY: 'auto', flex: '1', fontFamily: 'monospace', fontSize: '12px', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
+          {scanStatus.log_tail.length > 0 ? (
+            scanStatus.log_tail.join('\n')
+          ) : (
+            <span style={{ color: '#585b70' }}>Menunggu proses scan dimulai...</span>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function App() {
   const [activeView, setActiveView] = useState<ActiveView>('analyzer');
   const [rawJson, setRawJson] = useState('');
@@ -1616,7 +1750,7 @@ function App() {
       setFilters(emptyFilters);
       setSearch('');
     } catch (err) {
-      alert(`Gagal memuat data dari server: ${err instanceof Error ? err.message : err}`);
+      console.error('Gagal memuat data dari server:', err);
     } finally {
       setServerLoading(false);
     }
@@ -1672,6 +1806,14 @@ function App() {
       const status = await fetchScanStatus();
       if (status && status.status !== 'running') {
         stopScanPolling();
+        setTimeout(() => {
+          if ((window as any)._autoLoadLocalData) {
+            (window as any)._autoLoadLocalData();
+          }
+          if ((window as any)._autoLoadInvoiceData) {
+            (window as any)._autoLoadInvoiceData();
+          }
+        }, 1000);
       }
     }, 2000);
   }
@@ -1691,6 +1833,40 @@ function App() {
       stopScanPolling();
     } catch { /* ignore */ }
   }
+
+  const [apiReady, setApiReady] = useState(() => !!(window as any)._biddlogAPI);
+
+  useEffect(() => {
+    if (apiReady) return;
+    const handler = () => setApiReady(true);
+    window.addEventListener('pywebviewready', handler);
+    return () => window.removeEventListener('pywebviewready', handler);
+  }, [apiReady]);
+
+  // Auto-load data on mount (only when API is ready)
+  useEffect(() => {
+    if (!apiReady) return;
+    
+    loadFromServer('scan-list/bidding-items.json', 'bidding-items.json (Otomatis)');
+    fetchScanStatus();
+    (window as any)._autoLoadLocalData = () => {
+      loadFromServer('scan-list/bidding-items.json', 'bidding-items.json (Otomatis)');
+      fetchScanStatus();
+    };
+  }, [apiReady]);
+
+  const prevStatusRef = useRef(scanStatus.status);
+
+  useEffect(() => {
+    // If the status just changed from running to idle/done, automatically reload the data
+    if (prevStatusRef.current === 'running' && (scanStatus.status === 'idle' || scanStatus.status === 'done')) {
+      loadFromServer('scan-list/bidding-items.json', 'bidding-items.json (Otomatis)');
+      if ((window as any)._autoLoadInvoiceData) {
+        (window as any)._autoLoadInvoiceData();
+      }
+    }
+    prevStatusRef.current = scanStatus.status;
+  }, [scanStatus.status]);
 
   useLayoutEffect(() => {
     if (activeView !== 'analyzer' || !sidebarRef.current) return undefined;
@@ -1944,10 +2120,10 @@ function App() {
             </button>
             <button
               type="button"
-              className={activeView === 'guide' ? 'active' : ''}
-              onClick={() => setActiveView('guide')}
+              className={activeView === 'scanner' ? 'active' : ''}
+              onClick={() => setActiveView('scanner')}
             >
-              Panduan Collector
+              Scanner
             </button>
             <button
               type="button"
@@ -1963,102 +2139,23 @@ function App() {
           </div>
         </section>
 
-        {activeView === 'guide' ? (
-          <CollectorGuide />
+        {activeView === 'scanner' ? (
+          <ScannerPanel
+            scanStatus={scanStatus}
+            adbConnected={adbConnected}
+            onStart={startScan}
+            onStop={stopScan}
+            onCheckAdb={checkAdbStatus}
+            onFetchStatus={fetchScanStatus}
+          />
         ) : activeView === 'checker' ? (
           <ResultChecker />
         ) : (
           <section className="workspace">
           <aside className="panel input-panel" ref={sidebarRef}>
-            <section className="upload-field" aria-labelledby="collector-json-label">
-              <span id="collector-json-label" className="upload-title">
-                Output Collector JSON
-              </span>
-              <label className="file-drop">
-                <span className="file-action">Pilih File JSON</span>
-                <span className="file-meta">
-                  <strong>{importedFileName || 'Belum ada file'}</strong>
-                  <small>
-                    {parsedItems.length > 0
-                      ? `${parsedItems.length} barang siap dianalisis`
-                      : 'Data masih kosong'}
-                  </small>
-                </span>
-                <input
-                  type="file"
-                  accept="application/json,.json"
-                  onChange={(event) => importJsonFile(event.target.files?.[0])}
-                />
-              </label>
-              <button
-                type="button"
-                className="server-load-btn"
-                disabled={serverLoading}
-                onClick={() => loadFromServer('scan-list/bidding-items.json', 'bidding-items.json (Server)')}
-              >
-                {serverLoading ? '⏳ Memuat...' : '🌐 Load dari Server'}
-              </button>
-            </section>
+            
 
-            <section className="remote-scan-panel">
-              <p className="section-label">Remote Scan</p>
-              <div className="scan-status-bar">
-                <span className={`scan-dot scan-dot--${scanStatus.status}`} />
-                <span>
-                  {scanStatus.status === 'idle' && 'Siap'}
-                  {scanStatus.status === 'running' && `Scanning... (${scanStatus.collected_count} item)`}
-                  {scanStatus.status === 'done' && `Selesai — ${scanStatus.collected_count} item`}
-                  {scanStatus.status === 'error' && `Error: ${scanStatus.error || 'unknown'}`}
-                </span>
-                {adbConnected !== null && (
-                  <span className={`adb-badge ${adbConnected ? 'adb-badge--ok' : 'adb-badge--off'}`}>
-                    {adbConnected ? '📱 ADB OK' : '📱 ADB OFF'}
-                  </span>
-                )}
-              </div>
-              <div className="scan-actions">
-                {scanStatus.status === 'running' ? (
-                  <button type="button" className="scan-btn scan-btn--stop" onClick={stopScan}>
-                    ⏹ Stop Scan
-                  </button>
-                ) : (
-                  <>
-                    <button
-                      type="button"
-                      className="scan-btn scan-btn--start"
-                      onClick={() => startScan('bidding', undefined, { phone_feedback: true })}
-                    >
-                      ▶ Scan Bidding
-                    </button>
-                    <button
-                      type="button"
-                      className="scan-btn scan-btn--invoice"
-                      onClick={() => {
-                        const account = prompt('Akun invoice (menik/mubdi/aldi):');
-                        if (account && ['menik', 'mubdi', 'aldi'].includes(account.toLowerCase())) {
-                          startScan('invoice', account.toLowerCase(), { phone_feedback: true });
-                        }
-                      }}
-                    >
-                      📋 Scan Invoice
-                    </button>
-                  </>
-                )}
-                <button
-                  type="button"
-                  className="scan-btn scan-btn--check"
-                  onClick={() => { checkAdbStatus(); fetchScanStatus(); }}
-                >
-                  🔄 Refresh
-                </button>
-              </div>
-              {scanStatus.log_tail.length > 0 && (
-                <details className="scan-log">
-                  <summary>Log ({scanStatus.log_tail.length} baris)</summary>
-                  <pre>{scanStatus.log_tail.join('\n')}</pre>
-                </details>
-              )}
-            </section>
+            
 
             <section className="sort-panel" aria-labelledby="sort-panel-title">
               <div className="sort-panel-header">
