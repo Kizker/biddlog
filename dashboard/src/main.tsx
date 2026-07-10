@@ -1,133 +1,42 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.css';
-
-type CollectorItem = {
-  raw_name: string;
-  grade?: string;
-  status?: string;
-  condition?: string;
-  stock?: number | string;
-  auction_price?: number | string;
-  scan_order?: number;
-  scanned_at?: string;
-  scan_marker?: string;
-  screen_no?: number;
-  screen_item_no?: number;
-  source_bounds?: string;
-  source_hash?: string;
-  source_text?: string;
-};
-
-type ParsedItem = CollectorItem & {
-  id: string;
-  brand: string;
-  model: string;
-  short_code: string;
-  storage: number | null;
-  grade_code: string;
-  unit_no: number;
-  item_code: string;
-  auction_price_number: number | null;
-};
-
-type InvoiceItem = {
-  account: string;
-  raw_name: string;
-  grade?: string;
-  invoice_price?: number | string | null;
-  scan_order?: number;
-  scan_marker?: string;
-  source_text?: string;
-};
-
-type LooseItemCode = {
-  model: string;
-  storage: number | null;
-  grade: string;
-  unit: number | null;
-  key: string;
-  baseKey: string;
-};
-
-type TextListEntry = LooseItemCode & {
-  id: string;
-  person: string;
-  rawLine: string;
-  priceMax: number | null;
-  accountHint: string;
-  note: string;
-  source: 'target' | 'obtained' | 'reserve';
-};
-
-type ParsedTextList = {
-  sections: Array<{ person: string; entries: TextListEntry[] }>;
-  entries: TextListEntry[];
-};
-
-type ComparisonPreviewRow = {
-  id: string;
-  person: string;
-  targetLine: string;
-  obtainedLine: string;
-  status: 'ok' | 'warn' | 'missing';
-  note: string;
-};
-
-type ComparisonPreviewSection = {
-  person: string;
-  rows: ComparisonPreviewRow[];
-};
-
-type ComparisonPreviewData = {
-  sections: ComparisonPreviewSection[];
-  matched: number;
-  warned: number;
-  missing: number;
-};
-
-type ParsedInvoiceItem = LooseItemCode & {
-  id: string;
-  account: string;
-  rawName: string;
-  invoicePrice: number | null;
-  invoicePriceUnit: number | null;
-  scanOrder: number;
-  consumedBy?: string;
-};
-
-type ActiveView = 'analyzer' | 'scanner' | 'checker';
-type FilterKey = 'brands' | 'models' | 'storages' | 'grades' | 'statuses';
-type FilterState = Record<FilterKey, string[]>;
-type SortMode = 'scan' | 'catalog';
-
-const defaultBrandOrder = [
-  'samsung',
-  'iphone',
-  'asus',
-  'oppo',
-  'vivo',
-  'xiaomi',
-  'realme',
-  'infinix',
-  'tecno',
-  'huawei',
-];
-
-const gradeOrder = ['aa', 'ab', 'ac', 'ad', 'ae', 'af', 'ag', 'ah', 'ai', 'aj', 'a'];
-const looseGradePattern = 'aa|ab|ac|ad|ae|af|ag|ah|ai|aj|gi|a';
-const invoiceAccounts = ['menik', 'mubdi', 'aldi'];
-const statusOk = '✅';
-const statusWarn = '⚠️';
-const statusMissing = '❌';
-
-const emptyFilters: FilterState = {
-  brands: [],
-  models: [],
-  storages: [],
-  grades: [],
-  statuses: [],
-};
+import AdminDashboard from './components/AdminDashboard';
+import AdminAnalyzer from './components/AdminAnalyzer';
+import PembagianBarang from './components/PembagianBarang';
+import LaporanPresensi from './components/LaporanPresensi';
+import LaporanListDapat from './components/LaporanListDapat';
+import AdminGaji from './components/AdminGaji';
+import LimitHargaFee from './components/LimitHargaFee';
+import ManajemenPengguna from './components/ManajemenPengguna';
+import AuditTrail from './components/AuditTrail';
+import type {
+  CollectorItem,
+  ParsedItem,
+  InvoiceItem,
+  LooseItemCode,
+  TextListEntry,
+  ParsedTextList,
+  ComparisonPreviewRow,
+  ComparisonPreviewSection,
+  ComparisonPreviewData,
+  ParsedInvoiceItem,
+  FilterKey,
+  FilterState,
+  SortMode,
+  ActiveView,
+  AdminViewMode
+} from './types';
+import {
+  defaultBrandOrder,
+  gradeOrder,
+  looseGradePattern,
+  invoiceAccounts,
+  statusOk,
+  statusWarn,
+  statusMissing,
+  emptyFilters
+} from './types';
 
 function normalizeText(value: string) {
   return value
@@ -703,7 +612,7 @@ function cleanListText(value: string) {
     .trim();
 }
 
-function normalizePersonName(value: string) {
+export function normalizePersonName(value: string) {
   const normalized = cleanListText(value)
     .toLowerCase()
     .replace(/:+$/g, '')
@@ -720,7 +629,7 @@ function displayPersonName(value: string) {
   return cleanListText(value).replace(/:+$/g, '').trim() || 'Tanpa Nama';
 }
 
-function normalizeAccountName(value: string) {
+export function normalizeAccountName(value: string) {
   const normalized = cleanListText(value).toLowerCase();
   return invoiceAccounts.find((account) => normalized.includes(account)) || '';
 }
@@ -754,7 +663,7 @@ function normalizeLooseText(value: string) {
     .trim();
 }
 
-function extractPriceRange(line: string) {
+export function extractPriceRange(line: string) {
   const normalized = cleanListText(line);
   const atMatch = normalized.match(/@+\s*([\d.,]+)(?:\s*-\s*([\d.,]+))?/i);
   if (atMatch?.index !== undefined) {
@@ -841,7 +750,7 @@ function detectLooseModel(text: string) {
   );
 }
 
-function parseLooseItemCode(line: string): LooseItemCode {
+export function parseLooseItemCode(line: string): LooseItemCode {
   const price = extractPriceRange(line);
   const beforePrice = price.priceStart >= 0 ? line.slice(0, price.priceStart) : line;
   const withoutAccount = beforePrice.replace(/\b(menik|mubdi|aldi)\b/gi, ' ');
@@ -864,7 +773,7 @@ function parseLooseItemCode(line: string): LooseItemCode {
   };
 }
 
-function parseTextList(text: string, source: TextListEntry['source']): ParsedTextList {
+export function parseTextList(text: string, source: TextListEntry['source']): ParsedTextList {
   const sections: ParsedTextList['sections'] = [];
   const entries: TextListEntry[] = [];
   let currentPerson = source === 'reserve' ? 'Cadangan' : '';
@@ -1079,6 +988,9 @@ function buildComparisonPreview(
           obtainedLine: entry.rawLine,
           status: 'missing',
           note: 'tidak ada pasangan di list awal',
+          model: entry.model,
+          grade: entry.grade,
+          price: entry.priceMax || 0,
         });
         return;
       }
@@ -1101,6 +1013,9 @@ function buildComparisonPreview(
           obtainedLine: entry.rawLine,
           status: 'warn',
           note: `${reserve ? 'cadangan ' : ''}lewat ${over}`,
+          model: entry.model,
+          grade: entry.grade,
+          price: entry.priceMax || 0,
         });
         return;
       }
@@ -1113,6 +1028,9 @@ function buildComparisonPreview(
         obtainedLine: entry.rawLine,
         status: 'ok',
         note: reserve ? 'sesuai cadangan' : 'sesuai',
+        model: entry.model,
+        grade: entry.grade,
+        price: entry.priceMax || 0,
       });
     });
 
@@ -1359,32 +1277,32 @@ function ResultChecker() {
   const [invoiceJson, setInvoiceJson] = useState('');
   const [invoiceFileName, setInvoiceFileName] = useState('');
   const [copied, setCopied] = useState(false);
-  const [apiReady, setApiReady] = useState(() => !!(window as any)._biddlogAPI);
+  const [accStatuses, setAccStatuses] = useState<Record<string, 'loading' | 'success' | 'error'>>({});
 
-  useEffect(() => {
-    if (apiReady) return;
-    const handler = () => setApiReady(true);
-    window.addEventListener('pywebviewready', handler);
-    return () => window.removeEventListener('pywebviewready', handler);
-  }, [apiReady]);
-
-  async function loadInvoiceFromServer() {
+  const handleAcc = async (row: ComparisonPreviewRow) => {
+    setAccStatuses(prev => ({ ...prev, [row.id]: 'loading' }));
     try {
-      const response = await fetch('/api/data/invoice/invoice-items.json');
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const text = await response.text();
-      setInvoiceJson(text);
-      setInvoiceFileName('🌐 invoice-items.json (Otomatis)');
-    } catch (err) {
-      console.error('Gagal memuat invoice dari server:', err);
+      const payload = {
+        person: row.person,
+        model: row.model,
+        grade: row.grade,
+        price: row.price
+      };
+      const res = await fetch('http://biddlog.test/api/save_acc.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        setAccStatuses(prev => ({ ...prev, [row.id]: 'success' }));
+      } else {
+        setAccStatuses(prev => ({ ...prev, [row.id]: 'error' }));
+      }
+    } catch {
+      setAccStatuses(prev => ({ ...prev, [row.id]: 'error' }));
     }
-  }
-
-  useEffect(() => {
-    if (!apiReady) return;
-    loadInvoiceFromServer();
-    (window as any)._autoLoadInvoiceData = loadInvoiceFromServer;
-  }, [apiReady]);
+  };
 
   function importInvoiceFile(file: File | undefined) {
     if (!file) {
@@ -1462,23 +1380,6 @@ function ResultChecker() {
               onChange={(event) => importInvoiceFile(event.target.files?.[0])}
             />
           </label>
-          <button
-            type="button"
-            className="server-load-btn"
-            onClick={async () => {
-              try {
-                const response = await fetch('/api/data/invoice/invoice-items.json');
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const text = await response.text();
-                setInvoiceJson(text);
-                setInvoiceFileName('🌐 invoice-items.json (Server)');
-              } catch (err) {
-                alert(`Gagal memuat invoice dari server: ${err instanceof Error ? err.message : err}`);
-              }
-            }}
-          >
-            🌐 Load Invoice dari Server
-          </button>
           {missingInvoice ? (
             <p className="checker-error">File invoice tidak bisa dibaca sebagai JSON array.</p>
           ) : null}
@@ -1560,7 +1461,28 @@ function ResultChecker() {
                         <span>Didapat</span>
                         <strong>{row.obtainedLine}</strong>
                       </div>
-                      <div className="comparison-preview-note">{row.note}</div>
+                      <div className="comparison-preview-note">
+                        {row.note}
+                        {row.status !== 'missing' && (
+                          <button 
+                            onClick={() => handleAcc(row)} 
+                            disabled={accStatuses[row.id] === 'loading' || accStatuses[row.id] === 'success'}
+                            style={{
+                              marginLeft: '12px',
+                              padding: '4px 8px',
+                              fontSize: '11px',
+                              borderRadius: '4px',
+                              border: 'none',
+                              background: accStatuses[row.id] === 'success' ? '#10b981' : 'var(--blue)',
+                              color: 'white',
+                              cursor: accStatuses[row.id] === 'success' ? 'default' : 'pointer',
+                              fontWeight: 'bold'
+                            }}
+                          >
+                            {accStatuses[row.id] === 'success' ? '✔ ACC' : accStatuses[row.id] === 'loading' ? 'Menyimpan...' : 'ACC Gaji'}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -1588,130 +1510,83 @@ function ResultChecker() {
   );
 }
 
-type ScanStatus = {
-  status: 'idle' | 'running' | 'done' | 'error';
-  type: string | null;
-  account: string | null;
-  started_at: string | null;
-  finished_at: string | null;
-  collected_count: number;
-  error: string | null;
-  log_tail: string[];
-};
 
-const emptyScanStatus: ScanStatus = {
-  status: 'idle',
-  type: null,
-  account: null,
-  started_at: null,
-  finished_at: null,
-  collected_count: 0,
-  error: null,
-  log_tail: [],
-};
 
-function ScannerPanel({
-  scanStatus,
-  adbConnected,
-  onStart,
-  onStop,
-  onCheckAdb,
-  onFetchStatus
-}: {
-  scanStatus: ScanStatus;
-  adbConnected: boolean | null;
-  onStart: (type: string, account?: string, options?: any) => void;
-  onStop: () => void;
-  onCheckAdb: () => void;
-  onFetchStatus: () => void;
-}) {
+function PortableGuidePanel() {
   return (
     <section className="scanner-layout" style={{ display: 'flex', gap: '24px', padding: '24px', maxWidth: '1200px', margin: '0 auto', height: '100%', boxSizing: 'border-box' }}>
-      <div className="panel" style={{ flex: '0 0 320px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div className="panel" style={{ flex: '1', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div>
-          <h2>📱 Scanner ADB</h2>
-          <p style={{ color: 'var(--muted)', fontSize: '13px', marginTop: '8px' }}>
-            Pastikan HP terhubung via kabel USB dan USB Debugging aktif. Layar HP harus menyala.
+          <h2>ðŸ“¦ Panduan Instalasi & Penggunaan (Portable Mode)</h2>
+          <p style={{ color: 'var(--muted)', fontSize: '14px', marginTop: '8px' }}>
+            Aplikasi Biddlog kini mendukung versi portable yang sangat ringan dan mudah digunakan, tanpa perlu instalasi Node.js, Python, atau ADB secara terpisah!
           </p>
         </div>
 
-        <div className="scan-status-bar" style={{ padding: '12px', background: 'var(--bg)', borderRadius: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <span className={`scan-dot scan-dot--${scanStatus.status}`} />
-            <strong style={{ fontSize: '14px' }}>
-              {scanStatus.status === 'idle' && 'Scanner Siap'}
-              {scanStatus.status === 'running' && `Scanning... (${scanStatus.collected_count})`}
-              {scanStatus.status === 'done' && `Selesai (${scanStatus.collected_count})`}
-              {scanStatus.status === 'error' && `Error`}
-            </strong>
-          </div>
-          {adbConnected !== null && (
-            <span className={`adb-badge ${adbConnected ? 'adb-badge--ok' : 'adb-badge--off'}`} style={{ display: 'inline-block' }}>
-              {adbConnected ? '📱 ADB OK Terhubung' : '📱 ADB OFF / Terputus'}
-            </span>
-          )}
-        </div>
-
-        <div className="scan-actions" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {scanStatus.status === 'running' ? (
-            <button type="button" className="scan-btn scan-btn--stop" onClick={onStop} style={{ padding: '12px' }}>
-              ⏹ Stop Scan
-            </button>
-          ) : (
-            <>
-              <button
-                type="button"
-                className="scan-btn scan-btn--start"
-                onClick={() => onStart('bidding', undefined, { phone_feedback: true })}
-                style={{ padding: '12px', backgroundColor: 'var(--blue)', color: 'white' }}
-                disabled={scanStatus.status === 'running'}
-              >
-                {scanStatus.status === 'running' && scanStatus.type === 'bidding' ? <span className="spinner">↻</span> : '▶'} Scan Bidding Reguler
-              </button>
-              <button
-                type="button"
-                className="scan-btn scan-btn--invoice"
-                onClick={() => {
-                  const account = prompt('Akun invoice (menik/mubdi/aldi):');
-                  if (account && ['menik', 'mubdi', 'aldi'].includes(account.toLowerCase())) {
-                    onStart('invoice', account.toLowerCase(), { phone_feedback: true });
-                  }
-                }}
-                style={{ padding: '12px', backgroundColor: 'var(--green)', color: 'white' }}
-                disabled={scanStatus.status === 'running'}
-              >
-                {scanStatus.status === 'running' && scanStatus.type === 'invoice' ? <span className="spinner">↻</span> : '📋'} Scan Invoice/Riwayat
-              </button>
-            </>
-          )}
-          <button
-            type="button"
+        <div style={{ marginTop: '16px' }}>
+          <h3>Langkah 1: Unduh Biddlog Portable</h3>
+          <p style={{ fontSize: '14px', lineHeight: '1.6', marginTop: '8px' }}>
+            Silakan unduh <strong>biddlog-portable.zip</strong> dari server/web Anda. 
+            File ini sudah mencakup semua requirement yang dibutuhkan.
+          </p>
+          <a
+            href="/biddlog-portable.zip"
             className="secondary-button"
-            onClick={() => { onCheckAdb(); onFetchStatus(); }}
+            style={{ display: 'inline-block', marginTop: '12px', padding: '10px 16px', background: 'var(--blue)', color: 'white', textDecoration: 'none', borderRadius: '6px', fontWeight: 'bold' }}
           >
-            🔄 Refresh Status
-          </button>
+            â¬‡ï¸ Unduh biddlog-portable.zip
+          </a>
         </div>
-        
-        <div style={{ marginTop: 'auto', fontSize: '12px', color: 'var(--muted)', borderTop: '1px solid var(--line)', paddingTop: '16px' }}>
-          <strong>Tips:</strong>
-          <ul style={{ paddingLeft: '16px', marginTop: '8px' }}>
-            <li>Data otomatis tersimpan ke lokal</li>
-            <li>Tab Analyzer & Hasil Bidding akan otomatis diperbarui setelah scan selesai</li>
-          </ul>
-        </div>
-      </div>
 
-      <div className="panel" style={{ flex: '1', maxHeight: '400px', padding: '0', display: 'flex', flexDirection: 'column', background: '#1e1e2e', color: '#a6accd', overflow: 'hidden' }}>
-        <div style={{ padding: '12px 16px', borderBottom: '1px solid #303348', background: '#181825', fontWeight: 'bold', fontSize: '13px', color: '#cdd6f4' }}>
-          Terminal Log
+        <div style={{ marginTop: '16px' }}>
+          <h3>Langkah 2: Ekstrak File</h3>
+          <p style={{ fontSize: '14px', lineHeight: '1.6', marginTop: '8px' }}>
+            Ekstrak file <code>biddlog-portable.zip</code> tersebut di laptop atau komputer Anda. Boleh ditaruh di mana saja (misalnya di Desktop atau Documents).
+          </p>
         </div>
-        <div style={{ padding: '16px', overflowY: 'auto', flex: '1', fontFamily: 'monospace', fontSize: '12px', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
-          {scanStatus.log_tail.length > 0 ? (
-            scanStatus.log_tail.join('\n')
-          ) : (
-            <span style={{ color: '#585b70' }}>Menunggu proses scan dimulai...</span>
-          )}
+
+        <div style={{ marginTop: '16px' }}>
+          <h3>Langkah 3: Menghubungkan HP</h3>
+          <p style={{ fontSize: '14px', lineHeight: '1.6', marginTop: '8px' }}>
+            Sambungkan HP Anda ke komputer menggunakan kabel data (USB). Pastikan <strong>USB Debugging</strong> di HP Anda sudah aktif. Jika HP meminta izin (Allow USB Debugging), pilih <strong>Allow</strong>.
+          </p>
+        </div>
+
+        <div style={{ marginTop: '16px' }}>
+          <h3>Langkah 4: Menjalankan Scanner</h3>
+          <p style={{ fontSize: '14px', lineHeight: '1.6', marginTop: '8px' }}>
+            Buka folder hasil ekstrak. Anda akan menemukan 2 file penting:
+          </p>
+          <ul style={{ paddingLeft: '20px', fontSize: '14px', lineHeight: '1.6', marginTop: '8px' }}>
+            <li style={{ marginBottom: '8px' }}>
+              <strong>Mulai-Scan-Bidding.bat</strong> â€” Jalankan file ini (klik 2x) jika Anda ingin melakukan scan pada daftar barang reguler.
+            </li>
+            <li style={{ marginBottom: '8px' }}>
+              <strong>Mulai-Scan-Invoice.bat</strong> â€” Jalankan file ini (klik 2x) jika Anda ingin melakukan scan invoice riwayat (untuk akun menik, mubdi, atau aldi).
+            </li>
+          </ul>
+          <div style={{ marginTop: '12px', padding: '12px', background: 'var(--surface)', borderLeft: '4px solid var(--peach)', borderRadius: '4px' }}>
+            <strong style={{ fontSize: '13px', display: 'block', marginBottom: '4px', color: 'var(--peach)' }}>âš ï¸ Catatan Penting Saat Pertama Kali Dijalankan:</strong>
+            <p style={{ fontSize: '13px', lineHeight: '1.5', margin: 0 }}>
+              1. <strong>Windows Firewall</strong> mungkin akan muncul meminta izin untuk <strong>Node.js</strong>. Pastikan Anda memilih <strong>Allow Access</strong> (Izinkan akses).<br/>
+              2. Perhatikan juga layar HP Anda. Jika muncul kotak dialog <strong>"Allow USB debugging?"</strong> beserta <em>RSA key fingerprint</em>, pastikan untuk mencentang <strong>"Always allow from this computer"</strong> lalu tekan <strong>Allow / OK</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div style={{ marginTop: '16px' }}>
+          <h3>Langkah 5: Mengolah Hasil (Pilih File JSON)</h3>
+          <p style={{ fontSize: '14px', lineHeight: '1.6', marginTop: '8px' }}>
+            Setelah jendela hitam menutup dengan sendirinya, buka folder <code>collector/output</code>. Anda perlu memasukkan file JSON tersebut ke web ini secara manual:
+          </p>
+          <ul style={{ paddingLeft: '20px', fontSize: '14px', lineHeight: '1.6', marginTop: '8px' }}>
+            <li style={{ marginBottom: '8px' }}>
+              <strong>Tab Analyzer:</strong> Klik tombol Pilih File JSON lalu pilih <code>bidding-items.json</code> (berada di dalam subfolder <code>scan-list</code>).
+            </li>
+            <li style={{ marginBottom: '8px' }}>
+              <strong>Tab Hasil Bidding:</strong> Klik tombol Pilih Invoice JSON lalu pilih <code>invoice-items.json</code> (file gabungan dari ketiga akun, berada di dalam subfolder <code>invoice</code>).
+            </li>
+          </ul>
         </div>
       </div>
     </section>
@@ -1719,6 +1594,18 @@ function ScannerPanel({
 }
 
 function App() {
+  const [role, setRole] = useState<'login' | 'admin' | 'anggota'>('login');
+  const [adminView, setAdminView] = useState('Dashboard');
+  const [anggotaView, setAnggotaView] = useState<'beranda' | 'presensi' | 'list_dapat'>('beranda');
+  const [dbStatus, setDbStatus] = useState<'checking' | 'connected' | 'error'>('checking');
+  const [dbMessage, setDbMessage] = useState('');
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState<{ id: number; username: string; role: 'admin' | 'anggota' } | null>(null);
+
   const [activeView, setActiveView] = useState<ActiveView>('analyzer');
   const [rawJson, setRawJson] = useState('');
   const [importedFileName, setImportedFileName] = useState('');
@@ -1732,143 +1619,63 @@ function App() {
   const sidebarRef = useRef<HTMLElement | null>(null);
   const [sidebarHeight, setSidebarHeight] = useState(0);
 
-  // --- Remote scan state ---
-  const [serverLoading, setServerLoading] = useState(false);
-  const [scanStatus, setScanStatus] = useState<ScanStatus>(emptyScanStatus);
-  const [adbConnected, setAdbConnected] = useState<boolean | null>(null);
-  const [, setScanPolling] = useState(false);
-  const scanPollRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  async function loadFromServer(path: string, label: string) {
-    setServerLoading(true);
-    try {
-      const response = await fetch(`/api/data/${path}`);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const text = await response.text();
-      setRawJson(text);
-      setImportedFileName(`🌐 ${label}`);
-      setFilters(emptyFilters);
-      setSearch('');
-    } catch (err) {
-      console.error('Gagal memuat data dari server:', err);
-    } finally {
-      setServerLoading(false);
+  const getApiUrl = (endpoint: string) => {
+    const origin = window.location.origin;
+    if (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes(':517')) {
+      return `http://biddlog.test/api/${endpoint}`;
     }
-  }
+    return `/api/${endpoint}`;
+  };
 
-  async function fetchScanStatus() {
-    try {
-      const response = await fetch('/api/scan/status');
-      if (response.ok) {
-        const data = await response.json();
-        setScanStatus(data as ScanStatus);
-        return data as ScanStatus;
-      }
-    } catch { /* ignore */ }
-    return null;
-  }
-
-  async function checkAdbStatus() {
-    try {
-      const response = await fetch('/api/adb/status');
-      if (response.ok) {
-        const data = await response.json();
-        setAdbConnected(data.connected as boolean);
-      }
-    } catch {
-      setAdbConnected(false);
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!username.trim() || !password.trim()) {
+      setLoginError('Username dan password wajib diisi');
+      return;
     }
-  }
+    setLoginError('');
+    setIsLoggingIn(true);
 
-  async function startScan(type: string, account?: string, options?: Record<string, unknown>) {
-    try {
-      const response = await fetch('/api/scan/start', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, account, options: options || {} }),
+    fetch(getApiUrl('login.php'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        setIsLoggingIn(false);
+        if (data.status === 'success') {
+          setLoggedInUser(data.user);
+          setRole('anggota');
+          setAnggotaView('beranda');
+        } else {
+          setLoginError(data.message || 'Username atau password salah');
+        }
+      })
+      .catch(err => {
+        setIsLoggingIn(false);
+        setLoginError('Gagal menghubungi server login');
       });
-      if (!response.ok) {
-        const err = await response.json();
-        alert(err.error || 'Gagal memulai scan');
-        return;
-      }
-      // Start polling
-      startScanPolling();
-    } catch (err) {
-      alert(`Gagal memulai scan: ${err instanceof Error ? err.message : err}`);
-    }
-  }
-
-  function startScanPolling() {
-    if (scanPollRef.current) clearInterval(scanPollRef.current);
-    setScanPolling(true);
-    scanPollRef.current = setInterval(async () => {
-      const status = await fetchScanStatus();
-      if (status && status.status !== 'running') {
-        stopScanPolling();
-        setTimeout(() => {
-          if ((window as any)._autoLoadLocalData) {
-            (window as any)._autoLoadLocalData();
-          }
-          if ((window as any)._autoLoadInvoiceData) {
-            (window as any)._autoLoadInvoiceData();
-          }
-        }, 1000);
-      }
-    }, 2000);
-  }
-
-  function stopScanPolling() {
-    if (scanPollRef.current) {
-      clearInterval(scanPollRef.current);
-      scanPollRef.current = null;
-    }
-    setScanPolling(false);
-  }
-
-  async function stopScan() {
-    try {
-      await fetch('/api/scan/stop', { method: 'POST' });
-      await fetchScanStatus();
-      stopScanPolling();
-    } catch { /* ignore */ }
-  }
-
-  const [apiReady, setApiReady] = useState(() => !!(window as any)._biddlogAPI);
-
-  useEffect(() => {
-    if (apiReady) return;
-    const handler = () => setApiReady(true);
-    window.addEventListener('pywebviewready', handler);
-    return () => window.removeEventListener('pywebviewready', handler);
-  }, [apiReady]);
-
-  // Auto-load data on mount (only when API is ready)
-  useEffect(() => {
-    if (!apiReady) return;
-    
-    loadFromServer('scan-list/bidding-items.json', 'bidding-items.json (Otomatis)');
-    fetchScanStatus();
-    (window as any)._autoLoadLocalData = () => {
-      loadFromServer('scan-list/bidding-items.json', 'bidding-items.json (Otomatis)');
-      fetchScanStatus();
-    };
-  }, [apiReady]);
-
-  const prevStatusRef = useRef(scanStatus.status);
-
-  useEffect(() => {
-    // If the status just changed from running to idle/done, automatically reload the data
-    if (prevStatusRef.current === 'running' && (scanStatus.status === 'idle' || scanStatus.status === 'done')) {
-      loadFromServer('scan-list/bidding-items.json', 'bidding-items.json (Otomatis)');
-      if ((window as any)._autoLoadInvoiceData) {
-        (window as any)._autoLoadInvoiceData();
-      }
-    }
-    prevStatusRef.current = scanStatus.status;
-  }, [scanStatus.status]);
+  };
 
   useLayoutEffect(() => {
+    fetch(getApiUrl('test_connection.php'))
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'success') {
+          setDbStatus('connected');
+        } else {
+          setDbStatus('error');
+          setDbMessage(data.message || 'Unknown error');
+        }
+      })
+      .catch(err => {
+        setDbStatus('error');
+        setDbMessage('Failed to fetch from API');
+      });
+
     if (activeView !== 'analyzer' || !sidebarRef.current) return undefined;
 
     const updateSidebarHeight = () => {
@@ -2093,296 +1900,516 @@ function App() {
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
+  if (role === 'login') {
+    return (
+      <div className="login-portal" style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)' }}>
+        <form onSubmit={handleLogin} style={{ background: '#fff', padding: '32px', borderRadius: '12px', width: '360px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', justifyContent: 'center' }}>
+            <div className="header-logo" style={{ width: 48, height: 48, background: '#fff', border: '1px solid var(--line)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: 4 }}>
+              <img src="/bidding-item-analyzer-crop.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
+            <div className="header-divider" style={{ width: 2, height: 24, background: 'var(--navy)' }}></div>
+            <h2 style={{ margin: 0, color: 'var(--navy)', fontSize: 24, letterSpacing: '0.5px' }}>Bidd<strong>log</strong></h2>
+          </div>
+          
+          <h3 style={{ textAlign: 'center', marginBottom: '24px', color: 'var(--text)' }}>Login ke Sistem</h3>
+
+          {loginError && (
+            <div style={{ background: '#fee2e2', color: '#ef4444', padding: '10px', borderRadius: '6px', fontSize: '13px', marginBottom: '16px', textAlign: 'center', fontWeight: 500 }}>
+              {loginError}
+            </div>
+          )}
+          
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontSize: 14, fontWeight: 500 }}>Username / Akun</label>
+            <input 
+              type="text" 
+              placeholder="Masukkan username..." 
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid var(--line)' }}
+              required
+            />
+          </div>
+          <div style={{ marginBottom: '24px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontSize: 14, fontWeight: 500 }}>Password</label>
+            <input 
+              type="password" 
+              placeholder="Masukkan password..." 
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid var(--line)' }}
+              required
+            />
+          </div>
+          
+          <button 
+            type="submit"
+            disabled={isLoggingIn}
+            style={{ width: '100%', padding: '12px', background: 'var(--navy)', color: '#fff', borderRadius: '6px', fontWeight: 600, border: 'none', cursor: 'pointer' }}
+          >
+            {isLoggingIn ? 'Memproses...' : 'Masuk'}
+          </button>
+        </form>
+      </div>
+    );
+  }
+
   return (
-    <main className="app-shell">
-      <div className="app-inner">
-        <section className="topbar">
-          <div className="brand-lockup">
-            <div className="brand-mark">
-              <img
-                alt="Bidding Item Analyzer"
-                className="app-logo"
-                src="/bidding-item-analyzer-crop.png"
-              />
+    <div className="app-container">
+      {role === 'admin' && (
+        <aside className="admin-sidebar">
+          <div 
+            className="sidebar-header" 
+            onClick={() => setRole('anggota')} 
+            style={{ cursor: 'pointer' }}
+            title="Kembali ke Portal Publik"
+          >
+            <div className="sidebar-logo">
+              <img src="/bidding-item-analyzer-crop.png" alt="Logo" />
             </div>
-            <div className="brand-copy">
-              <p className="eyebrow">Bidding Plus Helper</p>
-              <h1>Item Analyzer</h1>
-            </div>
+            <div className="sidebar-divider"></div>
+            <h2 className="sidebar-title">Bidd<strong>log</strong></h2>
           </div>
-          <nav className="view-tabs" aria-label="Dashboard views">
-            <button
-              type="button"
-              className={activeView === 'analyzer' ? 'active' : ''}
-              onClick={() => setActiveView('analyzer')}
-            >
-              Analyzer
-            </button>
-            <button
-              type="button"
-              className={activeView === 'scanner' ? 'active' : ''}
-              onClick={() => setActiveView('scanner')}
-            >
-              Scanner
-            </button>
-            <button
-              type="button"
-              className={activeView === 'checker' ? 'active' : ''}
-              onClick={() => setActiveView('checker')}
-            >
-              Hasil Bidding
-            </button>
-          </nav>
-          <div className="summary">
-            <span>{parsedItems.length} barang</span>
-            <span>{visibleItems.length} tampil</span>
-          </div>
-        </section>
-
-        {activeView === 'scanner' ? (
-          <ScannerPanel
-            scanStatus={scanStatus}
-            adbConnected={adbConnected}
-            onStart={startScan}
-            onStop={stopScan}
-            onCheckAdb={checkAdbStatus}
-            onFetchStatus={fetchScanStatus}
-          />
-        ) : activeView === 'checker' ? (
-          <ResultChecker />
-        ) : (
-          <section className="workspace">
-          <aside className="panel input-panel" ref={sidebarRef}>
-            
-
-            
-
-            <section className="sort-panel" aria-labelledby="sort-panel-title">
-              <div className="sort-panel-header">
-                <div>
-                  <p id="sort-panel-title" className="section-label">
-                    Pengurutan Data
-                  </p>
-                  <span>{sortMode === 'catalog' ? 'Urutan katalog aktif' : 'Urutan scan aktif'}</span>
-                </div>
-                <button
-                  type="button"
-                  className="secondary-button"
-                  onClick={() => setBrandOrder(defaultBrandOrder)}
-                >
-                  Default
-                </button>
-              </div>
-              <div className="segmented-control" role="group" aria-label="Mode pengurutan">
-                <button
-                  type="button"
-                  className={sortMode === 'catalog' ? 'active' : ''}
-                  onClick={() => setSortMode('catalog')}
-                >
-                  Katalog
-                </button>
-                <button
-                  type="button"
-                  className={sortMode === 'scan' ? 'active' : ''}
-                  onClick={() => setSortMode('scan')}
-                >
-                  Scan
-                </button>
-              </div>
-              <div className="brand-sort-builder">
-                <div className="brand-add-row">
-                  <input
-                    value={newBrand}
-                    onChange={(event) => setNewBrand(event.target.value)}
-                    onKeyDown={(event) => {
-                      if (event.key === 'Enter') {
-                        event.preventDefault();
-                        addBrand();
-                      }
-                    }}
-                    placeholder="Tambah brand, contoh: sony"
-                  />
-                  <button type="button" className="secondary-button" onClick={addBrand}>
-                    Tambah
-                  </button>
-                </div>
-                <div className="brand-order-list" aria-label="Prioritas brand katalog">
-                  {brandOrder.map((brand, index) => (
-                    <div
-                      className={`brand-order-item ${
-                        draggedBrandIndex === index ? 'dragging' : ''
-                      }`}
-                      draggable
-                      key={`${brand}-${index}`}
-                      onDragEnd={() => setDraggedBrandIndex(null)}
-                      onDragOver={(event) => event.preventDefault()}
-                      onDragStart={() => setDraggedBrandIndex(index)}
-                      onDrop={() => dropBrand(index)}
-                      title="Tahan lalu geser untuk mengubah urutan"
+          <nav className="sidebar-nav">
+            {(() => {
+              const navGroups = [
+                ['Dashboard'],
+                ['Analyzer', 'Hasil Bidding', 'Scanner'],
+                ['Pembagian Barang', 'Laporan Presensi', 'Laporan List Dapat'],
+                ['Pengguna', 'Audit Trail'],
+              ];
+              const viewMap: Record<string, AdminViewMode> = {
+                'Dashboard': 'dashboard',
+                'Analyzer': 'analyzer',
+                'Hasil Bidding': 'hasil_bidding',
+                'Scanner': 'scanner',
+                'Pembagian Barang': 'pembagian_barang',
+                'Laporan Presensi': 'presensi',
+                'Laporan List Dapat': 'list_dapat',
+                'Pengguna': 'pengguna',
+                'Audit Trail': 'audit_trail'
+              };
+              return navGroups.map((group, gi) => (
+                <React.Fragment key={gi}>
+                  {gi > 0 && <div className="sidebar-nav-divider" />}
+                  {group.map(name => (
+                    <a
+                      key={name}
+                      href="#"
+                      className={`sidebar-link ${adminView === name ? 'active' : ''}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setAdminView(name);
+                        if (viewMap[name]) setActiveView(viewMap[name] as any);
+                      }}
                     >
-                      <span className="brand-rank">{index + 1}</span>
-                      <strong>{brand}</strong>
-                      <div className="brand-actions">
-                        <button
-                          type="button"
-                          className="icon-button"
-                          disabled={index === 0}
-                          onClick={() => moveBrand(index, -1)}
-                          title="Naikkan brand"
-                        >
-                          Up
+                      {name}
+                    </a>
+                  ))}
+                </React.Fragment>
+              ));
+            })()}
+          </nav>
+          <div className="sidebar-footer">
+            <button className="btn-logout" type="button" onClick={() => { setRole('login'); setLoggedInUser(null); setUsername(''); setPassword(''); }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              Keluar
+            </button>
+            <div 
+              className="admin-user-info" 
+              onClick={() => setRole('anggota')} 
+              style={{ cursor: 'pointer' }}
+              title="Kembali ke Portal Publik"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              Administrator
+            </div>
+          </div>
+        </aside>
+      )}
+
+      <div className={role === 'anggota' ? 'public-layout' : 'main-content'}>
+        {role === 'anggota' && (
+          <header className="public-header">
+            <div className="header-left">
+              <div className="header-logo">
+                <img src="/bidding-item-analyzer-crop.png" alt="Logo" />
+              </div>
+              <div className="header-divider"></div>
+              <h2 className="header-title">Bidd<strong>log</strong></h2>
+            </div>
+            <nav className="header-nav">
+              <a href="#" className={`header-nav-link ${anggotaView === 'beranda' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setAnggotaView('beranda'); }}>Beranda</a>
+              <a href="#" className={`header-nav-link ${anggotaView === 'presensi' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setAnggotaView('presensi'); }}>Presensi</a>
+              <a href="#" className={`header-nav-link ${anggotaView === 'list_dapat' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setAnggotaView('list_dapat'); }}>List Dapat</a>
+            </nav>
+            <div className="header-right">
+              {loggedInUser?.role === 'admin' ? (
+                <>
+                  <button 
+                    className="btn-admin" 
+                    title="Masuk ke Panel Admin"
+                    onClick={() => { setRole('admin'); setAdminView('Dashboard'); setActiveView('analyzer'); }}
+                  >
+                    Admin
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  </button>
+                  <button
+                    className="btn-admin"
+                    style={{ background: '#e8222c' }}
+                    title="Keluar / Logout"
+                    onClick={() => { setRole('login'); setLoggedInUser(null); setUsername(''); setPassword(''); }}
+                  >
+                    Keluar
+                  </button>
+                </>
+              ) : (
+                <button 
+                  className="btn-admin" 
+                  title="Klik untuk Keluar / Logout"
+                  onClick={() => { setRole('login'); setLoggedInUser(null); setUsername(''); setPassword(''); }}
+                >
+                  {loggedInUser ? loggedInUser.username : 'Guest'}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </button>
+              )}
+              <div className="header-stat">0 Barang</div>
+              <div className="header-stat">0 Tampil</div>
+            </div>
+          </header>
+        )}
+
+        <main className={role === 'anggota' ? 'app-shell' : ''} style={role === 'admin' ? { padding: '24px' } : {}}>
+          <div className="app-inner">
+            {role === 'anggota' && (
+              <div style={{ padding: '20px', background: 'white', borderRadius: '8px', border: '1px solid var(--line)' }}>
+                {anggotaView === 'beranda' && (
+                  <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+                    <p>Silakan tunggu Admin mempublish daftar barang (Data kosong).</p>
+                  </div>
+                )}
+                
+                {anggotaView === 'presensi' && (() => {
+                  const now = new Date();
+                  const hours = now.getHours();
+                  const minutes = now.getMinutes();
+                  const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+                  const isOpen = timeStr >= '06:30' && timeStr <= '07:50';
+                  
+                  if (!isOpen) {
+                    return (
+                      <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+                        <h3 style={{ color: 'var(--red)', marginBottom: '8px' }}>Presensi Ditutup</h3>
+                        <p style={{ color: 'var(--text)' }}>Form presensi hanya dapat diakses pada pukul 06:30 hingga 07:50 waktu lokal.</p>
+                        <p style={{ fontSize: '12px', marginTop: '16px', color: '#666' }}>Waktu Anda saat ini: {timeStr}</p>
+                      </div>
+                    );
+                  }
+                  
+                  return (
+                    <div>
+                      <h3 style={{ borderBottom: '1px solid var(--line)', paddingBottom: '12px', marginBottom: '16px' }}>Form Presensi Harian</h3>
+                      <p style={{ marginBottom: '16px' }}>Waktu presensi: <strong>{timeStr}</strong></p>
+                      <button style={{ padding: '10px 24px', background: 'var(--blue)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}>
+                        Klik untuk Hadir
+                      </button>
+                    </div>
+                  );
+                })()}
+
+                {anggotaView === 'list_dapat' && (() => {
+                  const now = new Date();
+                  const hours = now.getHours();
+                  const minutes = now.getMinutes();
+                  const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+                  const isOpen = timeStr >= '08:00';
+                  const hasInvoice = false; // Mock status
+                  
+                  if (!isOpen) {
+                    return (
+                      <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+                        <h3 style={{ color: 'var(--red)', marginBottom: '8px' }}>List Dapat Ditutup</h3>
+                        <p style={{ color: 'var(--text)' }}>Halaman ini baru dibuka pada pukul 08:00 (setelah bid tutup).</p>
+                        <p style={{ fontSize: '12px', marginTop: '16px', color: '#666' }}>Waktu Anda saat ini: {timeStr}</p>
+                      </div>
+                    );
+                  }
+                  
+                  if (!hasInvoice) {
+                     return (
+                      <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+                        <svg style={{ color: 'var(--navy)', marginBottom: '12px' }} width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>
+                        <h3 style={{ color: 'var(--navy)', marginBottom: '8px' }}>Menunggu Bukti Invoice</h3>
+                        <p style={{ color: 'var(--text)' }}>Form input terkunci dan menunggu hasil scan invoice ter-upload dari Admin.</p>
+                      </div>
+                     );
+                  }
+                  
+                  return (
+                    <div>
+                      <h3 style={{ borderBottom: '1px solid var(--line)', paddingBottom: '12px', marginBottom: '16px' }}>Form Input Barang Dapat</h3>
+                      <form onSubmit={(e) => {
+                        e.preventDefault();
+                        const target = e.target as typeof e.target & {
+                          model: { value: string };
+                          storage: { value: string };
+                          grade: { value: string };
+                          price: { value: string };
+                        };
+                        const payload = {
+                          user_id: loggedInUser?.id,
+                          model: target.model.value,
+                          storage: target.storage.value,
+                          grade: target.grade.value,
+                          obtained_price: target.price.value
+                        };
+                        fetch('http://biddlog.test/api/obtained.php', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify(payload)
+                        }).then(res => res.json()).then(data => {
+                          if (data.status === 'success') {
+                            alert('Berhasil menyimpan barang didapat!');
+                            (e.target as HTMLFormElement).reset();
+                          } else {
+                            alert('Gagal: ' + data.message);
+                          }
+                        });
+                      }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px', fontWeight: 'bold' }}>
+                            Model
+                            <input name="model" type="text" placeholder="Contoh: S23 Ultra" required style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--line)' }} />
+                          </label>
+                          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px', fontWeight: 'bold' }}>
+                            Storage (GB)
+                            <input name="storage" type="number" placeholder="Contoh: 256" style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--line)' }} />
+                          </label>
+                          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px', fontWeight: 'bold' }}>
+                            Grade
+                            <select name="grade" required style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--line)' }}>
+                              <option value="ad">AD</option>
+                              <option value="ag">AG</option>
+                              <option value="ai">AI</option>
+                              <option value="aj">AJ</option>
+                            </select>
+                          </label>
+                          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px', fontWeight: 'bold' }}>
+                            Harga (Rp)
+                            <input name="price" type="number" placeholder="Harga tebus" required style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--line)' }} />
+                          </label>
+                        </div>
+                        <button type="submit" style={{ padding: '10px 24px', background: 'var(--blue)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}>
+                          Simpan List Dapat
                         </button>
+                      </form>
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
+            
+            <div style={{ display: role === 'admin' ? 'block' : 'none' }}>
+              <section className="topbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h2 style={{ margin: 0, fontSize: '24px' }}>{adminView}</h2>
+                <div className="summary">
+                  <span>{parsedItems.length} barang</span>
+                  <span>{visibleItems.length} tampil</span>
+                </div>
+              </section>
+
+              {activeView === 'dashboard' ? (
+                <AdminDashboard />
+              ) : activeView === 'analyzer' ? (
+                <section className="workspace">
+                  <aside className="panel input-panel" ref={sidebarRef}>
+                    <section className="json-input-section" style={{ padding: '16px', background: 'var(--bg)', borderRadius: '8px', border: '1px solid var(--line)', marginBottom: '16px' }}>
+                      <p className="section-label" style={{ marginBottom: '12px' }}>Output Collector JSON</p>
+                      <div className="json-input-card">
+                        <label className="file-input-button" style={{ display: 'block', padding: '10px 16px', background: 'var(--blue)', color: 'white', textAlign: 'center', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
+                          Pilih File JSON
+                          <input
+                            accept=".json"
+                            type="file"
+                            onChange={(event) => importJsonFile(event.target.files?.[0])}
+                            style={{ display: 'none' }}
+                          />
+                        </label>
+                        <div className="file-status" style={{ marginTop: '12px', fontSize: '13px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <strong style={{ color: 'var(--text)' }}>{importedFileName || 'Belum ada file'}</strong>
+                          <span style={{ color: 'var(--muted)' }}>{rawJson ? `${collectorItems.length} baris data terbaca` : 'Data masih kosong'}</span>
+                        </div>
+                      </div>
+                    </section>
+                    
+                    <section className="sort-panel" aria-labelledby="sort-panel-title">
+                      <div className="sort-panel-header">
+                        <div>
+                          <p id="sort-panel-title" className="section-label">
+                            Pengurutan Data
+                          </p>
+                          <span>{sortMode === 'catalog' ? 'Urutan katalog aktif' : 'Urutan scan aktif'}</span>
+                        </div>
                         <button
                           type="button"
-                          className="icon-button"
-                          disabled={index === brandOrder.length - 1}
-                          onClick={() => moveBrand(index, 1)}
-                          title="Turunkan brand"
+                          className="secondary-button"
+                          onClick={() => setBrandOrder(defaultBrandOrder)}
                         >
-                          Down
-                        </button>
-                        <button
-                          type="button"
-                          className="icon-button danger"
-                          onClick={() => removeBrand(index)}
-                          title="Hapus brand"
-                        >
-                          X
+                          Default
                         </button>
                       </div>
+                      <div className="segmented-control" role="group" aria-label="Mode pengurutan">
+                        <button
+                          type="button"
+                          className={sortMode === 'catalog' ? 'active' : ''}
+                          onClick={() => setSortMode('catalog')}
+                        >
+                          Katalog
+                        </button>
+                        <button
+                          type="button"
+                          className={sortMode === 'scan' ? 'active' : ''}
+                          onClick={() => setSortMode('scan')}
+                        >
+                          Scan
+                        </button>
+                      </div>
+                      <div className="brand-sort-builder">
+                        <div className="brand-add-row">
+                          <input
+                            value={newBrand}
+                            onChange={(event) => setNewBrand(event.target.value)}
+                            onKeyDown={(event) => {
+                              if (event.key === 'Enter') {
+                                event.preventDefault();
+                                addBrand();
+                              }
+                            }}
+                            placeholder="Tambah brand, contoh: sony"
+                          />
+                          <button type="button" className="secondary-button" onClick={addBrand}>
+                            Tambah
+                          </button>
+                        </div>
+                        <div className="brand-order-list" aria-label="Prioritas brand katalog">
+                          {brandOrder.map((brand, index) => (
+                            <div
+                              className={`brand-order-item ${draggedBrandIndex === index ? 'dragging' : ''}`}
+                              draggable
+                              key={`${brand}-${index}`}
+                              onDragEnd={() => setDraggedBrandIndex(null)}
+                              onDragOver={(event) => event.preventDefault()}
+                              onDragStart={() => setDraggedBrandIndex(index)}
+                              onDrop={() => dropBrand(index)}
+                              title="Tahan lalu geser untuk mengubah urutan"
+                            >
+                              <span className="brand-rank">{index + 1}</span>
+                              <strong>{brand}</strong>
+                              <div className="brand-actions">
+                                <button type="button" className="icon-button" disabled={index === 0} onClick={() => moveBrand(index, -1)} title="Naikkan brand">Up</button>
+                                <button type="button" className="icon-button" disabled={index === brandOrder.length - 1} onClick={() => moveBrand(index, 1)} title="Turunkan brand">Down</button>
+                                <button type="button" className="icon-button danger" onClick={() => removeBrand(index)} title="Hapus brand">X</button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="sort-hint">
+                        Mode katalog otomatis mengurutkan model premium dulu, nomor besar ke kecil,
+                        storage besar ke kecil, lalu grade terbaik ke bawah.
+                      </p>
+                    </section>
+
+                    <div className="filter-sidebar-header">
+                      <div>
+                        <p className="section-label">Filter Data Saat Ini</p>
+                        <span>{activeFilterCount} filter aktif</span>
+                      </div>
+                      <button
+                        type="button"
+                        className="secondary-button"
+                        disabled={!hasActiveFilter(filters)}
+                        onClick={() => setFilters(emptyFilters)}
+                      >
+                        Reset
+                      </button>
                     </div>
-                  ))}
-                </div>
-              </div>
-              <p className="sort-hint">
-                Mode katalog otomatis mengurutkan model premium dulu, nomor besar ke kecil,
-                storage besar ke kecil, lalu grade terbaik ke bawah.
-              </p>
-            </section>
 
-            <div className="filter-sidebar-header">
-              <div>
-                <p className="section-label">Filter Data Saat Ini</p>
-                <span>{activeFilterCount} filter aktif</span>
-              </div>
-              <button
-                type="button"
-                className="secondary-button"
-                disabled={!hasActiveFilter(filters)}
-                onClick={() => setFilters(emptyFilters)}
-              >
-                Reset
-              </button>
+                    <MultiFilter title="Merek HP" values={filterOptions.brands} selected={filters.brands} onToggle={(value) => setFilters((current) => toggleFilter(current, 'brands', value))} />
+                    <MultiFilter title="Model" values={filterOptions.models} selected={filters.models} onToggle={(value) => setFilters((current) => toggleFilter(current, 'models', value))} />
+                    <MultiFilter title="Storage" values={filterOptions.storages} selected={filters.storages} onToggle={(value) => setFilters((current) => toggleFilter(current, 'storages', value))} />
+                    <MultiFilter title="Grade" values={filterOptions.grades} selected={filters.grades} onToggle={(value) => setFilters((current) => toggleFilter(current, 'grades', value))} />
+                    <MultiFilter title="Status" values={filterOptions.statuses} selected={filters.statuses} onToggle={(value) => setFilters((current) => toggleFilter(current, 'statuses', value))} />
+                  </aside>
+
+                  <section className="panel table-panel" style={sidebarHeight > 0 ? ({ '--sidebar-height': `${sidebarHeight}px` } as React.CSSProperties) : undefined}>
+                    <div className="filters">
+                      <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari model, kode item, raw name" />
+                      <div className="filter-actions">
+                        <button className="secondary-button" disabled={visibleItems.length === 0} onClick={copyItemCodes} type="button">
+                          {copiedItemCodes ? 'Tersalin' : 'Copy Kode Item'}
+                        </button>
+                        <button type="button" onClick={exportXlsx}>Export</button>
+                      </div>
+                    </div>
+
+                    <div className="table-wrap">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Kode Item</th>
+                            <th>Model</th>
+                            <th>Storage</th>
+                            <th>Grade</th>
+                            <th>Unit Ke</th>
+                            <th>Marker</th>
+                            <th>Harga</th>
+                            <th>Status</th>
+                            <th>Raw Name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {visibleItems.map((item, index) => (
+                            <tr key={item.id}>
+                              <td>{index + 1}</td>
+                              <td><strong>{item.item_code}</strong></td>
+                              <td>{item.model}</td>
+                              <td>{item.storage ?? '-'}</td>
+                              <td>{item.grade_code.toUpperCase() || '-'}</td>
+                              <td>{item.unit_no}</td>
+                              <td title={item.source_text || item.source_hash || ''}>{item.scan_marker || '-'}</td>
+                              <td>{currency(item.auction_price_number)}</td>
+                              <td>{item.status || '-'}</td>
+                              <td>{item.raw_name}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+                </section>
+              ) : activeView === 'hasil_bidding' ? (
+                <ResultChecker />
+              ) : activeView === 'scanner' ? (
+                <PortableGuidePanel />
+              ) : activeView === 'pembagian_barang' ? (
+                <PembagianBarang />
+              ) : activeView === 'presensi' ? (
+                <LaporanPresensi />
+              ) : activeView === 'list_dapat' ? (
+                <LaporanListDapat />
+              ) : activeView === 'pengguna' ? (
+                <ManajemenPengguna />
+              ) : activeView === 'audit_trail' ? (
+                <AuditTrail />
+              ) : null}
             </div>
-
-            <MultiFilter
-              title="Merek HP"
-              values={filterOptions.brands}
-              selected={filters.brands}
-              onToggle={(value) => setFilters((current) => toggleFilter(current, 'brands', value))}
-            />
-            <MultiFilter
-              title="Model"
-              values={filterOptions.models}
-              selected={filters.models}
-              onToggle={(value) => setFilters((current) => toggleFilter(current, 'models', value))}
-            />
-            <MultiFilter
-              title="Storage"
-              values={filterOptions.storages}
-              selected={filters.storages}
-              onToggle={(value) =>
-                setFilters((current) => toggleFilter(current, 'storages', value))
-              }
-            />
-            <MultiFilter
-              title="Grade"
-              values={filterOptions.grades}
-              selected={filters.grades}
-              onToggle={(value) => setFilters((current) => toggleFilter(current, 'grades', value))}
-            />
-            <MultiFilter
-              title="Status"
-              values={filterOptions.statuses}
-              selected={filters.statuses}
-              onToggle={(value) =>
-                setFilters((current) => toggleFilter(current, 'statuses', value))
-              }
-            />
-          </aside>
-
-          <section
-            className="panel table-panel"
-            style={
-              sidebarHeight > 0
-                ? ({ '--sidebar-height': `${sidebarHeight}px` } as React.CSSProperties)
-                : undefined
-            }
-          >
-            <div className="filters">
-              <input
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder="Cari model, kode item, raw name"
-              />
-              <div className="filter-actions">
-                <button
-                  className="secondary-button"
-                  disabled={visibleItems.length === 0}
-                  onClick={copyItemCodes}
-                  type="button"
-                >
-                  {copiedItemCodes ? 'Tersalin' : 'Copy Kode Item'}
-                </button>
-                <button type="button" onClick={exportXlsx}>
-                  Export
-                </button>
-              </div>
-            </div>
-
-            <div className="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Kode Item</th>
-                    <th>Model</th>
-                    <th>Storage</th>
-                    <th>Grade</th>
-                    <th>Unit Ke</th>
-                    <th>Marker</th>
-                    <th>Harga</th>
-                    <th>Status</th>
-                    <th>Raw Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {visibleItems.map((item, index) => (
-                    <tr key={item.id}>
-                      <td>{index + 1}</td>
-                      <td>
-                        <strong>{item.item_code}</strong>
-                      </td>
-                      <td>{item.model}</td>
-                      <td>{item.storage ?? '-'}</td>
-                      <td>{item.grade_code.toUpperCase() || '-'}</td>
-                      <td>{item.unit_no}</td>
-                      <td title={item.source_text || item.source_hash || ''}>
-                        {item.scan_marker || '-'}
-                      </td>
-                      <td>{currency(item.auction_price_number)}</td>
-                      <td>{item.status || '-'}</td>
-                      <td>{item.raw_name}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-          </section>
-        )}
+          </div>
+        </main>
       </div>
-    </main>
+    </div>
   );
 }
 
@@ -2391,3 +2418,4 @@ createRoot(document.getElementById('app')!).render(
     <App />
   </React.StrictMode>,
 );
+
