@@ -31,7 +31,7 @@ CREATE TABLE `items` (
   `grade` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `unit_no` int DEFAULT '1',
   `auction_price` decimal(15,2) DEFAULT NULL,
-  `assigned_to` int DEFAULT NULL,
+  `assigned_to` bigint unsigned DEFAULT NULL,
   `status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'parsed',
   `assigned_accounts` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `attendances`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `attendances` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
+  `user_id` bigint unsigned NOT NULL,
   `date` date NOT NULL,
   `status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'hadir',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -86,7 +86,7 @@ DROP TABLE IF EXISTS `obtained_items`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `obtained_items` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
+  `user_id` bigint unsigned NOT NULL,
   `item_id` int DEFAULT NULL,
   `model` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `storage` int DEFAULT NULL,
@@ -145,7 +145,7 @@ DROP TABLE IF EXISTS `audit_trail`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `audit_trail` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
+  `user_id` bigint unsigned DEFAULT NULL,
   `action` text COLLATE utf8mb4_unicode_ci,
   `target` text COLLATE utf8mb4_unicode_ci,
   `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
