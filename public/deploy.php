@@ -25,6 +25,12 @@ $env = preg_replace('/APP_DEBUG=.*/', 'APP_DEBUG=false', $env);
 file_put_contents($envPath, $env);
 echo "Database credentials injected into .env.<br>";
 
+$cacheDir = __DIR__ . '/../bootstrap/cache';
+if (!is_dir($cacheDir)) {
+    mkdir($cacheDir, 0775, true);
+    echo "Created bootstrap/cache directory.<br>";
+}
+
 // Run Laravel Artisan Commands
 require __DIR__.'/../vendor/autoload.php';
 $app = require_once __DIR__.'/../bootstrap/app.php';
