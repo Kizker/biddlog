@@ -25,14 +25,6 @@ $env = preg_replace('/^APP_DEBUG=.*$/m', 'APP_DEBUG=false', $env);
 file_put_contents($envPath, $env);
 echo "Database credentials injected into .env.<br>";
 
-// Load Dotenv manually to ensure the current PHP process sees the new values
-try {
-    $dotenv = \Dotenv\Dotenv::createMutable(__DIR__ . '/../');
-    $dotenv->load();
-} catch (\Exception $e) {
-    echo "Notice: Could not mutable load dotenv.<br>";
-}
-
 $cacheDir = __DIR__ . '/../bootstrap/cache';
 if (!is_dir($cacheDir)) {
     mkdir($cacheDir, 0775, true);
