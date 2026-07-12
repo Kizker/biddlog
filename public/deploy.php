@@ -39,9 +39,12 @@ require __DIR__.'/../vendor/autoload.php';
 $app = require_once __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 
-echo "Clearing Cache...<br>";
-$kernel->call('config:clear');
-$kernel->call('cache:clear');
+echo "Clearing Config Cache...<br>";
+try {
+    $kernel->call('config:clear');
+} catch (Exception $e) {
+    echo "Warning: could not clear config: " . $e->getMessage() . "<br>";
+}
 
 echo "Generating App Key...<br>";
 $kernel->call('key:generate', ['--force' => true]);
