@@ -6,27 +6,32 @@ echo "<div style='font-family: sans-serif; padding: 2rem;'>";
 echo "<h2>Deployment Script</h2>";
 
 if (!file_exists($envPath)) {
-    if (file_exists($envExamplePath)) {
-        copy($envExamplePath, $envPath);
-        echo "Created .env file.<br>";
-    } else {
-        echo ".env.example not found!<br>";
-    }
+    copy($envExamplePath, $envPath);
+    echo "Created .env file.<br>";
 }
 
-// Update .env
-$env = file_get_contents($envPath);
-$env = preg_replace('/DB_CONNECTION=.*/', 'DB_CONNECTION=mysql', $env);
-$env = preg_replace('/#?\s*DB_HOST=.*/', 'DB_HOST=127.0.0.1', $env);
-$env = preg_replace('/#?\s*DB_PORT=.*/', 'DB_PORT=3306', $env);
-$env = preg_replace('/#?\s*DB_DATABASE=.*/', 'DB_DATABASE=u141095167_bid', $env);
-$env = preg_replace('/#?\s*DB_USERNAME=.*/', 'DB_USERNAME=u141095167_headbid', $env);
-$env = preg_replace('/#?\s*DB_PASSWORD=.*/', 'DB_PASSWORD=@Dea18022003', $env);
-$env = preg_replace('/APP_URL=.*/', 'APP_URL=https://biddlog.site', $env);
-$env = preg_replace('/APP_ENV=.*/', 'APP_ENV=production', $env);
-$env = preg_replace('/APP_DEBUG=.*/', 'APP_DEBUG=false', $env);
+// Update .env safely using multiline regex
+$env = file_get_contents($envExamplePath);
+$env = preg_replace('/^DB_CONNECTION=.*$/m', 'DB_CONNECTION=mysql', $env);
+$env = preg_replace('/^#?\s*DB_HOST=.*$/m', 'DB_HOST=127.0.0.1', $env);
+$env = preg_replace('/^#?\s*DB_PORT=.*$/m', 'DB_PORT=3306', $env);
+$env = preg_replace('/^#?\s*DB_DATABASE=.*$/m', 'DB_DATABASE=u141095167_bid', $env);
+$env = preg_replace('/^#?\s*DB_USERNAME=.*$/m', 'DB_USERNAME=u141095167_headbid', $env);
+$env = preg_replace('/^#?\s*DB_PASSWORD=.*$/m', 'DB_PASSWORD="@Dea18022003"', $env);
+$env = preg_replace('/^APP_URL=.*$/m', 'APP_URL=https://biddlog.site', $env);
+$env = preg_replace('/^APP_ENV=.*$/m', 'APP_ENV=production', $env);
+$env = preg_replace('/^APP_DEBUG=.*$/m', 'APP_DEBUG=false', $env);
+
 file_put_contents($envPath, $env);
 echo "Database credentials injected into .env.<br>";
+
+// Load Dotenv manually to ensure the current PHP process sees the new values
+try {
+    $dotenv = \Dotenv\Dotenv::createMutable(__DIR__ . '/../');
+    $dotenv->load();
+} catch (\Exception $e) {
+    echo "Notice: Could not mutable load dotenv.<br>";
+}
 
 $cacheDir = __DIR__ . '/../bootstrap/cache';
 if (!is_dir($cacheDir)) {
