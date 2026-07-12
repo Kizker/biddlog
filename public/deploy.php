@@ -39,6 +39,10 @@ require __DIR__.'/../vendor/autoload.php';
 $app = require_once __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 
+echo "Clearing Cache...<br>";
+$kernel->call('config:clear');
+$kernel->call('cache:clear');
+
 echo "Generating App Key...<br>";
 $kernel->call('key:generate', ['--force' => true]);
 
