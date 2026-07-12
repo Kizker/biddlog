@@ -1,247 +1,58 @@
-# Bidding Plus Helper
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-MVP ini terdiri dari dua bagian:
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-1. `collector/` - script ADB/Appium untuk membaca card barang dari aplikasi Bidding Plus melalui UI Android.
-2. `dashboard/` - web analyzer yang di-deploy di **https://biddlog.site** untuk parse, filter, watchlist, nomor urut unit, export CSV, dan cek invoice.
+## About Laravel
 
-## Dashboard (Live)
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-Dashboard sudah di-deploy dan bisa diakses langsung di:
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-> 🌐 **https://biddlog.site**
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-### Teknologi Deployment
+## Learning Laravel
 
-| Komponen | Detail |
-|---|---|
-| VPS | Hostinger VPS — IP `72.62.127.119` |
-| Panel | FASTPANEL (`https://72.62.127.119:8888`) |
-| Container | Docker multi-container (dashboard + collector API) |
-| Port Dashboard | `8081` (host) → `80` (container Nginx) |
-| Port Scan API | `5000` (container internal, diproxy Nginx) |
-| SSL | Let's Encrypt (auto-renew via certbot) |
-| Reverse Proxy | Nginx di host → `http://127.0.0.1:8081` |
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-### Update Dashboard ke Server
+In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-Setelah melakukan perubahan di `dashboard/` atau `collector/`, push ke GitHub lalu jalankan di VPS via SSH:
+You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+
+## Agentic Development
+
+Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
 
 ```bash
-ssh root@72.62.127.119
-cd /var/www/fastuser/data/www/biddlog.site
-git pull origin main
-docker compose up -d --build
+composer require laravel/boost --dev
+
+php artisan boost:install
 ```
 
-### Menjalankan Dashboard Secara Lokal (Opsional)
+Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
 
-Jika ingin menjalankan dashboard di laptop untuk development:
+## Contributing
 
-```powershell
-cd dashboard
-npm install
-npm run dev
-```
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-Dashboard lokal akan terbuka di `http://localhost:5173`.
+## Code of Conduct
 
----
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## VPS Remote Scan (Baru)
+## Security Vulnerabilities
 
-Collector sekarang bisa dijalankan dari VPS secara remote menggunakan arsitektur SSH Tunnel:
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-```
-HP Android ◄──USB──► Laptop (ADB Server) ◄──SSH Tunnel──► VPS (Collector + API)
-```
+## License
 
-### Arsitektur
-
-- **Laptop**: Menjalankan ADB server dan SSH reverse tunnel ke VPS (port 5037)
-- **VPS**: Menjalankan collector script + REST API (`scan_api.py`) di Docker
-- **Dashboard**: Tombol "Load dari Server" dan panel "Remote Scan" untuk trigger scan langsung dari web
-
-### Cara Pakai Remote Scan
-
-#### 1. Setup SSH Key (sekali saja)
-
-```powershell
-# Di laptop Windows
-ssh-keygen -t ed25519
-type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh root@72.62.127.119 "cat >> ~/.ssh/authorized_keys"
-```
-
-#### 2. Jalankan ADB Tunnel di Laptop
-
-```powershell
-# Sambungkan HP via USB, pastikan USB Debugging aktif
-.\scripts\start-adb-tunnel.ps1
-```
-
-Script akan:
-- Mengecek HP terdeteksi via ADB
-- Membuat SSH reverse tunnel (port 5037) ke VPS
-- Auto-reconnect jika tunnel putus
-
-**Jangan tutup window PowerShell selama scan berlangsung.**
-
-#### 3. Gunakan Dashboard
-
-Buka **https://biddlog.site** → tab **Analyzer**:
-
-- Klik **🌐 Load dari Server** untuk memuat data terbaru dari server
-- Gunakan panel **Remote Scan** untuk:
-  - **▶ Scan Bidding** — trigger scan daftar Bidding Reguler
-  - **📋 Scan Invoice** — trigger scan invoice per akun
-  - **🔄 Refresh** — cek status ADB dan scan
-  - **⏹ Stop Scan** — hentikan scan yang sedang berjalan
-
-### Docker Services
-
-| Service | Container | Port | Fungsi |
-|---|---|---|---|
-| `dashboard` | `bidlog_dashboard` | 8081:80 | Nginx serve dashboard + proxy API |
-| `collector` | `bidlog_collector` | 5000 (internal) | Python scan API + collector |
-
-### API Endpoints
-
-| Method | Path | Fungsi |
-|---|---|---|
-| `GET` | `/api/scan/status` | Status scan (idle/running/done/error) |
-| `POST` | `/api/scan/start` | Mulai scan baru |
-| `POST` | `/api/scan/stop` | Hentikan scan |
-| `GET` | `/api/data/<path>` | Serve file output collector |
-| `GET` | `/api/data/list` | List semua file output |
-| `GET` | `/api/adb/status` | Cek koneksi ADB |
-| `GET` | `/api/health` | Health check |
-
----
-
-## Alur Kerja Collector (Lokal/Portable)
-
-> Metode lokal tetap bisa dipakai sebagai alternatif jika VPS tidak tersedia.
-
-1. Install Android Platform Tools sampai command `adb devices` bisa dipakai.
-2. Install Appium dan driver UiAutomator2.
-3. Jalankan Appium server jika ingin memakai fallback Appium.
-4. Hubungkan HP Android dan pastikan USB Debugging aktif.
-5. Buka halaman Bidding Reguler di aplikasi Bidding Plus.
-6. Jalankan `collector/appium_collector.py`.
-7. Buka **https://biddlog.site**, klik **🌐 Load dari Server** atau upload file `bidding-items.json` manual.
-8. Gunakan filter dan export hasil.
-
-## Setup Collector
-
-Jalankan sekali:
-
-```powershell
-npm install -g appium
-appium driver install uiautomator2
-```
-
-Periksa status setup:
-
-```powershell
-cd collector
-python check_setup.py
-```
-
-Jalankan sebelum collector dipakai:
-
-```bat
-set "PATH=C:\platform-tools;%PATH%"
-set ANDROID_HOME=C:\
-set ANDROID_SDK_ROOT=C:\
-adb devices
-appium --base-path /
-```
-
-Di terminal lain:
-
-```bat
-cd collector
-set "PATH=C:\platform-tools;%PATH%"
-set ANDROID_HOME=C:\
-set ANDROID_SDK_ROOT=C:\
-python appium_collector.py --backend adb
-```
-
-Command normal akan reset posisi daftar ke atas lebih dulu, membaca `Total Unit` dari UI jika tersedia, lalu scroll sampai target tercapai atau daftar mentok. Aman untuk hari dengan ratusan sampai 1000+ barang karena batas default collector adalah 1500 scroll. Untuk test cepat tanpa reset posisi:
-
-```bat
-python appium_collector.py --backend adb --max-scrolls 3 --no-reset-position
-```
-
-## Setup Scanner Invoice
-
-Scanner invoice dibuat terpisah dari scanner Bidding Reguler. Alurnya:
-
-1. Login atau pindah ke akun invoice yang ingin discan.
-2. Sambungkan HP ke laptop dan pastikan USB Debugging sudah diizinkan.
-3. Buka manual halaman invoice/riwayat barang didapat di aplikasi yang sesuai akun, lalu biarkan HP tetap di halaman itu.
-4. Jalankan command sesuai nama akun.
-5. Ulangi untuk akun `menik`, `mubdi`, dan `aldi`.
-
-Command scan invoice:
-
-```bat
-cd "Documents\bidlog\collector"
-set "PATH=C:\platform-tools;%PATH%"
-set ANDROID_HOME=C:\
-set ANDROID_SDK_ROOT=C:\
-python invoice_collector.py --account menik --no-launch --phone-feedback
-python invoice_collector.py --account mubdi --no-launch --phone-feedback
-python invoice_collector.py --account aldi --no-launch --phone-feedback
-```
-
-Package aplikasi invoice otomatis:
-
-- `menik`: `id.biddingplus` atau Bidding Plus asli.
-- `mubdi`: `id.biddingplut` atau Bidding Plus clone App Cloner.
-- `aldi`: `com.biddingnativeapp` atau Bidding Plus clone Island.
-
-Semua akun invoice memakai `--no-launch`, jadi scanner tidak membuka aplikasi otomatis. Pastikan HP sudah standby di halaman invoice akun yang benar sebelum command dijalankan. Contoh untuk akun `aldi`:
-
-```bat
-"C:\laragon\bin\python\python-3.10\python.exe" invoice_collector.py --account aldi --no-launch --phone-feedback
-```
-
-Output per akun:
-
-- `collector/output/invoice/invoice-menik.json` dan `collector/output/invoice/invoice-menik.csv`
-- `collector/output/invoice/invoice-mubdi.json` dan `collector/output/invoice/invoice-mubdi.csv`
-- `collector/output/invoice/invoice-aldi.json` dan `collector/output/invoice/invoice-aldi.csv`
-
-Setiap selesai scan satu akun, scanner juga memperbarui output gabungan:
-
-- `collector/output/invoice/invoice-items.json`
-- `collector/output/invoice/invoice-items.csv`
-
-## Modul Cek Invoice
-
-Di dashboard (**https://biddlog.site**), buka view `Hasil Bidding`, lalu isi:
-
-1. `Invoice JSON` memakai `collector/output/invoice/invoice-items.json` (atau klik **🌐 Load Invoice dari Server**).
-2. `List pembagian awal` dari list barang per orang.
-3. `List barang didapat` dari hasil barang yang benar-benar didapat.
-4. `List cadangan` jika ada.
-
-Dashboard akan membuat teks siap copy dengan status:
-
-- `OK` barang ada di invoice dan harga tidak lewat.
-- `LEWAT` barang ada di invoice tetapi harga lewat dari batas tertinggi.
-- `TIDAK ADA` barang tidak ditemukan di invoice atau unit yang sama sudah dipakai item lain.
-
-## Panduan di Dashboard
-
-Dashboard memiliki tiga view:
-
-1. `Analyzer` untuk load data dari server atau upload file, filter, nomor unit, remote scan, dan export XLSX.
-2. `Panduan Collector` untuk melihat langkah penggunaan UI Collector di HP Android.
-3. `Hasil Bidding` untuk mencocokkan invoice 3 akun dengan list pembagian, list didapat, dan cadangan.
-
-## Catatan
-
-Collector belum mengakses API internal Bidding Plus. Script hanya membaca teks UI yang tampil pada akun pengguna normal.
-
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

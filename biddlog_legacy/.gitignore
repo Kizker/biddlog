@@ -1,0 +1,7 @@
+# Ignore large portable zip file
+biddlog-portable.zip
+
+# Ignore agent folders/logs
+.agent
+.tmp.driveupload
+vite-start.log
