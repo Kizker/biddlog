@@ -16,9 +16,12 @@ if (!file_exists($envPath)) {
 
 // Update .env
 $env = file_get_contents($envPath);
-$env = preg_replace('/DB_DATABASE=.*/', 'DB_DATABASE=u141095167_bid', $env);
-$env = preg_replace('/DB_USERNAME=.*/', 'DB_USERNAME=u141095167_headbid', $env);
-$env = preg_replace('/DB_PASSWORD=.*/', 'DB_PASSWORD=@Dea18022003', $env);
+$env = preg_replace('/DB_CONNECTION=.*/', 'DB_CONNECTION=mysql', $env);
+$env = preg_replace('/#?\s*DB_HOST=.*/', 'DB_HOST=127.0.0.1', $env);
+$env = preg_replace('/#?\s*DB_PORT=.*/', 'DB_PORT=3306', $env);
+$env = preg_replace('/#?\s*DB_DATABASE=.*/', 'DB_DATABASE=u141095167_bid', $env);
+$env = preg_replace('/#?\s*DB_USERNAME=.*/', 'DB_USERNAME=u141095167_headbid', $env);
+$env = preg_replace('/#?\s*DB_PASSWORD=.*/', 'DB_PASSWORD=@Dea18022003', $env);
 $env = preg_replace('/APP_URL=.*/', 'APP_URL=https://biddlog.site', $env);
 $env = preg_replace('/APP_ENV=.*/', 'APP_ENV=production', $env);
 $env = preg_replace('/APP_DEBUG=.*/', 'APP_DEBUG=false', $env);
