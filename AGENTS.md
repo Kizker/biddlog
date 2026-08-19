@@ -60,6 +60,7 @@
 - [x] Create 1-click database migrator endpoint `public/api/migrate_db.php`
 - [x] Create 1-command server auto-update script `deploy.sh`
 - [x] Generate comprehensive PDF deployment guide `Panduan_Deployment_dan_Pembaruan_Biddlog.pdf`
+- [x] Fix MariaDB/MySQL SQL syntax error (`datetime('now', 'localtime')`) in `public/api/salary.php` for 'Kirim Gaji' and marking payment status ('Lunas' / 'Pending')
 
 ## Server & Access Info
 - **Local URL:** `http://127.0.0.1:8000`

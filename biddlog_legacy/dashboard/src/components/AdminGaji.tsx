@@ -560,9 +560,12 @@ export default function AdminGaji() {
       if (json.status === 'success') {
         showToast(`✅ Gaji untuk ${person} berhasil ditandai sudah ditransfer!`);
         fetchData();
+      } else {
+        alert('Gagal menandai transfer: ' + (json.message || 'Terjadi kesalahan'));
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      alert('Terjadi kesalahan saat menandai status transfer: ' + (e.message || e));
     }
   };
 
@@ -582,9 +585,12 @@ export default function AdminGaji() {
       if (json.status === 'success') {
         showToast('Status transfer berhasil dibatalkan');
         fetchData();
+      } else {
+        alert('Gagal membatalkan status transfer: ' + (json.message || 'Terjadi kesalahan'));
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      alert('Terjadi kesalahan saat membatalkan transfer: ' + (e.message || e));
     }
   };
 
@@ -623,9 +629,12 @@ export default function AdminGaji() {
         showToast(`✅ ${json.count} anggota berhasil ditandai sudah ditransfer!`);
         setSelectedPeople([]);
         fetchData();
+      } else {
+        alert('Gagal menandai transfer batch: ' + (json.message || 'Terjadi kesalahan'));
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      alert('Terjadi kesalahan saat menandai batch transfer: ' + (e.message || e));
     }
   };
 
