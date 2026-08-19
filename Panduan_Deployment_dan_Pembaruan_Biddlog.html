@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panduan Deployment & Pembaruan Biddlog</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 14mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1e293b;
+      background-color: #ffffff;
+      line-height: 1.55;
+      font-size: 13.5px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .header-left h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-left h1 span.badge {
+      font-size: 11px;
+      background: #e0f2fe;
+      color: #0284c7;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-weight: 700;
+    }
+
+    .header-left p {
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    /* Grid summary */
+    .grid-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .card-info {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .card-info .label {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .card-info .value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f172a;
+      word-break: break-all;
+    }
+
+    /* Section Styling */
+    h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 18px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 4px solid #0284c7;
+      padding-left: 8px;
+    }
+
+    h3 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    p, ul, ol {
+      margin-bottom: 8px;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    /* Code Blocks */
+    pre {
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 10px 14px;
+      border-radius: 7px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      line-height: 1.5;
+      overflow-x: auto;
+      margin: 8px 0 12px 0;
+      border: 1px solid #1e293b;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      background: #f1f5f9;
+      color: #0369a1;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 10px 0;
+      font-size: 12.5px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .callout.tip {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+    }
+
+    .callout.info {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+    }
+
+    .callout.warning {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+
+    .callout-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    /* Steps Flow */
+    .step-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      background: #ffffff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .step-num {
+      background: #0284c7;
+      color: white;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 24px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      text-align: center;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <h1>Biddlog.site <span class="badge">Production Guide</span></h1>
+        <p>SOP Deployment & Pembaruan Kode Otomatis ke Server Hostinger</p>
+      </div>
+      <div class="header-right">
+        <div>Versi: 2.0 (PHP + MySQL + React)</div>
+        <div>Terakhir Diperbarui: Agustus 2026</div>
+      </div>
+    </div>
+
+    <!-- Parameter Server -->
+    <div class="grid-summary">
+      <div class="card-info">
+        <div class="label">Akses SSH Server</div>
+        <div class="value">ssh -p 65002 u141095167@46.202.138.88</div>
+      </div>
+      <div class="card-info">
+        <div class="label">Direktori Web Target</div>
+        <div class="value">~/domains/biddlog.site/public_html</div>
+      </div>
+      <div class="card-info">
+        <div class="label">Repository GitHub</div>
+        <div class="value">https://github.com/Kizker/biddlog.git</div>
+      </div>
+      <div class="card-info">
+        <div class="label">Domain Utama</div>
+        <div class="value">https://biddlog.site</div>
+      </div>
+      <div class="card-info">
+        <div class="label">Database MySQL</div>
+        <div class="value">u141095167_bid</div>
+      </div>
+      <div class="card-info">
+        <div class="label">User MySQL</div>
+        <div class="value">u141095167_headbid</div>
+      </div>
+    </div>
+
+    <!-- Alur Kerja Rutin -->
+    <h2>1. Alur Kerja Rutin Saat Ada Pembaruan (Workflow Cepat)</h2>
+    <p>Setiap kali Anda selesai mengubah kode di laptop/komputer lokal dan ingin menerapkannya ke website live, ikuti <strong>2 tahap sederhana</strong> berikut:</p>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">A</div>
+        <div>Di Komputer Lokal (Mac / PC): Simpan & Push ke GitHub</div>
+      </div>
+      <p style="font-size: 12.5px; color: #475569;">Pastikan Anda sudah mengompilasi frontend React dan melakukan push ke branch <code>main</code>:</p>
+      <pre><code># 1. Masuk ke folder dashboard dan build frontend jika ada perubahan UI
+cd biddlog_legacy/dashboard
+npm run build
+cd ../..
+
+# 2. Commit dan push ke GitHub
+git add .
+git commit -m "Update fitur atau perbaikan terbaru"
+git push origin main</code></pre>
+    </div>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">B</div>
+        <div>Di Server Hostinger: Terapkan Pembaruan (1 Baris Perintah)</div>
+      </div>
+      <p style="font-size: 12.5px; color: #475569;">Buka terminal, login SSH ke server, dan jalankan skrip deploy otomatis yang sudah disediakan:</p>
+      <pre><code># 1. Login SSH
+ssh -p 65002 u141095167@46.202.138.88
+
+# 2. Masuk direktori & jalankan deploy script
+cd ~/domains/biddlog.site/public_html
+bash deploy.sh</code></pre>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Perintah <code>bash deploy.sh</code> akan secara otomatis menarik kode terbaru dari GitHub, mereset cache, dan mengatur izin folder yang diperlukan.</div>
+      </div>
+    </div>
+
+    <!-- Cara Manual -->
+    <h2>2. Prosedur Pembaruan Manual (Jika Tanpa Script)</h2>
+    <p>Jika Anda ingin menjalankan pembaruan langkah demi langkah secara manual di terminal server:</p>
+    <pre><code># 1. Masuk ke folder proyek di server
+cd ~/domains/biddlog.site/public_html
+
+# 2. Ambil update dari GitHub (menghindari conflict)
+git fetch origin main
+git reset --hard origin/main
+git pull origin main
+
+# 3. Berikan hak akses folder storage & database
+chmod -R 775 storage bootstrap/cache database</code></pre>
+
+    <div class="page-break"></div>
+
+    <!-- Setup Awal & Recovery -->
+    <h2>3. Setup Awal / Pemulihan Server (Fresh Installation)</h2>
+    <p>Jika direktori di server terhapus atau Anda ingin melakukan instalasi ulang dari nol:</p>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div>Kloning / Sinkronisasi Kode</div>
+      </div>
+      <pre><code>cd ~/domains/biddlog.site/public_html
+git init
+git remote remove origin 2>/dev/null || true
+git remote add origin https://github.com/Kizker/biddlog.git
+git fetch origin main
+git reset --hard origin/main
+git pull origin main
+rm -f default.php</code></pre>
+    </div>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div>Konfigurasi File Environment (.env)</div>
+      </div>
+      <pre><code>cat << 'EOF' > .env
+APP_NAME=Biddlog
+APP_ENV=production
+APP_KEY=base64:xJIR0tttRnW+Qi4gvT1VOJ8/A0qZausIJBx6wnR+sRc=
+APP_DEBUG=false
+APP_URL=https://biddlog.site
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=u141095167_bid
+DB_USERNAME=u141095167_headbid
+DB_PASSWORD=@Dea18022003
+
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+EOF</code></pre>
+    </div>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div>Install Vendor & Migrasi Database</div>
+      </div>
+      <pre><code>composer install --no-dev --optimize-autoloader
+chmod -R 775 storage bootstrap/cache database
+php public/api/migrate_db.php</code></pre>
+    </div>
+
+    <!-- Troubleshooting -->
+    <h2>4. Troubleshooting & Tips Penting</h2>
+    <div class="callout warning">
+      <div class="callout-icon">⚠️</div>
+      <div>
+        <strong>Pesan "Permission Denied" pada folder Storage / Database:</strong><br>
+        Jalankan perintah <code>chmod -R 775 storage bootstrap/cache database</code> di dalam folder <code>public_html</code>.
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div>
+        <strong>Migrasi Ulang Database MySQL:</strong><br>
+        Jika Anda memperbarui struktur tabel atau data master, cukup buka endpoint berikut di browser:<br>
+        <code>https://biddlog.site/api/migrate_db.php</code>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">✨</div>
+      <div>
+        <strong>Akun Default Aplikasi:</strong><br>
+        • <strong>Administrator:</strong> Username <code>admin</code> | Password <code>password</code><br>
+        • <strong>Member:</strong> Username <code>testuser</code> | Password <code>password</code>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Dokumen ini digenerate secara otomatis untuk dokumentasi operasional <strong>Biddlog Project Orchestration</strong>.
+    </div>
+
+  </div>
+
+</body>
+</html>
