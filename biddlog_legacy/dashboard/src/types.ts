@@ -127,5 +127,5 @@ export const emptyFilters: FilterState = {
   statuses: [],
 };
 
-export type ActiveView = 'analyzer' | 'scanner' | 'checker';
+export type ActiveView = 'analyzer' | 'hasil_bidding' | 'scanner' | 'list_dapat' | 'gaji' | 'pengguna' | 'audit_trail';
 export type AdminViewMode = 'dashboard' | 'analyzer' | 'hasil_bidding' | 'scanner' | 'pembagian_barang' | 'presensi' | 'list_dapat' | 'gaji' | 'limit_harga' | 'pengguna' | 'audit_trail';

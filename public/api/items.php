@@ -52,7 +52,7 @@ try {
             echo json_encode(['status' => 'success', 'message' => "$inserted items saved"]);
         }
     } else if ($method === 'DELETE') {
-        $pdo->exec("TRUNCATE TABLE items");
+        $pdo->exec("DELETE FROM items");
         $dataFile = __DIR__ . '/published_data.json';
         if (file_exists($dataFile)) {
             unlink($dataFile);

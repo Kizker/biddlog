@@ -5,7 +5,7 @@ import AdminDashboard from './components/AdminDashboard';
 import AdminAnalyzer from './components/AdminAnalyzer';
 import PembagianBarang from './components/PembagianBarang';
 import LaporanPresensi from './components/LaporanPresensi';
-import LaporanListDapat from './components/LaporanListDapat';
+import LaporanListDapat, { isPersonHeaderLine, parseObtainedItemLine } from './components/LaporanListDapat';
 import AdminGaji from './components/AdminGaji';
 import LimitHargaFee from './components/LimitHargaFee';
 import ManajemenPengguna from './components/ManajemenPengguna';
@@ -751,6 +751,16 @@ function detectLooseModel(text: string) {
 }
 
 export function parseLooseItemCode(line: string): LooseItemCode {
+  if (/^enb\s+tgl/i.test(line) || /^enb\b/i.test(line)) {
+    return {
+      model: '',
+      storage: null,
+      grade: '',
+      unit: null,
+      baseKey: '-|-|-',
+      key: '-|-|-|-'
+    };
+  }
   const price = extractPriceRange(line);
   const beforePrice = price.priceStart >= 0 ? line.slice(0, price.priceStart) : line;
   const withoutAccount = beforePrice.replace(/\b(menik|mubdi|aldi)\b/gi, ' ');
@@ -782,7 +792,19 @@ export function parseTextList(text: string, source: TextListEntry['source']): Pa
     const line = cleanListText(rawLine);
     if (!line) return;
 
-    const isHeader = !/@|\b\d{4,8}\b/.test(line) && parseStorageFromText(line) === null;
+    // 1. Ignore and strip Date / Enb Header labels completely (e.g. "Enb tgl 19/08/ 2026", "Enb tgl 19/08/2026")
+    if (
+      /^enb\s+tgl/i.test(line) ||
+      /^enb\b/i.test(line) ||
+      /^(?:enb\s*)?tgl\s*:?\s*\d+/i.test(line) ||
+      /^(?:tanggal|tgl)\s*:?\s*\d+/i.test(line) ||
+      /^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}$/.test(line)
+    ) {
+      return;
+    }
+
+    // 2. Check if line is a person header
+    const isHeader = isPersonHeaderLine(line) || (!/@|\b\d{4,8}\b/.test(line) && parseStorageFromText(line) === null && !/[✅❌⚠️]/.test(line) && !line.includes('('));
     if (isHeader || /:\s*$/.test(line)) {
       currentPerson = displayPersonName(line);
       if (!sections.some((section) => normalizePersonName(section.person) === normalizePersonName(currentPerson))) {
@@ -1108,11 +1130,32 @@ function formatStatusLine(
   return `${entryLine}${accountSuffix}${statusOk}${reserveSuffix}`;
 }
 
+export function extractHeaderDate(text: string): string {
+  if (!text) return '';
+  const lines = text.split(/\r?\n/);
+  for (const raw of lines) {
+    const trimmed = raw.trim();
+    if (/^(?:enb\s+tgl|enb\b|tgl|tanggal)/i.test(trimmed)) {
+      return trimmed;
+    }
+  }
+  return '';
+}
+
+export function getDefaultHeaderDate(): string {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const year = today.getFullYear();
+  return `Enb tgl ${day}/${month}/ ${year}`;
+}
+
 function buildCheckResult(
   targetList: ParsedTextList,
   obtainedList: ParsedTextList,
   reserveList: ParsedTextList,
   invoiceItems: ParsedInvoiceItem[],
+  headerDate?: string
 ) {
   const workingInvoices = invoiceItems.map((item) => ({ ...item }));
   const reserveEntries = reserveList.entries;
@@ -1223,7 +1266,7 @@ function buildCheckResult(
       invoice.consumedBy = 'extra-mubdi';
     });
 
-  return orderedPeople
+  const resultBody = orderedPeople
     .map((person) => {
       const normalized = normalizePersonName(person);
       const lines = linesByPerson.get(normalized) ?? [];
@@ -1231,6 +1274,11 @@ function buildCheckResult(
     })
     .filter(Boolean)
     .join('\n\n');
+
+  if (!resultBody) return '';
+
+  const finalHeader = (headerDate || '').trim() || getDefaultHeaderDate();
+  return `${finalHeader}\n\n${resultBody}`;
 }
 
 function MultiFilter({
@@ -1271,13 +1319,85 @@ function MultiFilter({
 }
 
 function ResultChecker() {
-  const [targetText, setTargetText] = useState('');
-  const [obtainedText, setObtainedText] = useState('');
-  const [reserveText, setReserveText] = useState('');
-  const [invoiceJson, setInvoiceJson] = useState('');
-  const [invoiceFileName, setInvoiceFileName] = useState('');
+  const [targetText, setTargetText] = useState(() => localStorage.getItem('biddlog_checker_target') || '');
+  const [obtainedText, setObtainedText] = useState(() => localStorage.getItem('biddlog_checker_obtained') || '');
+  const [reserveText, setReserveText] = useState(() => localStorage.getItem('biddlog_checker_reserve') || '');
+  const [invoiceJson, setInvoiceJson] = useState(() => localStorage.getItem('biddlog_checker_invoice_json') || '');
+  const [invoiceFileName, setInvoiceFileName] = useState(() => localStorage.getItem('biddlog_checker_invoice_name') || '');
   const [copied, setCopied] = useState(false);
+  const [sentToReport, setSentToReport] = useState(false);
   const [accStatuses, setAccStatuses] = useState<Record<string, 'loading' | 'success' | 'error'>>({});
+
+  // Auto-persist input values to localStorage so they are not lost on page reload
+  useEffect(() => {
+    localStorage.setItem('biddlog_checker_target', targetText);
+  }, [targetText]);
+
+  useEffect(() => {
+    localStorage.setItem('biddlog_checker_obtained', obtainedText);
+  }, [obtainedText]);
+
+  useEffect(() => {
+    localStorage.setItem('biddlog_checker_reserve', reserveText);
+  }, [reserveText]);
+
+  useEffect(() => {
+    localStorage.setItem('biddlog_checker_invoice_json', invoiceJson);
+    localStorage.setItem('biddlog_checker_invoice_name', invoiceFileName);
+  }, [invoiceJson, invoiceFileName]);
+
+  const handleResetCheckerInputs = () => {
+    if (!targetText && !obtainedText && !reserveText && !invoiceJson) return;
+    if (!window.confirm('Kosongkan semua input Hasil Bidding (Target, Didapat, Cadangan, Invoice)?')) return;
+    setTargetText('');
+    setObtainedText('');
+    setReserveText('');
+    setInvoiceJson('');
+    setInvoiceFileName('');
+    localStorage.removeItem('biddlog_checker_target');
+    localStorage.removeItem('biddlog_checker_obtained');
+    localStorage.removeItem('biddlog_checker_reserve');
+    localStorage.removeItem('biddlog_checker_invoice_json');
+    localStorage.removeItem('biddlog_checker_invoice_name');
+  };
+
+  const handleSendToObtainedReport = async () => {
+    if (!checkResult) return;
+    setSentToReport(true);
+    try {
+      const lines = checkResult.split('\n');
+      const itemsToSync: any[] = [];
+      let curPerson = '';
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || /^enb\s+tgl/i.test(trimmed)) continue;
+        if (isPersonHeaderLine(trimmed)) {
+          curPerson = trimmed;
+          continue;
+        }
+
+        const parsedItem = parseObtainedItemLine(trimmed, curPerson);
+        itemsToSync.push(parsedItem);
+      }
+
+      if (itemsToSync.length > 0) {
+        localStorage.setItem('obtained_list_data', JSON.stringify(itemsToSync));
+        await fetch('/api/obtained.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'sync_all',
+            report_date: detectedHeaderDate || new Date().toISOString().split('T')[0],
+            items: itemsToSync
+          })
+        });
+      }
+      setTimeout(() => setSentToReport(false), 2500);
+    } catch (e) {
+      console.error(e);
+      setSentToReport(false);
+    }
+  };
 
   const handleAcc = async (row: ComparisonPreviewRow) => {
     setAccStatuses(prev => ({ ...prev, [row.id]: 'loading' }));
@@ -1288,7 +1408,7 @@ function ResultChecker() {
         grade: row.grade,
         price: row.price
       };
-      const res = await fetch('http://biddlog.test/api/save_acc.php', {
+      const res = await fetch('/api/save_acc.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -1333,6 +1453,10 @@ function ResultChecker() {
     }
   }, [invoiceJson]);
 
+  const detectedHeaderDate = useMemo(() => {
+    return extractHeaderDate(obtainedText) || extractHeaderDate(targetText) || extractHeaderDate(reserveText) || '';
+  }, [obtainedText, targetText, reserveText]);
+
   const targetList = useMemo(() => parseTextList(targetText, 'target'), [targetText]);
   const obtainedList = useMemo(() => parseTextList(obtainedText, 'obtained'), [obtainedText]);
   const reserveList = useMemo(() => parseTextList(reserveText, 'reserve'), [reserveText]);
@@ -1342,8 +1466,8 @@ function ResultChecker() {
   );
 
   const checkResult = useMemo(
-    () => buildCheckResult(targetList, obtainedList, reserveList, invoiceItems),
-    [invoiceItems, obtainedList, reserveList, targetList],
+    () => buildCheckResult(targetList, obtainedList, reserveList, invoiceItems, detectedHeaderDate),
+    [invoiceItems, obtainedList, reserveList, targetList, detectedHeaderDate],
   );
 
   const missingInvoice = invoiceJson.trim().length > 0 && invoiceItems.length === 0;
@@ -1362,6 +1486,33 @@ function ResultChecker() {
   return (
     <section className="checker-layout">
       <aside className="panel checker-input-panel">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+          <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--navy)' }}>📋 Input Data Bidding</span>
+          {(targetText || obtainedText || reserveText || invoiceJson) ? (
+            <button
+              type="button"
+              onClick={handleResetCheckerInputs}
+              style={{
+                background: '#fef2f2',
+                color: '#ef4444',
+                border: '1px solid #fecaca',
+                borderRadius: '6px',
+                padding: '4px 10px',
+                fontSize: '11px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                transition: 'all 0.15s'
+              }}
+              title="Kosongkan seluruh kolom input"
+            >
+              🗑️ Reset Input
+            </button>
+          ) : null}
+        </div>
+
         <section className="checker-block">
           <p className="section-label">Invoice 3 Akun</p>
           <label className="file-drop checker-upload">
@@ -1414,13 +1565,35 @@ function ResultChecker() {
       </aside>
 
       <section className="panel checker-result-panel">
-        <div className="checker-result-header">
+        <div className="checker-result-header" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <div>
             <p className="section-label">Hasil Cek</p>
           </div>
-          <button type="button" onClick={copyResult} disabled={!checkResult}>
-            {copied ? 'Tersalin' : 'Copy Hasil'}
-          </button>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              type="button"
+              onClick={handleSendToObtainedReport}
+              disabled={!checkResult}
+              style={{
+                background: sentToReport ? '#10b981' : '#3b82f6',
+                color: 'white',
+                border: 'none',
+                padding: '6px 12px',
+                borderRadius: '6px',
+                fontSize: '12px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              {sentToReport ? '✔ Terkirim ke Laporan List!' : '🚀 Kirim ke Laporan List Didapat'}
+            </button>
+            <button type="button" onClick={copyResult} disabled={!checkResult}>
+              {copied ? 'Tersalin' : 'Copy Hasil'}
+            </button>
+          </div>
         </div>
 
         <div className="checker-stats">
@@ -1463,25 +1636,6 @@ function ResultChecker() {
                       </div>
                       <div className="comparison-preview-note">
                         {row.note}
-                        {row.status !== 'missing' && (
-                          <button 
-                            onClick={() => handleAcc(row)} 
-                            disabled={accStatuses[row.id] === 'loading' || accStatuses[row.id] === 'success'}
-                            style={{
-                              marginLeft: '12px',
-                              padding: '4px 8px',
-                              fontSize: '10px',
-                              borderRadius: '4px',
-                              border: 'none',
-                              background: accStatuses[row.id] === 'success' ? '#10b981' : 'var(--blue)',
-                              color: 'white',
-                              cursor: accStatuses[row.id] === 'success' ? 'default' : 'pointer',
-                              fontWeight: 'bold'
-                            }}
-                          >
-                            {accStatuses[row.id] === 'success' ? '✔ ACC' : accStatuses[row.id] === 'loading' ? 'Menyimpan...' : 'ACC Gaji'}
-                          </button>
-                        )}
                       </div>
                     </div>
                   ))}
@@ -1683,7 +1837,7 @@ function BerandaView() {
   const [pubDate, setPubDate] = React.useState('');
 
   React.useEffect(() => {
-    fetch('http://biddlog.test/api/publish.php')
+    fetch('/api/publish.php')
       .then(res => res.json())
       .then(data => {
         if (data.status === 'success' && data.data) {
@@ -1741,7 +1895,7 @@ function PresensiView({ loggedInUser, isDemoMode }: { loggedInUser: any, isDemoM
   
   const fetchAttendances = React.useCallback(() => {
     const today = new Date().toISOString().split('T')[0];
-    fetch(`http://biddlog.test/api/attendances.php?date=${today}`)
+    fetch(`/api/attendances.php?date=${today}`)
       .then(res => res.json())
       .then(data => {
         if (data.status === 'success') {
@@ -1763,7 +1917,7 @@ function PresensiView({ loggedInUser, isDemoMode }: { loggedInUser: any, isDemoM
     const day = String(today.getDate()).padStart(2, '0');
     const localDateStr = `${y}-${m}-${day}`;
     
-    fetch('http://biddlog.test/api/attendances.php', {
+    fetch('/api/attendances.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_id: loggedInUser?.id, date: localDateStr, status: 'hadir' })
@@ -1891,7 +2045,7 @@ function ListDapatView({ loggedInUser, isDemoMode }: { loggedInUser: any, isDemo
           grade: target.grade.value,
           obtained_price: target.price.value
         };
-        fetch('http://biddlog.test/api/obtained.php', {
+        fetch('/api/obtained.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -1936,10 +2090,16 @@ function ListDapatView({ loggedInUser, isDemoMode }: { loggedInUser: any, isDemo
 }
 
 function App() {
-  const [role, setRole] = useState<'login' | 'admin' | 'anggota'>(() => {
-    return (localStorage.getItem('role') as 'login' | 'admin' | 'anggota') || 'login';
+  const [role, setRole] = useState<'login' | 'admin'>(() => {
+    const saved = localStorage.getItem('role');
+    if (saved === 'anggota') return 'admin';
+    return (saved as 'login' | 'admin') || 'login';
   });
-  const [adminView, setAdminView] = useState(() => localStorage.getItem('adminView') || 'Dashboard');
+  const [adminView, setAdminView] = useState(() => {
+    const saved = localStorage.getItem('adminView') || 'Analyzer';
+    if (saved === 'Dashboard' || saved === 'Laporan Presensi' || saved === 'Limit Harga & Fee Barang' || saved === 'Pembagian Barang') return 'Analyzer';
+    return saved;
+  });
   const [anggotaView, setAnggotaView] = useState<'beranda' | 'presensi' | 'list_dapat'>(() => (localStorage.getItem('anggotaView') as 'beranda' | 'presensi' | 'list_dapat') || 'beranda');
   const [dbStatus, setDbStatus] = useState<'checking' | 'connected' | 'error'>('checking');
   const [dbMessage, setDbMessage] = useState('');
@@ -1954,7 +2114,11 @@ function App() {
   });
   const [isDemoMode, setIsDemoMode] = useState(() => localStorage.getItem('isDemoMode') === 'true');
 
-  const [activeView, setActiveView] = useState<ActiveView>(() => (localStorage.getItem('activeView') as ActiveView) || 'analyzer');
+  const [activeView, setActiveView] = useState<ActiveView>(() => {
+    const rawSaved = localStorage.getItem('activeView') || 'analyzer';
+    if (rawSaved === 'dashboard' || rawSaved === 'presensi' || rawSaved === 'limit_harga' || rawSaved === 'pembagian_barang') return 'analyzer';
+    return (rawSaved as ActiveView) || 'analyzer';
+  });
 
   useLayoutEffect(() => {
     localStorage.setItem('adminView', adminView);
@@ -1990,11 +2154,7 @@ function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const getApiUrl = (endpoint: string) => {
-    const origin = window.location.origin;
-    if (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes(':517')) {
-      return `http://biddlog.test/api/${endpoint}`;
-    }
-    return `/api/${endpoint}`;
+    return `/api/${endpoint.replace(/^\//, '')}`;
   };
 
   const handleLogin = (e: React.FormEvent) => {
@@ -2017,16 +2177,12 @@ function App() {
       .then(data => {
         setIsLoggingIn(false);
         if (data.status === 'success') {
-          const userRole = data.user.role === 'admin' ? 'admin' : 'anggota';
           setLoggedInUser(data.user);
-          setRole(userRole);
+          setRole('admin');
           localStorage.setItem('loggedInUser', JSON.stringify(data.user));
-          localStorage.setItem('role', userRole);
-          if (userRole === 'admin') {
-            setActiveView('analyzer');
-          } else {
-            setAnggotaView('beranda');
-          }
+          localStorage.setItem('role', 'admin');
+          setAdminView('Analyzer');
+          setActiveView('analyzer');
         } else {
           setLoginError(data.message || 'Username atau password salah');
         }
@@ -2402,8 +2558,7 @@ function App() {
 
   return (
     <div className="app-container">
-      {role === 'admin' && (
-        <aside className={`admin-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
+      <aside className={`admin-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
           {/* Toggle Button */}
           <button 
             className="sidebar-toggle"
@@ -2421,9 +2576,7 @@ function App() {
 
           <div 
             className="sidebar-header" 
-            onClick={() => setRole('anggota')} 
-            style={{ cursor: 'pointer' }}
-            title="Kembali ke Portal Publik"
+            style={{ userSelect: 'none' }}
           >
             <div className="sidebar-logo">
               <img src="/bidding-item-analyzer-crop.png" alt="Logo" />
@@ -2438,9 +2591,8 @@ function App() {
           <nav className="sidebar-nav">
             {(() => {
               const navGroups = [
-                ['Dashboard'],
                 ['Analyzer', 'Hasil Bidding', 'Scanner'],
-                ['Pembagian Barang', 'Laporan Presensi', 'Laporan List Dapat', 'Gaji', 'Limit Harga & Fee Barang'],
+                ['Laporan List Dapat', 'Gaji'],
                 ['Pengguna', 'Audit Trail'],
               ];
               const viewMap: Record<string, AdminViewMode> = {
@@ -2493,87 +2645,23 @@ function App() {
             })()}
           </nav>
           <div className="sidebar-footer">
-            <button className="btn-logout" type="button" onClick={() => { localStorage.removeItem('loggedInUser'); localStorage.removeItem('role'); setRole('login'); setLoggedInUser(null); setUsername(''); setPassword(''); }}>
+            <button className="btn-logout" type="button" onClick={() => { localStorage.clear(); setRole('login'); setLoggedInUser(null); setUsername(''); setPassword(''); }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
               {!sidebarCollapsed && 'Keluar'}
             </button>
             {!sidebarCollapsed && (
-              <div 
-                className="admin-user-info" 
-                onClick={() => setRole('anggota')} 
-                style={{ cursor: 'pointer' }}
-                title="Kembali ke Portal Publik"
-              >
+              <div className="admin-user-info">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                Administrator
+                {loggedInUser?.username || 'Administrator'}
               </div>
             )}
           </div>
         </aside>
-      )}
 
-      <div className={role === 'anggota' ? 'public-layout' : 'main-content'}>
-        {role === 'anggota' && (
-          <header className="public-header">
-            <div className="header-left">
-              <div className="header-logo">
-                <img src="/bidding-item-analyzer-crop.png" alt="Logo" />
-              </div>
-              <div className="header-divider"></div>
-              <h2 className="header-title">Bidd<strong>log</strong></h2>
-            </div>
-            <nav className="header-nav">
-              <a href="#" className={`header-nav-link ${anggotaView === 'beranda' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setAnggotaView('beranda'); }}>Beranda</a>
-              <a href="#" className={`header-nav-link ${anggotaView === 'presensi' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setAnggotaView('presensi'); }}>Presensi</a>
-              <a href="#" className={`header-nav-link ${anggotaView === 'list_dapat' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setAnggotaView('list_dapat'); }}>List Dapat</a>
-            </nav>
-            <div className="header-right">
-              {loggedInUser?.role === 'admin' ? (
-                <>
-                  <button 
-                    className="btn-admin" 
-                    title="Masuk ke Panel Admin"
-                    onClick={() => { setRole('admin'); setAdminView('Dashboard'); setActiveView('dashboard'); }}
-                  >
-                    Admin
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                  </button>
-                  <button
-                    className="btn-admin"
-                    style={{ background: '#e8222c' }}
-                    title="Keluar / Logout"
-                    onClick={() => { localStorage.removeItem('loggedInUser'); localStorage.removeItem('role'); setRole('login'); setLoggedInUser(null); setUsername(''); setPassword(''); }}
-                  >
-                    Keluar
-                  </button>
-                </>
-              ) : (
-                <button 
-                  className="btn-admin" 
-                  title="Klik untuk Keluar / Logout"
-                  onClick={() => { localStorage.removeItem('loggedInUser'); localStorage.removeItem('role'); setRole('login'); setLoggedInUser(null); setUsername(''); setPassword(''); }}
-                >
-                  {loggedInUser ? loggedInUser.username : 'Guest'}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                </button>
-              )}
-            </div>
-          </header>
-        )}
-
-        <main className={role === 'anggota' ? 'app-shell' : ''} style={role === 'admin' ? { padding: '24px' } : {}}>
+      <div className="main-content">
+        <main style={{ padding: '24px' }}>
           <div className="app-inner">
-            {role === 'anggota' && (
-              <div style={{ padding: '20px', background: 'white', borderRadius: '8px', border: '1px solid var(--line)' }}>
-                {anggotaView === 'beranda' && <BerandaView />}
-                
-                {anggotaView === 'presensi' && <PresensiView loggedInUser={loggedInUser} isDemoMode={isDemoMode} />}
-
-                {anggotaView === 'list_dapat' && <ListDapatView loggedInUser={loggedInUser} isDemoMode={isDemoMode} />}
-              </div>
-            )}
-            
-            <div style={{ display: role === 'admin' ? 'block' : 'none' }}>
+            <div>
               <section className="topbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h2 style={{ margin: 0, fontSize: '23px' }}>{adminView}</h2>
                 <div className="summary" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -2615,9 +2703,7 @@ function App() {
                 </div>
               </section>
 
-              {activeView === 'dashboard' ? (
-                <AdminDashboard />
-              ) : activeView === 'analyzer' ? (
+              {activeView === 'analyzer' ? (
                 <section className="workspace">
                   <aside className="panel input-panel" ref={sidebarRef}>
                     <section className="json-input-section" style={{ padding: '16px', background: 'var(--bg)', borderRadius: '8px', border: '1px solid var(--line)', marginBottom: '16px' }}>
@@ -2798,16 +2884,10 @@ function App() {
                 <ResultChecker />
               ) : activeView === 'scanner' ? (
                 <PortableGuidePanel />
-              ) : activeView === 'pembagian_barang' ? (
-                <PembagianBarang />
-              ) : activeView === 'presensi' ? (
-                <LaporanPresensi isDemoMode={isDemoMode} />
               ) : activeView === 'list_dapat' ? (
                 <LaporanListDapat />
               ) : activeView === 'gaji' ? (
                 <AdminGaji />
-              ) : activeView === 'limit_harga' ? (
-                <LimitHargaFee />
               ) : activeView === 'pengguna' ? (
                 <ManajemenPengguna />
               ) : activeView === 'audit_trail' ? (

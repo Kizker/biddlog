@@ -13,14 +13,7 @@ if (file_exists($envPath)) {
     }
 }
 
-$host = $env['DB_HOST'] ?? '127.0.0.1';
-$db = $env['DB_DATABASE'] ?? 'biddlog_db';
-$user = $env['DB_USERNAME'] ?? 'root';
-$pass = $env['DB_PASSWORD'] ?? '';
-
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$driver = $env['DB_CONNECTION'] ?? 'sqlite';
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -28,14 +21,45 @@ $options = [
 ];
 
 try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
+    if ($driver === 'sqlite') {
+        $sqlitePath = $env['DB_DATABASE'] ?? (__DIR__ . '/../../../database/database.sqlite');
+        if (!file_exists($sqlitePath)) {
+            $sqlitePath = __DIR__ . '/../../../database/database.sqlite';
+        }
+        $pdo = new PDO("sqlite:" . $sqlitePath, null, null, $options);
+        $pdo->sqliteCreateFunction('CURDATE', fn() => date('Y-m-d'));
+        $pdo->sqliteCreateFunction('NOW', fn() => date('Y-m-d H:i:s'));
+        $pdo->sqliteCreateFunction('DATE', function ($val) {
+            if (empty($val)) return null;
+            return date('Y-m-d', strtotime($val));
+        });
+    } else {
+        $host = $env['DB_HOST'] ?? '127.0.0.1';
+        $port = $env['DB_PORT'] ?? '3306';
+        $db = $env['DB_DATABASE'] ?? 'biddlog_db';
+        $user = $env['DB_USERNAME'] ?? 'root';
+        $pass = $env['DB_PASSWORD'] ?? '';
+        $charset = 'utf8mb4';
+        $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
+        $pdo = new PDO($dsn, $user, $pass, $options);
+    }
 } catch (\PDOException $e) {
-    // Return standard JSON error for frontend
-    header('Content-Type: application/json');
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Database connection failed'
-    ]);
-    exit;
+    try {
+        $sqlitePath = __DIR__ . '/../../../database/database.sqlite';
+        $pdo = new PDO("sqlite:" . $sqlitePath, null, null, $options);
+        $pdo->sqliteCreateFunction('CURDATE', fn() => date('Y-m-d'));
+        $pdo->sqliteCreateFunction('NOW', fn() => date('Y-m-d H:i:s'));
+        $pdo->sqliteCreateFunction('DATE', function ($val) {
+            if (empty($val)) return null;
+            return date('Y-m-d', strtotime($val));
+        });
+    } catch (\Exception $ex) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Database connection failed: ' . $ex->getMessage()
+        ]);
+        exit;
+    }
 }
 ?>

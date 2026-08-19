@@ -18,12 +18,12 @@ export default function LaporanPresensi({ isDemoMode }: { isDemoMode?: boolean }
   const fetchData = async () => {
     setLoading(true);
     try {
-      const resUsers = await fetch('http://biddlog.test/api/users.php');
+      const resUsers = await fetch('/api/users.php');
       const dataUsers = await resUsers.json();
       
       // Fetch all for now to map the spreadsheet
       // In production, should fetch by date range
-      const resAtt = await fetch('http://biddlog.test/api/attendances.php?date='); 
+      const resAtt = await fetch('/api/attendances.php?date='); 
       const dataAtt = await resAtt.json();
 
       if (dataUsers.status === 'success') {
@@ -50,7 +50,7 @@ export default function LaporanPresensi({ isDemoMode }: { isDemoMode?: boolean }
   const handleReset = async () => {
     if (!confirm('Yakin ingin mereset/menghapus semua data presensi?')) return;
     try {
-      const res = await fetch('http://biddlog.test/api/attendances.php', { method: 'DELETE' });
+      const res = await fetch('/api/attendances.php', { method: 'DELETE' });
       const data = await res.json();
       if (data.status === 'success') {
         alert(data.message);

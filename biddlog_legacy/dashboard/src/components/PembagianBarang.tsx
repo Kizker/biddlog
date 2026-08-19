@@ -28,13 +28,13 @@ export default function PembagianBarang() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const resItems = await fetch('http://biddlog.test/api/items.php');
+      const resItems = await fetch('/api/items.php');
       const dataItems = await resItems.json();
       
-      const resUsers = await fetch('http://biddlog.test/api/users.php');
+      const resUsers = await fetch('/api/users.php');
       const dataUsers = await resUsers.json();
 
-      const resLimits = await fetch('http://biddlog.test/api/limits.php');
+      const resLimits = await fetch('/api/limits.php');
       const dataLimits = await resLimits.json();
       
       if (dataItems.status === 'success') {
@@ -73,7 +73,7 @@ export default function PembagianBarang() {
     
     // Save to DB
     try {
-      await fetch('http://biddlog.test/api/assignments.php', {
+      await fetch('/api/assignments.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ item_id: draggedItem.id, user_id: userId, assigned_accounts: '' })
@@ -92,7 +92,7 @@ export default function PembagianBarang() {
     setItems(items.map(item => item.id === draggedItem.id ? { ...item, assigned_to: null, assignee_name: null, status: 'parsed' } : item));
     
     try {
-      await fetch('http://biddlog.test/api/assignments.php', {
+      await fetch('/api/assignments.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ item_id: draggedItem.id, user_id: null, assigned_accounts: draggedItem.assigned_accounts || '' })
@@ -122,7 +122,7 @@ export default function PembagianBarang() {
     setItems(items.map(i => i.id === item.id ? { ...i, assigned_accounts: accountsStr } : i));
 
     try {
-      await fetch('http://biddlog.test/api/assignments.php', {
+      await fetch('/api/assignments.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ item_id: item.id, user_id: item.assigned_to, assigned_accounts: accountsStr })
@@ -216,7 +216,7 @@ export default function PembagianBarang() {
         };
       });
 
-      const res = await fetch('http://biddlog.test/api/publish.php', {
+      const res = await fetch('/api/publish.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ distribution })
@@ -242,7 +242,7 @@ export default function PembagianBarang() {
 
   const handleUnpublish = async () => {
     try {
-      await fetch('http://biddlog.test/api/publish.php', { method: 'DELETE' });
+      await fetch('/api/publish.php', { method: 'DELETE' });
       setPublishStatus('idle');
       fetchData();
       setPublishToast('Publish dibatalkan.');
@@ -291,7 +291,7 @@ export default function PembagianBarang() {
               <button 
                 onClick={async () => {
                   if(confirm('Yakin ingin mereset/menghapus semua data barang? Semua pembagian akan hilang.')) {
-                    await fetch('http://biddlog.test/api/items.php', { method: 'DELETE' });
+                    await fetch('/api/items.php', { method: 'DELETE' });
                     fetchData();
                   }
                 }}

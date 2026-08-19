@@ -10,7 +10,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://biddlog.test/api/dashboard_stats.php')
+    fetch('/api/dashboard_stats.php')
       .then(res => res.json())
       .then(data => {
         if (data.status === 'success') {

@@ -41,7 +41,7 @@ export default function AdminAnalyzer() {
         }))
       };
 
-      const res = await fetch('http://biddlog.test/api/items.php', {
+      const res = await fetch('/api/items.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

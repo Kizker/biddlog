@@ -12,7 +12,7 @@ export default function ManajemenPengguna() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://biddlog.test/api/users.php');
+      const res = await fetch('/api/users.php');
       const data = await res.json();
       if (data.status === 'success') {
         setUsers(data.data);
@@ -32,7 +32,7 @@ export default function ManajemenPengguna() {
     e.preventDefault();
     try {
       const method = isEditing ? 'PUT' : 'POST';
-      const res = await fetch('http://biddlog.test/api/users.php', {
+      const res = await fetch('/api/users.php', {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, accounts: formData.accounts.join(',') })
@@ -58,7 +58,7 @@ export default function ManajemenPengguna() {
   const handleDelete = async (id: number) => {
     if (!confirm('Yakin ingin menghapus pengguna ini?')) return;
     try {
-      await fetch(`http://biddlog.test/api/users.php?id=${id}`, { method: 'DELETE' });
+      await fetch(`/api/users.php?id=${id}`, { method: 'DELETE' });
       fetchUsers();
     } catch (err) {
       console.error(err);

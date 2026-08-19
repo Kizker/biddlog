@@ -7,7 +7,7 @@ export default function AuditTrail() {
   const fetchLogs = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://biddlog.test/api/audit.php?limit=50');
+      const res = await fetch('/api/audit.php?limit=50');
       const data = await res.json();
       if (data.status === 'success') {
         setLogs(data.data);

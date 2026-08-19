@@ -9,8 +9,8 @@ export default function HasilBidding() {
     setLoading(true);
     try {
       const [resItems, resObtained] = await Promise.all([
-        fetch('http://biddlog.test/api/items.php'),
-        fetch('http://biddlog.test/api/obtained.php')
+        fetch('/api/items.php'),
+        fetch('/api/obtained.php')
       ]);
       const dataItems = await resItems.json();
       const dataObtained = await resObtained.json();

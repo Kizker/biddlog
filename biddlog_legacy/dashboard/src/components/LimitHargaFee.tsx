@@ -13,7 +13,7 @@ export default function LimitHargaFee() {
   const fetchLimits = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://biddlog.test/api/limits.php');
+      const res = await fetch('/api/limits.php');
       const data = await res.json();
       if (data.status === 'success') {
         setLimits(data.data);
@@ -36,7 +36,7 @@ export default function LimitHargaFee() {
       const payload = { ...formData, fee_amount: finalFee };
       const method = isEditing ? 'PUT' : 'POST';
 
-      const res = await fetch('http://biddlog.test/api/limits.php', {
+      const res = await fetch('/api/limits.php', {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -59,7 +59,7 @@ export default function LimitHargaFee() {
   const handleDelete = async (id: number) => {
     if (!confirm('Hapus limit harga ini?')) return;
     try {
-      await fetch(`http://biddlog.test/api/limits.php?id=${id}`, { method: 'DELETE' });
+      await fetch(`/api/limits.php?id=${id}`, { method: 'DELETE' });
       fetchLimits();
     } catch (err) {
       console.error(err);
