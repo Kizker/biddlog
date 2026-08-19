@@ -19,12 +19,13 @@ fi
 echo "🔒 [3/4] Mengatur hak akses folder storage & cache..."
 chmod -R 775 storage bootstrap/cache database 2>/dev/null || true
 
-echo "💾 [4/4] Memeriksa database..."
+echo "💾 [4/4] Memeriksa database & optimasi kecepatan..."
 if [ ! -f "storage/installed.lock" ]; then
     echo "⚡ Menjalankan inisialisasi awal database..."
     php public/api/migrate_db.php || true
     touch storage/installed.lock
 fi
+php public/api/optimize_db.php || true
 
 echo "============================================================"
 echo "✅ Pembaruan Biddlog.site Berhasil Diterapkan!"

@@ -11,132 +11,138 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once 'config/db.php';
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Ensure all salary tables exist
-try {
-    $isSqlite = !isset($driver) || $driver === 'sqlite';
-    if ($isSqlite) {
-        $pdo->exec("CREATE TABLE IF NOT EXISTS payroll_batches (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            report_date VARCHAR(50) NOT NULL UNIQUE,
-            total_items INTEGER DEFAULT 0,
-            total_fee_points INTEGER DEFAULT 0,
-            total_amount REAL DEFAULT 0,
-            people_count INTEGER DEFAULT 0,
-            sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )");
+// Lazy table initialization helper (only runs if tables don't exist yet)
+function ensureSalaryTablesExist($pdo, $driver) {
+    static $checked = false;
+    if ($checked) return;
+    $checked = true;
 
-        $pdo->exec("CREATE TABLE IF NOT EXISTS salary_items (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            batch_id INTEGER,
-            report_date VARCHAR(50) NOT NULL,
-            person VARCHAR(255) NOT NULL,
-            model VARCHAR(255),
-            storage VARCHAR(50),
-            grade VARCHAR(50),
-            unit INTEGER DEFAULT 1,
-            obtained_price REAL DEFAULT 0,
-            fee_info VARCHAR(100),
-            fee_value INTEGER DEFAULT 0,
-            bidder VARCHAR(100),
-            status VARCHAR(50) DEFAULT 'approved',
-            notes TEXT,
-            raw_line TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )");
+    try {
+        $isSqlite = !isset($driver) || $driver === 'sqlite';
+        if ($isSqlite) {
+            $pdo->exec("CREATE TABLE IF NOT EXISTS payroll_batches (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                report_date VARCHAR(50) NOT NULL UNIQUE,
+                total_items INTEGER DEFAULT 0,
+                total_fee_points INTEGER DEFAULT 0,
+                total_amount REAL DEFAULT 0,
+                people_count INTEGER DEFAULT 0,
+                sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )");
 
-        $pdo->exec("CREATE TABLE IF NOT EXISTS salary_transfers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            transfer_batch_id VARCHAR(100),
-            person VARCHAR(255) NOT NULL,
-            dates_included TEXT,
-            total_items INTEGER DEFAULT 0,
-            total_fee_points INTEGER DEFAULT 0,
-            total_amount REAL DEFAULT 0,
-            status VARCHAR(50) DEFAULT 'transferred',
-            transferred_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            notes TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )");
+            $pdo->exec("CREATE TABLE IF NOT EXISTS salary_items (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                batch_id INTEGER,
+                report_date VARCHAR(50) NOT NULL,
+                person VARCHAR(255) NOT NULL,
+                model VARCHAR(255),
+                storage VARCHAR(50),
+                grade VARCHAR(50),
+                unit INTEGER DEFAULT 1,
+                obtained_price REAL DEFAULT 0,
+                fee_info VARCHAR(100),
+                fee_value INTEGER DEFAULT 0,
+                bidder VARCHAR(100),
+                status VARCHAR(50) DEFAULT 'approved',
+                notes TEXT,
+                raw_line TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )");
 
-        $pdo->exec("CREATE TABLE IF NOT EXISTS members (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name VARCHAR(100) NOT NULL UNIQUE,
-            alias VARCHAR(100),
-            notes TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )");
+            $pdo->exec("CREATE TABLE IF NOT EXISTS salary_transfers (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                transfer_batch_id VARCHAR(100),
+                person VARCHAR(255) NOT NULL,
+                dates_included TEXT,
+                total_items INTEGER DEFAULT 0,
+                total_fee_points INTEGER DEFAULT 0,
+                total_amount REAL DEFAULT 0,
+                status VARCHAR(50) DEFAULT 'transferred',
+                transferred_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                notes TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )");
 
-        $pdo->exec("CREATE TABLE IF NOT EXISTS bidder_aliases (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            bidder_name VARCHAR(100) NOT NULL UNIQUE,
-            alias_name VARCHAR(100),
-            notes TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )");
-    } else {
-        $pdo->exec("CREATE TABLE IF NOT EXISTS payroll_batches (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            report_date VARCHAR(50) NOT NULL UNIQUE,
-            total_items INT DEFAULT 0,
-            total_fee_points INT DEFAULT 0,
-            total_amount DOUBLE DEFAULT 0,
-            people_count INT DEFAULT 0,
-            sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+            $pdo->exec("CREATE TABLE IF NOT EXISTS members (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name VARCHAR(100) NOT NULL UNIQUE,
+                alias VARCHAR(100),
+                notes TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )");
 
-        $pdo->exec("CREATE TABLE IF NOT EXISTS salary_items (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            batch_id INT DEFAULT NULL,
-            report_date VARCHAR(50) NOT NULL,
-            person VARCHAR(255) NOT NULL,
-            model VARCHAR(255),
-            storage VARCHAR(50),
-            grade VARCHAR(50),
-            unit INT DEFAULT 1,
-            obtained_price DOUBLE DEFAULT 0,
-            fee_info VARCHAR(100),
-            fee_value INT DEFAULT 0,
-            bidder VARCHAR(100),
-            status VARCHAR(50) DEFAULT 'approved',
-            notes TEXT,
-            raw_line TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+            $pdo->exec("CREATE TABLE IF NOT EXISTS bidder_aliases (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                bidder_name VARCHAR(100) NOT NULL UNIQUE,
+                alias_name VARCHAR(100),
+                notes TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )");
+        } else {
+            $pdo->exec("CREATE TABLE IF NOT EXISTS payroll_batches (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                report_date VARCHAR(50) NOT NULL UNIQUE,
+                total_items INT DEFAULT 0,
+                total_fee_points INT DEFAULT 0,
+                total_amount DOUBLE DEFAULT 0,
+                people_count INT DEFAULT 0,
+                sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
-        $pdo->exec("CREATE TABLE IF NOT EXISTS salary_transfers (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            transfer_batch_id VARCHAR(100),
-            person VARCHAR(255) NOT NULL,
-            dates_included TEXT,
-            total_items INT DEFAULT 0,
-            total_fee_points INT DEFAULT 0,
-            total_amount DOUBLE DEFAULT 0,
-            status VARCHAR(50) DEFAULT 'transferred',
-            transferred_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            notes TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+            $pdo->exec("CREATE TABLE IF NOT EXISTS salary_items (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                batch_id INT DEFAULT NULL,
+                report_date VARCHAR(50) NOT NULL,
+                person VARCHAR(255) NOT NULL,
+                model VARCHAR(255),
+                storage VARCHAR(50),
+                grade VARCHAR(50),
+                unit INT DEFAULT 1,
+                obtained_price DOUBLE DEFAULT 0,
+                fee_info VARCHAR(100),
+                fee_value INT DEFAULT 0,
+                bidder VARCHAR(100),
+                status VARCHAR(50) DEFAULT 'approved',
+                notes TEXT,
+                raw_line TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
-        $pdo->exec("CREATE TABLE IF NOT EXISTS members (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(100) NOT NULL UNIQUE,
-            alias VARCHAR(100),
-            notes TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+            $pdo->exec("CREATE TABLE IF NOT EXISTS salary_transfers (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                transfer_batch_id VARCHAR(100),
+                person VARCHAR(255) NOT NULL,
+                dates_included TEXT,
+                total_items INT DEFAULT 0,
+                total_fee_points INT DEFAULT 0,
+                total_amount DOUBLE DEFAULT 0,
+                status VARCHAR(50) DEFAULT 'transferred',
+                transferred_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                notes TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
-        $pdo->exec("CREATE TABLE IF NOT EXISTS bidder_aliases (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            bidder_name VARCHAR(100) NOT NULL UNIQUE,
-            alias_name VARCHAR(100),
-            notes TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+            $pdo->exec("CREATE TABLE IF NOT EXISTS members (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(100) NOT NULL UNIQUE,
+                alias VARCHAR(100),
+                notes TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+            $pdo->exec("CREATE TABLE IF NOT EXISTS bidder_aliases (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                bidder_name VARCHAR(100) NOT NULL UNIQUE,
+                alias_name VARCHAR(100),
+                notes TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        }
+    } catch (\Exception $e) {
+        // Ignore if already created
     }
-} catch (\Exception $e) {
-    // Ignore if already created
 }
 
 // Strict owner check helper

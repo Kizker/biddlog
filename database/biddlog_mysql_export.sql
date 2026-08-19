@@ -264,7 +264,11 @@ CREATE TABLE `obtained_items` (
   `report_date` date DEFAULT NULL,
   `raw_line` text DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_obtained_report_date` (`report_date`),
+  KEY `idx_obtained_created_at` (`created_at`),
+  KEY `idx_obtained_person` (`person`(100)),
+  KEY `idx_obtained_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `salary_transfers` (
@@ -279,7 +283,10 @@ CREATE TABLE `salary_transfers` (
   `transferred_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `notes` text DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_transfers_person` (`person`(100)),
+  KEY `idx_transfers_status` (`status`),
+  KEY `idx_transfers_transferred_at` (`transferred_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `bidder_aliases` (
@@ -302,7 +309,8 @@ CREATE TABLE `payroll_batches` (
   `sent_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `report_date` (`report_date`)
+  UNIQUE KEY `report_date` (`report_date`),
+  KEY `idx_batches_sent_at` (`sent_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `salary_items` (
@@ -322,7 +330,10 @@ CREATE TABLE `salary_items` (
   `notes` text DEFAULT NULL,
   `raw_line` text DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_salary_report_date` (`report_date`),
+  KEY `idx_salary_person` (`person`(100)),
+  KEY `idx_salary_batch_id` (`batch_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `members` (
