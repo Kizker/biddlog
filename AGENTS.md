@@ -58,6 +58,8 @@
 - [x] Configure MySQL remote credentials (`u141095167_bid`, `u141095167_headbid`) in `.env` with fallback resilience
 - [x] Generate production MySQL schema and data export `database/biddlog_mysql_export.sql`
 - [x] Create 1-click database migrator endpoint `public/api/migrate_db.php`
+- [x] Create 1-command server auto-update script `deploy.sh`
+- [x] Generate comprehensive PDF deployment guide `Panduan_Deployment_dan_Pembaruan_Biddlog.pdf`
 
 ## Server & Access Info
 - **Local URL:** `http://127.0.0.1:8000`
