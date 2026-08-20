@@ -62,6 +62,10 @@
 - [x] Generate comprehensive PDF deployment guide `Panduan_Deployment_dan_Pembaruan_Biddlog.pdf`
 - [x] Fix MariaDB/MySQL SQL syntax error (`datetime('now', 'localtime')`) in `public/api/salary.php` for 'Kirim Gaji' and marking payment status ('Lunas' / 'Pending')
 - [x] Boost server load & reload speed: Added Gzip compression (mod_deflate), browser caching for immutable assets (mod_expires & Cache-Control), lazy table initialization in backend API, created index accelerator (`public/api/optimize_db.php`), and automated database query optimization
+- [x] Fix duplicate items & auto-bleeding issue between Hasil Bidding and Laporan List Didapat: Added strict date isolation in `obtained.php`, atomic transaction sync, automatic date normalization, and fallback isolation
+- [x] Add 1-click non-copy-paste '⚡ Tarik Hasil Bidding' direct import feature with preview modal, replace/append mode selection, and 1-click duplicate cleaner in Laporan List Didapat
+- [x] Add interactive success notification and direct navigation button in Hasil Bidding to seamlessly open Laporan List Didapat after sending data
+
 
 ## Server & Access Info
 - **Local URL:** `http://127.0.0.1:8000`

@@ -264,11 +264,7 @@ CREATE TABLE `obtained_items` (
   `report_date` date DEFAULT NULL,
   `raw_line` text DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_obtained_report_date` (`report_date`),
-  KEY `idx_obtained_created_at` (`created_at`),
-  KEY `idx_obtained_person` (`person`(100)),
-  KEY `idx_obtained_status` (`status`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `salary_transfers` (
@@ -283,10 +279,7 @@ CREATE TABLE `salary_transfers` (
   `transferred_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `notes` text DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_transfers_person` (`person`(100)),
-  KEY `idx_transfers_status` (`status`),
-  KEY `idx_transfers_transferred_at` (`transferred_at`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `bidder_aliases` (
@@ -309,8 +302,7 @@ CREATE TABLE `payroll_batches` (
   `sent_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `report_date` (`report_date`),
-  KEY `idx_batches_sent_at` (`sent_at`)
+  UNIQUE KEY `report_date` (`report_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `salary_items` (
@@ -330,10 +322,7 @@ CREATE TABLE `salary_items` (
   `notes` text DEFAULT NULL,
   `raw_line` text DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_salary_report_date` (`report_date`),
-  KEY `idx_salary_person` (`person`(100)),
-  KEY `idx_salary_batch_id` (`batch_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `members` (
@@ -376,92 +365,6 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 ('KOiJialQYRwtVGwy8iyc2U53wPnDrLvLZqa8vmos', NULL, '127.0.0.1', 'curl/8.7.1', 'eyJfdG9rZW4iOiJSWFZlSUlLRG5sRlNwb0pqVXVvb21KM3JxcWdSQlpmcHFrOTFENDA3IiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwIiwicm91dGUiOm51bGx9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19', 1787131463),
 ('UpVg1isssoe9XVKE1BkWmPPjSo1Ijq3vGY8Sompq', NULL, '127.0.0.1', 'curl/8.7.1', 'eyJfdG9rZW4iOiJIWXpNckRnR3ZkNzJaNHZ2TVdqdE1yZ2hJaDhMZFpXWEJKV3FHbzNVIiwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==', 1787134505),
 ('NOEalarju6XZKrSgrMAf7dCEVPH21DrzAvy6AqCE', NULL, '127.0.0.1', 'curl/8.7.1', 'eyJfdG9rZW4iOiJPaGozU0V2QWliZ0JRT3FEcmZGQmk5SXI2TEl0QTJXdFhXRWs4b1VEIiwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==', 1787136132);
-
-INSERT INTO `obtained_items` (`id`, `user_id`, `item_id`, `person`, `model`, `storage`, `grade`, `unit`, `obtained_price`, `fee_info`, `bidder`, `status`, `notes`, `report_date`, `raw_line`, `created_at`) VALUES
-(7671, NULL, NULL, 'Ruzi', 'flip 4', '256', 'ag', 1, 3100.0, '75', 'Menik', 'approved', '', '2026-08-19', 'flip 4 256 ag (1) @3100 (75) Menik✅', '2026-08-19 11:28:37'),
-(7672, NULL, NULL, 'Jeremi', 'S22u', '512', 'ae', 1, 6625.0, '50', 'menik', 'approved', 'lewat 25', '2026-08-19', 'S22u 512 ae (1) @6625 menik✅ lewat 25', '2026-08-19 11:28:37'),
-(7673, NULL, NULL, 'Jeremi', 'S22u', '256', 'af', 1, 6124.0, '50', 'mubdi', 'approved', 'lewat 24', '2026-08-19', 'S22u 256 af (1) @6124 mubdi✅ lewat 24', '2026-08-19 11:28:37'),
-(7674, NULL, NULL, 'Jeremi', 'S22u', '256', 'ae', 1, 6207.0, '50', 'aldi', 'approved', 'lewat 7', '2026-08-19', 'S22u 256 ae (1) @6207 aldi✅ lewat 7', '2026-08-19 11:28:37'),
-(7675, NULL, NULL, 'Bilqiis', 'S24u 11.279', '512', 'ae', 1, 11279.0, '50', 'mubdi', 'approved', '', '2026-08-19', 'S24u 11.279 512 ae (1)✅', '2026-08-19 11:28:37'),
-(7676, NULL, NULL, 'Bilqiis', 'S24u 11.159', '512', 'ae', 3, 11159.0, '50', 'mubdi', 'approved', '', '2026-08-19', 'S24u 11.159 512 ae (3)✅', '2026-08-19 11:28:37'),
-(7677, NULL, NULL, 'Bilqiis', 'S24u 11.159', '512', 'ae', 4, 11159.0, '50', 'mubdi', 'approved', '', '2026-08-19', 'S24u 11.159 512 ae (4)✅', '2026-08-19 11:28:37'),
-(7678, NULL, NULL, 'Ramdan', 's23u', '512', 'af', 1, 7936.0, '50', 'mubdi', 'approved', '', '2026-08-19', 's23u 512 af (1) @7936 mubdi✅', '2026-08-19 11:28:37'),
-(7679, NULL, NULL, 'Ramdan', 's23u', '512', 'af', 2, 8156.0, '50', 'aldi', 'approved', '', '2026-08-19', 's23u 512 af (2) @8156 aldi✅', '2026-08-19 11:28:37'),
-(7680, NULL, NULL, 'Ramdan', 's23u', '256', 'af', 1, 7456.0, '50', 'mubdi', 'approved', '', '2026-08-19', 's23u 256 af (1) @7456 mubdi✅', '2026-08-19 11:28:37'),
-(7681, NULL, NULL, 'Baroto', 'fold 5', '256', 'ag', 1, 7298.0, '100', 'menik', 'approved', '', '2026-08-19', 'fold 5 256 ag (1) @7298 (100) menik✅', '2026-08-19 11:28:37'),
-(7682, NULL, NULL, 'Baroto', 'fold 4', '512', 'ag', 1, 6206.0, '100', 'mubdi', 'approved', '', '2026-08-19', 'fold 4 512 ag (1) @6206 (100) mubdi✅', '2026-08-19 11:28:37'),
-(7683, NULL, NULL, 'Baroto', 'fold 5', '256', 'ae', 1, 8250.0, '50', 'aldi', 'approved', '', '2026-08-19', 'fold 5 256 ae (1) @8250 aldi✅', '2026-08-19 11:28:37'),
-(7684, NULL, NULL, 'Icha', 's22', '128', 'ae', 1, 3658.0, '50', 'mubdi', 'approved', 'lewat 8', '2026-08-19', 's22 128 ae (1) 3658 mubdi✅ lewat 8', '2026-08-19 11:28:37'),
-(7685, NULL, NULL, 'Bilqis 2', 'S26', '256', 'af', 1, 8930.0, '50', 'aldi', 'approved', '', '2026-08-19', 'S26 256 af (1) @8930 aldi✅', '2026-08-19 11:28:37'),
-(7686, NULL, NULL, 'K agam', 's21u', '256', 'ag', 2, 3760.0, '50', 'menik', 'approved', '', '2026-08-19', 's21u 256 ag (2) @3760 menik✅', '2026-08-19 11:28:37'),
-(7687, NULL, NULL, 'K agam', 's21u', '256', 'ag', 1, 3680.0, '50', 'mubdi', 'approved', '', '2026-08-19', 's21u 256 ag (1) @3680 mubdi✅', '2026-08-19 11:28:37'),
-(7688, NULL, NULL, 'Mb atik', 'S21 fe (menik)', '256', 'ai', 1, 1420.0, '50', 'mubdi', 'approved', 'lewat 70', '2026-08-19', 'S21 fe 256 ai (1) @1420 (menik)✅ lewat 70', '2026-08-19 11:28:37'),
-(7689, NULL, NULL, 'Mubdi 2', 'S24 U 1', '256', 'ae', 1, 10655.0, '50', 'aldi', 'approved', 'lewat 5', '2026-08-19', 'S24 U 1 256 ae (1) @10655 aldi✅ lewat 5', '2026-08-19 11:28:37'),
-(7690, NULL, NULL, 'Mubdi 2', 'S24 U 3', '256', 'ad', 3, 10959.0, '50', 'mubdi', 'approved', 'lewat 9', '2026-08-19', 'S24 U 3 256 ad (3) @10959 mubdi✅ lewat 9', '2026-08-19 11:28:37'),
-(7691, NULL, NULL, 'Mubdi 2', 'S24 U 4', '256', 'ad', 4, 10959.0, '50', 'aldi', 'approved', 'lewat 9', '2026-08-19', 'S24 U 4 256 ad (4) @10959 aldi✅ lewat 9', '2026-08-19 11:28:37'),
-(7692, NULL, NULL, 'Mubdi 2', 'S24 U 5', '256', 'ad', 5, 10959.0, '50', 'Mubdi', 'approved', 'lewat 9', '2026-08-19', 'S24 U 5 256 ad (5) @10959 Mubdi✅ lewat 9', '2026-08-19 11:28:37'),
-(7693, NULL, NULL, 'Jessica', 'S24U', '256', 'ad', 1, 10759.0, '50', 'Mubdi', 'approved', '', '2026-08-19', 'S24U 256 ad (1) 10759 Mubdi✅', '2026-08-19 11:28:37'),
-(7694, NULL, NULL, 'Jessica', 'S24U', '256', 'ad', 2, 10759.0, '50', 'Aldi', 'approved', '', '2026-08-19', 'S24U 256 ad (2) 10759 Aldi✅', '2026-08-19 11:28:37'),
-(7695, NULL, NULL, 'Jessica', 'S24U', '256', 'ac', 1, 10807.0, '50', 'Aldi', 'approved', '', '2026-08-19', 'S24U 256 ac (1) 10807 Aldi✅', '2026-08-19 11:28:37'),
-(7696, NULL, NULL, 'Via', 's21', '256', 'ai', 2, 1607.0, '50', 'mubdi', 'approved', 'lewat 7', '2026-08-19', 's21 256 ai (2) @1607 mubdi✅ lewat 7', '2026-08-19 11:28:37'),
-(7697, NULL, NULL, 'Via', 's21', '256', 'ai', 1, 1587.0, '50', 'mubdi', 'approved', '', '2026-08-19', 's21 256 ai (1) @1587 mubdi✅', '2026-08-19 11:28:37'),
-(7698, NULL, NULL, 'Via', 's21', '256', 'ag', 1, 2170.0, '50', 'menik', 'approved', '', '2026-08-19', 's21 256 ag (1) @2170 menik✅', '2026-08-19 11:28:37'),
-(7699, NULL, NULL, 'zaky', 'fold 5', '512', 'ae', 1, 8797.0, '50', 'aldi', 'approved', '', '2026-08-19', 'fold 5 512 ae @8797 aldi✅', '2026-08-19 11:28:37'),
-(7700, NULL, NULL, 'Fauzan', 'fold 3', '512', 'ah', 1, 3691.0, '100', 'mubdi', 'approved', '', '2026-08-19', 'fold 3 512 ah (1) @3691 (100) mubdi✅', '2026-08-19 11:28:37'),
-(7701, NULL, NULL, 'Fauzan', 'fold 5', '512', 'ad', 5, 8878.0, '50', 'menik', 'approved', '', '2026-08-19', 'fold 5 512 ad (5) @8878 menik✅', '2026-08-19 11:28:37'),
-(7702, NULL, NULL, 'Fauzan', 'fold 5', '512', 'ad', 4, 8878.0, '50', 'menik', 'approved', '', '2026-08-19', 'fold 5 512 ad (4) @8878 menik✅', '2026-08-19 11:28:37'),
-(7703, NULL, NULL, 'Fauzan', 'fold 5', '512', 'ad', 3, 8878.0, '50', 'aldi', 'approved', '', '2026-08-19', 'fold 5 512 ad (3) @8878 aldi✅', '2026-08-19 11:28:37'),
-(7704, NULL, NULL, 'Fauzan', 'fold 5', '512', 'ad', 2, 8878.0, '50', 'aldi', 'approved', '', '2026-08-19', 'fold 5 512 ad (2) @8878 aldi✅', '2026-08-19 11:28:37'),
-(7705, NULL, NULL, 'Fauzan', 'fold 5', '512', 'ad', 1, 8878.0, '50', 'aldi', 'approved', '', '2026-08-19', 'fold 5 512 ad (1) @8878 aldi✅', '2026-08-19 11:28:37'),
-(7706, NULL, NULL, 'Andricha', 'flip 5', '512', 'ag', 2, 4582.0, '75', 'aldi', 'approved', '', '2026-08-19', 'flip 5 512 ag (2) @4582 (75) aldi✅', '2026-08-19 11:28:37'),
-(7707, NULL, NULL, 'Fachri', 's10+', '512', 'ag', 1, 2530.0, '50', 'mubdi', 'approved', '', '2026-08-19', 's10+ 512 ag (1) @2530 mubdi✅', '2026-08-19 11:28:37'),
-(7708, NULL, NULL, 'Fachri', 's20u', '128', 'ai', 1, 1690.0, '50', 'mubdi', 'approved', '', '2026-08-19', 's20u 128 ai (1) @1690 mubdi✅', '2026-08-19 11:28:37'),
-(7709, NULL, NULL, 'Mubdi', 'fold 6', '512', 'af', 1, 11580.0, '', 'aldi', 'approved', '', '2026-08-19', 'fold 6 512 af (1) @11580 aldi✅', '2026-08-19 11:28:37'),
-(7710, NULL, NULL, 'Mubdi', 'fold 6', '512', 'ag', 1, 11295.0, '', 'aldi', 'approved', '', '2026-08-19', 'fold 6 512 ag (1) @11295 aldi✅', '2026-08-19 11:28:37'),
-(7711, NULL, NULL, 'Mubdi', 'fold 6', '512', 'ag', 2, 11295.0, '', 'aldi', 'approved', '', '2026-08-19', 'fold 6 512 ag (2) @11295 aldi✅', '2026-08-19 11:28:37'),
-(7712, NULL, NULL, 'Mubdi', 'fold 6', '256', 'ag', 1, 9787.0, '', 'menik', 'approved', '', '2026-08-19', 'fold 6 256 ag (1) @9787 menik✅', '2026-08-19 11:28:37'),
-(7713, NULL, NULL, 'Mubdi', 'flip 5', '512', 'ag', 1, 4582.0, '', 'aldi', 'approved', '', '2026-08-19', 'flip 5 512 ag (1) @4582 aldi✅', '2026-08-19 11:28:37'),
-(7714, NULL, NULL, 'Mubdi', 'fold 5', '512', 'ad', 3, 8918.0, '', 'menik', 'approved', '', '2026-08-19', 'fold 5 512 ad (3) @8918 menik✅', '2026-08-19 11:28:37'),
-(7715, NULL, NULL, 'Mubdi', 'flip 6', '512', 'ae', 1, 6730.0, '', 'mubdi', 'approved', '', '2026-08-19', 'flip 6 512 ae (1) @6730 mubdi✅', '2026-08-19 11:28:37'),
-(7716, NULL, NULL, 'Mubdi', 'flip 7', '256', 'ad', 1, 8909.0, '', 'menik', 'approved', '', '2026-08-19', 'flip 7 256 ad (1) @8909 menik✅', '2026-08-19 11:28:37'),
-(7717, NULL, NULL, 'Mubdi', 'flip 6', '512', 'ae', 2, 6710.0, '', 'mubdi', 'approved', '', '2026-08-19', 'flip 6 512 ae (2) @6710 mubdi✅', '2026-08-19 11:28:37'),
-(7718, NULL, NULL, 'Mubdi', 'a33', '128', 'ag', 1, 1419.0, '', 'menik', 'approved', '', '2026-08-19', 'a33 128 ag (1) @1419 menik✅', '2026-08-19 11:28:37'),
-(7719, NULL, NULL, 'Mubdi', 'fold 5', '1024', 'ag', 1, 8160.0, '', 'mubdi', 'approved', '', '2026-08-19', 'fold 5 1024 ag (1) @8160 mubdi✅', '2026-08-19 11:28:37'),
-(7720, NULL, NULL, 'Mubdi', 's23+', '512', 'ad', 1, 6030.0, '', 'mubdi', 'approved', '', '2026-08-19', 's23+ 512 ad (1) @6030 mubdi✅', '2026-08-19 11:28:37'),
-(7721, NULL, NULL, 'Mubdi', 'fold 7', '256', 'ag', 1, 15200.0, '', 'aldi', 'approved', '', '2026-08-19', 'fold 7 256 ag (1) @15200 aldi✅', '2026-08-19 11:28:37'),
-(7722, NULL, NULL, 'Mubdi', 's23+', '512', 'ai', 1, 3210.0, '', 'mubdi', 'approved', '', '2026-08-19', 's23+ 512 ai (1) @3210 mubdi✅', '2026-08-19 11:28:37'),
-(7723, NULL, NULL, 'Mubdi', 'fold 7', '256', 'ag', 2, 15370.0, '', 'aldi', 'approved', '', '2026-08-19', 'fold 7 256 ag (2) @15370 aldi✅', '2026-08-19 11:28:37'),
-(7724, NULL, NULL, 'Mubdi', 'fold 7', '256', 'ag', 3, 15370.0, '', 'aldi', 'approved', '', '2026-08-19', 'fold 7 256 ag (3) @15370 aldi✅', '2026-08-19 11:28:37'),
-(7725, NULL, NULL, 'Menik', 'Fold 4', '256', 'ad', 1, 6707.0, '', 'menik', 'approved', '', '2026-08-19', 'Fold 4 256 ad (1) @6707 menik✅', '2026-08-19 11:28:37'),
-(7726, NULL, NULL, 'Menik', 'S25u', '256', 'ad', 1, 12922.0, '', 'mubdi', 'approved', 'lewat 22', '2026-08-19', 'S25u 256 ad (1) @12922 mubdi✅ lewat 22', '2026-08-19 11:28:37'),
-(7727, NULL, NULL, 'Wenda', 'S24', '256', 'ad', 1, 6943.0, '50', 'aldi', 'approved', '', '2026-08-19', 'S24 256 ad (1) 6943 aldi✅', '2026-08-19 11:28:37'),
-(7728, NULL, NULL, 'Wenda', 'S24', '256', 'ad', 2, 6943.0, '50', 'mubdi', 'approved', '', '2026-08-19', 'S24 256 ad (2) 6943 mubdi✅', '2026-08-19 11:28:37'),
-(7729, NULL, NULL, 'aldo', 's21u 1', '512', 'ag', 1, 4419.0, '50', 'menik', 'approved', '', '2026-08-19', 's21u 1 512 ag (1) @4419 menik✅', '2026-08-19 11:28:37'),
-(7730, NULL, NULL, 'aldo', 's21u 1', '512', 'ai', 1, 2640.0, '50', 'menik', 'approved', '', '2026-08-19', 's21u 1 512 ai (1) @2640 menik✅', '2026-08-19 11:28:37'),
-(7731, NULL, NULL, 'Rudi', 'S23 fe', '256', 'ae', 1, 4603.0, '50', 'menik', 'approved', 'lewat 3', '2026-08-19', 'S23 fe 256 ae (1) 4603 menik✅ lewat 3', '2026-08-19 11:28:37'),
-(7732, NULL, NULL, 'Fikri', 's25+', '512', 'ab', 1, 10060.0, '50', 'mubdi', 'approved', '', '2026-08-19', 's25+ 512 ab (1) @10060 mubdi✅', '2026-08-19 11:28:37'),
-(7733, NULL, NULL, 'Fikri', 's25+', '512', 'ad', 1, 9929.0, '50', 'menik', 'approved', '', '2026-08-19', 's25+ 512 ad (1) @9929 menik✅', '2026-08-19 11:28:37'),
-(7734, NULL, NULL, 'Fikri', 's25 edge', '512', 'ab', 1, 9412.0, '50', 'aldi', 'approved', 'lewat 12', '2026-08-19', 's25 edge 512 ab (1) @9412 aldi✅ lewat 12', '2026-08-19 11:28:37'),
-(7735, NULL, NULL, 'Tiwi', 's24u', '512', 'ad', 4, 11502.0, '50', 'menik', 'approved', '', '2026-08-19', 's24u 512 ad (4) @11502 menik✅', '2026-08-19 11:28:37'),
-(7736, NULL, NULL, 'Tiwi', 's24u', '512', 'ad', 3, 11522.0, '50', 'aldi', 'approved', '', '2026-08-19', 's24u 512 ad (3) @11522 aldi✅', '2026-08-19 11:28:37'),
-(7737, NULL, NULL, 'Tiwi', 's24u', '512', 'ad', 1, 11522.0, '50', 'mubdi', 'approved', '', '2026-08-19', 's24u 512 ad (1) @11522 mubdi✅', '2026-08-19 11:28:37'),
-(7738, NULL, NULL, 'Alya', 'flip 6', '512', 'ag', 3, 6311.0, '50', 'mubdi', 'approved', '', '2026-08-19', 'flip 6 512 ag (3) @6311 mubdi✅', '2026-08-19 11:28:37'),
-(7739, NULL, NULL, 'Alya', 'flip 6', '512', 'ag', 2, 6311.0, '50', 'menik', 'approved', '', '2026-08-19', 'flip 6 512 ag (2) @6311 menik✅', '2026-08-19 11:28:37'),
-(7740, NULL, NULL, 'Alya', 'flip 6', '512', 'af', 2, 6690.0, '50', 'aldi', 'approved', '', '2026-08-19', 'flip 6 512 af (2) @6690 aldi✅', '2026-08-19 11:28:37'),
-(7741, NULL, NULL, 'Rina', 'S24u', '1024', 'af', 1, 11757.0, '50', 'mubdi', 'approved', '', '2026-08-19', 'S24u 1024 af (1) @11757 mubdi✅', '2026-08-19 11:28:37'),
-(7742, NULL, NULL, 'Rina', 'S24u', '1024', 'ae', 1, 11950.0, '50', 'aldi', 'approved', '', '2026-08-19', 'S24u 1024 ae (1) @11950 aldi✅', '2026-08-19 11:28:37'),
-(7743, NULL, NULL, 'Rina', 'S24u', '1024', 'ae', 2, 11930.0, '50', 'menik', 'approved', '', '2026-08-19', 'S24u 1024 ae (2) @11930 menik✅', '2026-08-19 11:28:37'),
-(7744, NULL, NULL, 'Bela', 's24 fe', '256', 'ad', 2, 5993.0, '50', 'mubdi', 'approved', '', '2026-08-19', 's24 fe 256 ad (2) @5993 mubdi✅', '2026-08-19 11:28:37'),
-(7745, NULL, NULL, 'Bela', 's24 fe', '256', 'ad', 1, 6013.0, '50', 'aldi', 'approved', 'lewat 13', '2026-08-19', 's24 fe 256 ad (1) @6013 aldi✅ lewat 13', '2026-08-19 11:28:37'),
-(7746, NULL, NULL, 'Bela', 's24 fe', '256', 'ac', 1, 6008.0, '50', 'menik', 'approved', 'lewat 8', '2026-08-19', 's24 fe 256 ac (1) @6008 menik✅ lewat 8', '2026-08-19 11:28:37'),
-(7747, NULL, NULL, 'Lida', 'S25 Ultra', '256', 'af', 1, 12070.0, '50', 'Menik', 'approved', '', '2026-08-19', 'S25 Ultra 256 af (1) @12070 Menik✅', '2026-08-19 11:28:37'),
-(7748, NULL, NULL, 'Lida', 'S25 Ultra', '1024', 'ae', 1, 14029.0, '50', 'Menik', 'approved', '', '2026-08-19', 'S25 Ultra 1024 ae (1) @14029 Menik✅', '2026-08-19 11:28:37'),
-(7749, NULL, NULL, 'Lida', 'S25 12070', '512', 'af', 1, 8900.0, '50', 'Mubdi', 'approved', '', '2026-08-19', 'S25 12070 512 af (1) @8900 Mubdi✅', '2026-08-19 11:28:37'),
-(7750, NULL, NULL, 'Riski', 's24 fe', '256', 'ad', 3, 6013.0, '50', 'Aldi', 'approved', 'lewat 13', '2026-08-19', 's24 fe 256 ad (3) @6013 Aldi✅ lewat 13', '2026-08-19 11:28:37'),
-(7751, NULL, NULL, 'Riski', 's24 fe', '256', 'af', 1, 5424.0, '50', 'Mubdi', 'approved', '', '2026-08-19', 's24 fe 256 af (1) @5424 Mubdi✅', '2026-08-19 11:28:37'),
-(7752, NULL, NULL, 'Riski', 's24+', '512', 'ag', 1, 7070.0, '50', 'Menik', 'approved', 'cadangan', '2026-08-19', 's24+ 512 ag (1) @7070 Menik✅ cadangan', '2026-08-19 11:28:37'),
-(7753, NULL, NULL, 'Ruzi', 'fold 3', '256', 'ag', 1, 4364.0, '100', 'Mubdi', 'approved', '', '2026-08-19', 'fold 3 256 ag (1) @4364 (100) Mubdi✅', '2026-08-19 11:28:37'),
-(7754, NULL, NULL, 'Ruzi', 'flip 4', '512', 'ag', 1, 3180.0, '75', 'Aldi', 'approved', '', '2026-08-19', 'flip 4 512 ag (1) @3180 (75) Aldi✅', '2026-08-19 11:28:37');
 
 INSERT INTO `salary_transfers` (`id`, `transfer_batch_id`, `person`, `dates_included`, `total_items`, `total_fee_points`, `total_amount`, `status`, `transferred_at`, `notes`, `created_at`) VALUES
 (32, 'batch_20260819185306_6a8599222dd4b', 'Andri', '["Enb tgl 07\\/08\\/ 2026","Enb tgl 06\\/08\\/ 2026","Enb tgl 05\\/08\\/ 2026","Enb tgl 04\\/08\\/ 2026","Enb tgl 03\\/08\\/ 2026"]', 11, 550, 550000.0, 'transferred', '2026-08-19 18:53:06', 'Batch transfer Enb tgl 07/08/ 2026, Enb tgl 06/08/ 2026, Enb tgl 05/08/ 2026, Enb tgl 04/08/ 2026, Enb tgl 03/08/ 2026', '2026-08-19 11:53:06'),

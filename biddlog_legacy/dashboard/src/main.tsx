@@ -1318,7 +1318,7 @@ function MultiFilter({
   );
 }
 
-function ResultChecker() {
+function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () => void }) {
   const [targetText, setTargetText] = useState(() => localStorage.getItem('biddlog_checker_target') || '');
   const [obtainedText, setObtainedText] = useState(() => localStorage.getItem('biddlog_checker_obtained') || '');
   const [reserveText, setReserveText] = useState(() => localStorage.getItem('biddlog_checker_reserve') || '');
@@ -1326,6 +1326,7 @@ function ResultChecker() {
   const [invoiceFileName, setInvoiceFileName] = useState(() => localStorage.getItem('biddlog_checker_invoice_name') || '');
   const [copied, setCopied] = useState(false);
   const [sentToReport, setSentToReport] = useState(false);
+  const [sendSuccessMsg, setSendSuccessMsg] = useState<{ count: number; date: string } | null>(null);
   const [accStatuses, setAccStatuses] = useState<Record<string, 'loading' | 'success' | 'error'>>({});
 
   // Auto-persist input values to localStorage so they are not lost on page reload
@@ -1364,13 +1365,19 @@ function ResultChecker() {
   const handleSendToObtainedReport = async () => {
     if (!checkResult) return;
     setSentToReport(true);
+    setSendSuccessMsg(null);
     try {
       const lines = checkResult.split('\n');
       const itemsToSync: any[] = [];
       let curPerson = '';
+      const finalReportDate = detectedHeaderDate || getDefaultHeaderDate();
+
       for (const line of lines) {
         const trimmed = line.trim();
         if (!trimmed || /^enb\s+tgl/i.test(trimmed)) continue;
+        // Skip calculation formula or total line
+        if (/^\d+\s*[*xX]\s*\d+/i.test(trimmed) || /^=\s*\d+/i.test(trimmed)) continue;
+
         if (isPersonHeaderLine(trimmed)) {
           curPerson = trimmed;
           continue;
@@ -1381,18 +1388,32 @@ function ResultChecker() {
       }
 
       if (itemsToSync.length > 0) {
+        // Save latest processed bidding snapshot for 1-click import in Laporan List Didapat
+        const snapshot = {
+          reportDate: finalReportDate,
+          items: itemsToSync,
+          rawText: checkResult,
+          timestamp: Date.now()
+        };
+        localStorage.setItem('biddlog_latest_bidding_result', JSON.stringify(snapshot));
         localStorage.setItem('obtained_list_data', JSON.stringify(itemsToSync));
-        await fetch('/api/obtained.php', {
+
+        const res = await fetch('/api/obtained.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             action: 'sync_all',
-            report_date: detectedHeaderDate || new Date().toISOString().split('T')[0],
-            items: itemsToSync
+            report_date: finalReportDate,
+            items: itemsToSync,
+            clear_existing: true
           })
         });
+        const resJson = await res.json();
+        if (resJson.status === 'success') {
+          setSendSuccessMsg({ count: itemsToSync.length, date: finalReportDate });
+        }
       }
-      setTimeout(() => setSentToReport(false), 2500);
+      setTimeout(() => setSentToReport(false), 2000);
     } catch (e) {
       console.error(e);
       setSentToReport(false);
@@ -1565,36 +1586,79 @@ function ResultChecker() {
       </aside>
 
       <section className="panel checker-result-panel">
-        <div className="checker-result-header" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <div className="checker-result-header" style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}>
           <div>
-            <p className="section-label">Hasil Cek</p>
+            <p className="section-label" style={{ margin: 0 }}>Hasil Cek</p>
           </div>
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
             <button
               type="button"
               onClick={handleSendToObtainedReport}
               disabled={!checkResult}
               style={{
-                background: sentToReport ? '#10b981' : '#3b82f6',
+                background: sentToReport ? '#10b981' : 'linear-gradient(135deg, #2563eb, #1d4ed8)',
                 color: 'white',
                 border: 'none',
-                padding: '6px 12px',
+                padding: '7px 14px',
                 borderRadius: '6px',
                 fontSize: '12px',
                 fontWeight: 'bold',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px'
+                gap: '6px',
+                boxShadow: '0 2px 6px rgba(37,99,235,0.25)',
+                transition: 'all 0.15s'
               }}
             >
-              {sentToReport ? '✔ Terkirim ke Laporan List!' : '🚀 Kirim ke Laporan List Didapat'}
+              {sentToReport ? '✔ Mengirim...' : '🚀 Kirim ke Laporan List Didapat'}
             </button>
-            <button type="button" onClick={copyResult} disabled={!checkResult}>
+            <button type="button" onClick={copyResult} disabled={!checkResult} style={{ padding: '7px 12px', fontSize: '12px' }}>
               {copied ? 'Tersalin' : 'Copy Hasil'}
             </button>
           </div>
         </div>
+
+        {sendSuccessMsg && (
+          <div style={{
+            margin: '10px 0 14px 0',
+            padding: '10px 14px',
+            background: '#ecfdf5',
+            border: '1px solid #a7f3d0',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '10px',
+            flexWrap: 'wrap'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#065f46', fontSize: '12px', fontWeight: 600 }}>
+              <span style={{ fontSize: '16px' }}>✅</span>
+              <span><strong>{sendSuccessMsg.count} item</strong> hasil bidding berhasil dikirim ke Laporan List Didapat ({sendSuccessMsg.date}).</span>
+            </div>
+            {onNavigateToListDapat && (
+              <button
+                type="button"
+                onClick={onNavigateToListDapat}
+                style={{
+                  padding: '5px 12px',
+                  background: '#059669',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}
+              >
+                Buka Laporan List Didapat 👉
+              </button>
+            )}
+          </div>
+        )}
 
         <div className="checker-stats">
           <span>{targetList.entries.length} target</span>
@@ -2881,11 +2945,11 @@ function App() {
                   </section>
                 </section>
               ) : activeView === 'hasil_bidding' ? (
-                <ResultChecker />
+                <ResultChecker onNavigateToListDapat={() => { setAdminView('Laporan List Dapat'); setActiveView('list_dapat'); }} />
               ) : activeView === 'scanner' ? (
                 <PortableGuidePanel />
               ) : activeView === 'list_dapat' ? (
-                <LaporanListDapat />
+                <LaporanListDapat onNavigateToHasilBidding={() => { setAdminView('Hasil Bidding'); setActiveView('hasil_bidding'); }} />
               ) : activeView === 'gaji' ? (
                 <AdminGaji />
               ) : activeView === 'pengguna' ? (

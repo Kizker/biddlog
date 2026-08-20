@@ -147,7 +147,7 @@ export const parseObtainedItemLine = (rawLine: string, person: string): Obtained
   };
 };
 
-export default function LaporanListDapat() {
+export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavigateToHasilBidding?: () => void }) {
   const [reportDate, setReportDate] = useState<string>(() => {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');
@@ -166,6 +166,17 @@ export default function LaporanListDapat() {
   const [pasteText, setPasteText] = useState<string>('');
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [saveStatus, setSaveStatus] = useState<string>('');
+  const [availableDates, setAvailableDates] = useState<{ report_date: string; item_count: number }[]>([]);
+
+  // Import from Bidding State
+  const [showImportBiddingModal, setShowImportBiddingModal] = useState<boolean>(false);
+  const [biddingSnapshot, setBiddingSnapshot] = useState<{
+    reportDate: string;
+    items: ObtainedItem[];
+    rawText: string;
+    timestamp: number;
+  } | null>(null);
+  const [importMode, setImportMode] = useState<'replace' | 'append'>('replace');
 
   // Form state for adding manual item
   const [newItem, setNewItem] = useState<Partial<ObtainedItem>>({
@@ -181,46 +192,56 @@ export default function LaporanListDapat() {
     notes: '',
   });
 
-  // Fetch initial data from API and LocalStorage fallback
-  const fetchData = async () => {
+  // Fetch available dates for history dropdown
+  const fetchAvailableDates = async () => {
+    try {
+      const res = await fetch('/api/obtained.php?action=get_dates');
+      const json = await res.json();
+      if (json.status === 'success' && Array.isArray(json.data)) {
+        setAvailableDates(json.data);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // Fetch data from API with strict date isolation
+  const fetchData = async (targetDate?: string) => {
     setLoading(true);
     try {
-      const res = await fetch('/api/obtained.php');
+      const dateToFetch = targetDate || reportDate;
+      const res = await fetch(`/api/obtained.php?date=${encodeURIComponent(dateToFetch)}`);
       const json = await res.json();
-      if (json.status === 'success' && Array.isArray(json.data) && json.data.length > 0) {
-        const loaded: ObtainedItem[] = json.data.map((row: any) => ({
-          id: row.id,
-          person: row.person || row.username || 'Umum',
-          model: row.model || '',
-          storage: row.storage ? String(row.storage) : '',
-          grade: row.grade || '',
-          unit: row.unit || 1,
-          price: row.obtained_price || 0,
-          fee_info: row.fee_info || '',
-          bidder: row.bidder || '',
-          status: (row.status === 'rejected' ? 'rejected' : 'approved') as 'approved' | 'rejected',
-          notes: row.notes || '',
-          report_date: row.report_date || '',
-          raw_line: row.raw_line || ''
-        }));
-        setItems(loaded);
-      } else {
-        // Fallback to local storage if API empty
-        const saved = localStorage.getItem('obtained_list_data');
-        if (saved) {
-          try {
-            setItems(JSON.parse(saved));
-          } catch {}
+      if (json.status === 'success') {
+        if (Array.isArray(json.data) && json.data.length > 0) {
+          const loaded: ObtainedItem[] = json.data.map((row: any) => ({
+            id: row.id,
+            person: row.person || row.username || 'Umum',
+            model: row.model || '',
+            storage: row.storage ? String(row.storage) : '',
+            grade: row.grade || '',
+            unit: row.unit || 1,
+            price: row.obtained_price || 0,
+            fee_info: row.fee_info || '',
+            bidder: row.bidder || '',
+            status: (row.status === 'rejected' ? 'rejected' : 'approved') as 'approved' | 'rejected',
+            notes: row.notes || '',
+            report_date: row.report_date || dateToFetch,
+            raw_line: row.raw_line || ''
+          }));
+          setItems(loaded);
+          if (json.report_date && !targetDate) {
+            setReportDate(json.report_date);
+          }
+        } else if (json.is_latest && json.data.length === 0) {
+          // If completely empty DB
+          setItems([]);
+        } else {
+          setItems([]);
         }
       }
     } catch (err) {
       console.error('Error fetching obtained items:', err);
-      const saved = localStorage.getItem('obtained_list_data');
-      if (saved) {
-        try {
-          setItems(JSON.parse(saved));
-        } catch {}
-      }
     } finally {
       setLoading(false);
     }
@@ -228,22 +249,17 @@ export default function LaporanListDapat() {
 
   useEffect(() => {
     fetchData();
+    fetchAvailableDates();
   }, []);
 
-  // Save to LocalStorage on item changes
-  useEffect(() => {
-    if (items.length > 0) {
-      localStorage.setItem('obtained_list_data', JSON.stringify(items));
-    }
-  }, [items]);
-
-  // Sync to database
-  const syncToDatabase = async (currentItems: ObtainedItem[]) => {
+  // Sync to database with safe date normalization
+  const syncToDatabase = async (currentItems: ObtainedItem[], customDate?: string) => {
     setSaveStatus('Menyimpan...');
+    const syncDate = customDate || reportDate;
     try {
       const payload = {
         action: 'sync_all',
-        report_date: new Date().toISOString().split('T')[0],
+        report_date: syncDate,
         items: currentItems.map(it => ({
           person: it.person,
           model: it.model,
@@ -266,6 +282,7 @@ export default function LaporanListDapat() {
       const data = await res.json();
       if (data.status === 'success') {
         setSaveStatus('Tersimpan di DB ✅');
+        fetchAvailableDates();
         setTimeout(() => setSaveStatus(''), 2500);
       } else {
         setSaveStatus('Gagal simpan ⚠️');
@@ -274,6 +291,98 @@ export default function LaporanListDapat() {
       setSaveStatus('Error koneksi ⚠️');
       setTimeout(() => setSaveStatus(''), 2500);
     }
+  };
+
+  // Open Import from Bidding Modal (Non-copy-paste option)
+  const handleOpenImportBidding = () => {
+    const saved = localStorage.getItem('biddlog_latest_bidding_result');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && Array.isArray(parsed.items) && parsed.items.length > 0) {
+          setBiddingSnapshot(parsed);
+          setShowImportBiddingModal(true);
+          return;
+        }
+      } catch (e) {}
+    }
+
+    if (window.confirm('Belum ada snapshot hasil bidding yang diproses di tab "Hasil Bidding". Apakah Anda ingin berpindah ke tab Hasil Bidding sekarang?')) {
+      if (onNavigateToHasilBidding) onNavigateToHasilBidding();
+    }
+  };
+
+  // Execute Import from Bidding
+  const handleExecuteImportBidding = async () => {
+    if (!biddingSnapshot || !biddingSnapshot.items) return;
+
+    let newItems: ObtainedItem[] = [];
+    if (importMode === 'replace') {
+      newItems = biddingSnapshot.items.map(it => ({
+        ...it,
+        id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
+      }));
+    } else {
+      // Append mode - avoid duplicates based on person, model, storage, grade, price, bidder
+      const existingKeys = new Set(
+        items.map(it => `${(it.person || '').toLowerCase()}_${(it.model || '').toLowerCase()}_${it.storage}_${it.grade}_${it.price}_${it.bidder}`)
+      );
+      const uniqueToAppend = biddingSnapshot.items
+        .filter(it => !existingKeys.has(`${(it.person || '').toLowerCase()}_${(it.model || '').toLowerCase()}_${it.storage}_${it.grade}_${it.price}_${it.bidder}`))
+        .map(it => ({
+          ...it,
+          id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
+        }));
+      newItems = [...items, ...uniqueToAppend];
+    }
+
+    const finalDate = biddingSnapshot.reportDate || reportDate;
+    setReportDate(finalDate);
+    setItems(newItems);
+    await syncToDatabase(newItems, finalDate);
+    setShowImportBiddingModal(false);
+    setSaveStatus(`Berhasil mengimpor ${biddingSnapshot.items.length} item dari Hasil Bidding! ✨`);
+    setTimeout(() => setSaveStatus(''), 3000);
+  };
+
+  // Clean duplicate items in 1 click
+  const handleCleanDuplicates = async () => {
+    if (items.length === 0) {
+      alert('Tidak ada item untuk diperiksa.');
+      return;
+    }
+    const seen = new Set<string>();
+    const uniqueItems: ObtainedItem[] = [];
+    let dupCount = 0;
+
+    for (const it of items) {
+      const key = `${(it.person || '').toLowerCase()}|${(it.model || '').toLowerCase()}|${it.storage}|${it.grade}|${it.price}|${it.fee_info}|${it.bidder}|${it.status}`;
+      if (seen.has(key)) {
+        dupCount++;
+      } else {
+        seen.add(key);
+        uniqueItems.push(it);
+      }
+    }
+
+    if (dupCount === 0) {
+      alert('Tidak ditemukan item duplikat pada list saat ini.');
+      return;
+    }
+
+    if (!window.confirm(`Ditemukan ${dupCount} item duplikat yang identik. Bersihkan semua duplikat sekarang?`)) return;
+
+    setItems(uniqueItems);
+    await syncToDatabase(uniqueItems, reportDate);
+    try {
+      await fetch('/api/obtained.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'clean_duplicates', report_date: reportDate })
+      });
+    } catch (e) {}
+    setSaveStatus(`${dupCount} duplikat dibersihkan! 🧹`);
+    setTimeout(() => setSaveStatus(''), 3000);
   };
 
   // Publish / Kirim Gaji to Salary Module
@@ -651,25 +760,60 @@ export default function LaporanListDapat() {
         gap: '16px'
       }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             <h2 style={{ margin: 0, fontSize: '20px', color: 'var(--navy)' }}>Laporan List Didapat</h2>
-            <input
-              type="text"
-              value={reportDate}
-              onChange={(e) => setReportDate(e.target.value)}
-              style={{
-                padding: '4px 10px',
-                fontSize: '13px',
-                fontWeight: 600,
-                border: '1px solid var(--line)',
-                borderRadius: '6px',
-                color: 'var(--blue)',
-                background: '#f0f9ff'
-              }}
-              title="Klik untuk mengubah tanggal header"
-            />
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <input
+                type="text"
+                value={reportDate}
+                onChange={(e) => setReportDate(e.target.value)}
+                onBlur={() => fetchData(reportDate)}
+                style={{
+                  padding: '4px 10px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  border: '1px solid var(--line)',
+                  borderRadius: '6px',
+                  color: 'var(--blue)',
+                  background: '#f0f9ff'
+                }}
+                title="Klik untuk mengubah tanggal header"
+              />
+
+              {availableDates.length > 0 && (
+                <select
+                  value={availableDates.some(d => d.report_date === reportDate) ? reportDate : ''}
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      setReportDate(e.target.value);
+                      fetchData(e.target.value);
+                    }
+                  }}
+                  style={{
+                    padding: '4px 8px',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    border: '1px solid var(--line)',
+                    borderRadius: '6px',
+                    color: '#475569',
+                    background: '#f8fafc',
+                    cursor: 'pointer'
+                  }}
+                  title="Pilih tanggal dari riwayat database"
+                >
+                  <option value="">📅 Pilih Riwayat Tanggal...</option>
+                  {availableDates.map(d => (
+                    <option key={d.report_date} value={d.report_date}>
+                      {d.report_date} ({d.item_count} item)
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+
             {saveStatus && (
-              <span style={{ fontSize: '12px', fontWeight: 600, color: saveStatus.includes('✅') ? '#10b981' : '#f59e0b' }}>
+              <span style={{ fontSize: '12px', fontWeight: 600, color: saveStatus.includes('✅') || saveStatus.includes('✨') ? '#10b981' : '#f59e0b' }}>
                 {saveStatus}
               </span>
             )}
@@ -680,7 +824,32 @@ export default function LaporanListDapat() {
         </div>
 
         {/* Action Controls */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
+          {/* Main Non-Copy-Paste Option: Tarik dari Hasil Bidding */}
+          <button
+            type="button"
+            onClick={handleOpenImportBidding}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 14px',
+              background: 'linear-gradient(135deg, #0284c7, #0369a1)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: 700,
+              fontSize: '13px',
+              cursor: 'pointer',
+              boxShadow: '0 2px 6px rgba(2,132,199,0.25)',
+              transition: 'all 0.2s'
+            }}
+            title="Import langsung hasil rekonsiliasi yang sudah diproses di Hasil Bidding tanpa copy-paste"
+          >
+            <span style={{ fontSize: '14px' }}>⚡</span>
+            Tarik Hasil Bidding
+          </button>
+
           <button
             type="button"
             onClick={handleCopyText}
@@ -688,7 +857,7 @@ export default function LaporanListDapat() {
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              padding: '8px 16px',
+              padding: '8px 14px',
               background: copied ? '#10b981' : 'linear-gradient(135deg, #2563eb, #1d4ed8)',
               color: 'white',
               border: 'none',
@@ -702,13 +871,13 @@ export default function LaporanListDapat() {
           >
             {copied ? (
               <>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                Tersalin Format Chat!
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Tersalin!
               </>
             ) : (
               <>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                Salin Format Chat
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Salin Chat
               </>
             )}
           </button>
@@ -719,18 +888,18 @@ export default function LaporanListDapat() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              padding: '8px 14px',
+              gap: '5px',
+              padding: '8px 12px',
               background: '#f8fafc',
               color: '#334155',
               border: '1px solid var(--line)',
               borderRadius: '8px',
               fontWeight: 600,
-              fontSize: '13px',
+              fontSize: '12px',
               cursor: 'pointer'
             }}
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
             Paste Teks
           </button>
 
@@ -740,19 +909,40 @@ export default function LaporanListDapat() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              padding: '8px 14px',
+              gap: '5px',
+              padding: '8px 12px',
               background: '#f8fafc',
               color: '#334155',
               border: '1px solid var(--line)',
               borderRadius: '8px',
               fontWeight: 600,
-              fontSize: '13px',
+              fontSize: '12px',
               cursor: 'pointer'
             }}
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Tambah Manual
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah
+          </button>
+
+          <button
+            type="button"
+            onClick={handleCleanDuplicates}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              padding: '8px 12px',
+              background: '#fffbeb',
+              color: '#b45309',
+              border: '1px solid #fde68a',
+              borderRadius: '8px',
+              fontWeight: 600,
+              fontSize: '12px',
+              cursor: 'pointer'
+            }}
+            title="Bersihkan baris duplikat identik"
+          >
+            <span>🧹</span> Bersihkan Duplikat
           </button>
 
           <button
@@ -765,7 +955,7 @@ export default function LaporanListDapat() {
               border: '1px solid #a7f3d0',
               borderRadius: '8px',
               fontWeight: 600,
-              fontSize: '13px',
+              fontSize: '12px',
               cursor: 'pointer'
             }}
             title="Simpan perubahan ke database"
@@ -780,8 +970,8 @@ export default function LaporanListDapat() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              padding: '8px 16px',
+              gap: '5px',
+              padding: '8px 14px',
               background: 'linear-gradient(135deg, #10b981, #059669)',
               color: 'white',
               border: 'none',
@@ -794,7 +984,7 @@ export default function LaporanListDapat() {
             }}
             title="Simpan dan kirim data gaji hari ini ke menu Gaji"
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             {sendingSalary ? 'Mengirim...' : '💸 Kirim Gaji'}
           </button>
         </div>
@@ -1796,6 +1986,211 @@ export default function LaporanListDapat() {
           </div>
         </div>
       )}
+
+      {/* Import Directly from Hasil Bidding Modal (Non-Copy-Paste Option) */}
+      {showImportBiddingModal && biddingSnapshot && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(15, 23, 42, 0.65)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1100,
+          padding: '20px'
+        }}>
+          <div style={{
+            background: 'white',
+            borderRadius: '14px',
+            width: '100%',
+            maxWidth: '680px',
+            maxHeight: '90vh',
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
+            border: '1px solid rgba(226, 232, 240, 0.8)',
+            overflow: 'hidden'
+          }}>
+            {/* Modal Header */}
+            <div style={{
+              padding: '18px 24px',
+              borderBottom: '1px solid var(--line)',
+              background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '20px' }}>⚡</span>
+                  <h3 style={{ margin: 0, fontSize: '17px', color: '#0369a1', fontWeight: 700 }}>
+                    Tarik Data dari Hasil Bidding
+                  </h3>
+                </div>
+                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#0284c7' }}>
+                  Snapshot rekonsiliasi terbaru ({biddingSnapshot.reportDate}) — {biddingSnapshot.items.length} item siap diimpor tanpa copy-paste.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowImportBiddingModal(false)}
+                style={{
+                  background: 'white',
+                  border: '1px solid #bae6fd',
+                  borderRadius: '8px',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '15px',
+                  cursor: 'pointer',
+                  color: '#0369a1'
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div style={{ padding: '20px 24px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              {/* Mode Selection */}
+              <div style={{ background: '#f8fafc', padding: '14px 16px', borderRadius: '10px', border: '1px solid var(--line)' }}>
+                <label style={{ fontSize: '12px', fontWeight: 700, color: 'var(--navy)', display: 'block', marginBottom: '8px' }}>
+                  Pilih Mode Import:
+                </label>
+                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                    <input
+                      type="radio"
+                      name="importMode"
+                      checked={importMode === 'replace'}
+                      onChange={() => setImportMode('replace')}
+                    />
+                    <span>
+                      <strong>Ganti Semua (Replace)</strong> — <span style={{ color: '#64748b', fontSize: '12px' }}>Rekomendasi. Timpa list tanggal ini agar persis sesuai hasil bidding.</span>
+                    </span>
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                    <input
+                      type="radio"
+                      name="importMode"
+                      checked={importMode === 'append'}
+                      onChange={() => setImportMode('append')}
+                    />
+                    <span>
+                      <strong>Tambahkan (Append)</strong> — <span style={{ color: '#64748b', fontSize: '12px' }}>Gabungkan dengan list yang ada (anti-duplikat).</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Items Preview */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--navy)' }}>
+                    Preview Item yang Akan Diimpor:
+                  </span>
+                  <span style={{ fontSize: '12px', color: '#0284c7', fontWeight: 600 }}>
+                    {biddingSnapshot.items.length} Item Total
+                  </span>
+                </div>
+
+                <div style={{
+                  maxHeight: '260px',
+                  overflowY: 'auto',
+                  border: '1px solid var(--line)',
+                  borderRadius: '8px',
+                  background: '#ffffff'
+                }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
+                    <thead style={{ background: '#f8fafc', position: 'sticky', top: 0, zIndex: 2, borderBottom: '1px solid var(--line)' }}>
+                      <tr>
+                        <th style={{ padding: '8px 12px', textAlign: 'left', color: '#475569' }}>No</th>
+                        <th style={{ padding: '8px 12px', textAlign: 'left', color: '#475569' }}>PIC</th>
+                        <th style={{ padding: '8px 12px', textAlign: 'left', color: '#475569' }}>Model & Storage</th>
+                        <th style={{ padding: '8px 12px', textAlign: 'left', color: '#475569' }}>Grade</th>
+                        <th style={{ padding: '8px 12px', textAlign: 'left', color: '#475569' }}>Harga</th>
+                        <th style={{ padding: '8px 12px', textAlign: 'left', color: '#475569' }}>Fee</th>
+                        <th style={{ padding: '8px 12px', textAlign: 'left', color: '#475569' }}>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {biddingSnapshot.items.map((it, idx) => (
+                        <tr key={idx} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                          <td style={{ padding: '6px 12px', color: '#94a3b8' }}>{idx + 1}</td>
+                          <td style={{ padding: '6px 12px', fontWeight: 600, color: 'var(--navy)' }}>{it.person}</td>
+                          <td style={{ padding: '6px 12px' }}>{it.model} {it.storage ? `${it.storage}GB` : ''}</td>
+                          <td style={{ padding: '6px 12px' }}>{it.grade ? it.grade.toUpperCase() : '-'}</td>
+                          <td style={{ padding: '6px 12px', fontWeight: 600 }}>@{it.price}</td>
+                          <td style={{ padding: '6px 12px', color: '#0284c7' }}>{it.fee_info ? `(${it.fee_info})` : '-'}</td>
+                          <td style={{ padding: '6px 12px' }}>
+                            <span style={{
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              background: it.status === 'approved' ? '#ecfdf5' : '#fef2f2',
+                              color: it.status === 'approved' ? '#059669' : '#dc2626'
+                            }}>
+                              {it.status === 'approved' ? '✅ ACC' : '❌ Tolak'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div style={{
+              padding: '14px 24px',
+              borderTop: '1px solid var(--line)',
+              background: '#f8fafc',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: '10px'
+            }}>
+              <button
+                type="button"
+                onClick={() => setShowImportBiddingModal(false)}
+                className="secondary-button"
+                style={{ padding: '8px 16px' }}
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={handleExecuteImportBidding}
+                style={{
+                  padding: '8px 20px',
+                  background: 'linear-gradient(135deg, #0284c7, #0369a1)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontWeight: 700,
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 6px rgba(2,132,199,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                <span>⚡</span>
+                Konfirmasi Tarik Hasil Bidding ({biddingSnapshot.items.length} Item)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
