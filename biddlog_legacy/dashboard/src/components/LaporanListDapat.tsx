@@ -273,10 +273,9 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
           if (json.report_date && !targetDate) {
             setReportDate(json.report_date);
           }
-        } else if (json.is_latest && json.data.length === 0) {
-          setItems([]);
         } else {
           setItems([]);
+          setFastCache('obtained_data', { status: 'success', data: [], report_date: dateToFetch });
         }
       }
     } catch (err) {
@@ -321,6 +320,14 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
       const data = await res.json();
       if (data.status === 'success') {
         setSaveStatus('Tersimpan di DB ✅');
+        setFastCache('obtained_data', {
+          status: 'success',
+          data: unique.map(it => ({
+            ...it,
+            obtained_price: it.price
+          })),
+          report_date: syncDate
+        });
         setTimeout(() => setSaveStatus(''), 2500);
       } else {
         setSaveStatus('Gagal simpan ⚠️');
@@ -587,14 +594,19 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
 
   // Reset all data completely
   const handleResetAllData = async () => {
-    if (!window.confirm('Apakah Anda yakin ingin menghapus SEMUA data list didapat? Tindakan ini akan mengosongkan list.')) return;
+    if (!window.confirm('Apakah Anda yakin ingin menghapus SEMUA data list didapat? Tindakan ini akan mengosongkan list secara permanen.')) return;
     setItems([]);
     localStorage.removeItem('obtained_list_data');
+    setFastCache('obtained_data', { status: 'success', data: [], report_date: reportDate });
     try {
       await fetch('/api/obtained.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'clear_date', date: new Date().toISOString().split('T')[0] })
+        body: JSON.stringify({ 
+          action: 'clear_date', 
+          report_date: reportDate,
+          clear_all: true 
+        })
       });
       setSaveStatus('Data berhasil di-reset 🗑️');
       setTimeout(() => setSaveStatus(''), 2500);

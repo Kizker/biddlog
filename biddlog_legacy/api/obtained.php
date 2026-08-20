@@ -262,17 +262,24 @@ try {
             $stmt->execute([$id]);
 
             echo json_encode(['status' => 'success', 'message' => 'Item berhasil dihapus']);
-        } else if ($action === 'clear_date') {
-            $rawDate = $input['date'] ?? ($input['report_date'] ?? date('Y-m-d'));
-            $isoDate = extractIsoDate($rawDate);
-            $dispDate = normalizeDisplayDate($rawDate);
-            $dispNoSpace = preg_replace('/\/\s+/', '/', $dispDate);
-            $dispWithSpace = preg_replace('/\/(\d{4})/', '/ $1', $dispNoSpace);
+        } else if ($action === 'clear_date' || $action === 'clear_all') {
+            $rawDate = cleanReportDateStr($input['report_date'] ?? ($input['date'] ?? ''));
+            $clearAll = !empty($input['clear_all']);
 
-            $stmt = $pdo->prepare("DELETE FROM obtained_items WHERE report_date = ? OR report_date = ? OR report_date = ? OR report_date = ? OR DATE(created_at) = ?");
-            $stmt->execute([$rawDate, $dispDate, $dispNoSpace, $dispWithSpace, $isoDate]);
+            if ($clearAll && empty($rawDate)) {
+                $pdo->query("DELETE FROM obtained_items");
+                $delMsg = "Seluruh data list didapat berhasil dikosongkan";
+            } else {
+                $cleanDate = cleanReportDateStr($rawDate);
+                $isoDate = extractIsoDate($cleanDate);
+                $dispDate = normalizeDisplayDate($cleanDate);
 
-            echo json_encode(['status' => 'success', 'message' => 'Data tanggal ' . $dispDate . ' berhasil dibersihkan']);
+                $stmt = $pdo->prepare("DELETE FROM obtained_items WHERE report_date = ? OR report_date = ? OR DATE(created_at) = ?");
+                $stmt->execute([$cleanDate, $dispDate, $isoDate]);
+                $delMsg = "Data tanggal {$dispDate} berhasil dibersihkan";
+            }
+
+            echo json_encode(['status' => 'success', 'message' => $delMsg]);
         } else {
             // Single insert fallback
             $rawDate = $input['report_date'] ?? date('Y-m-d');

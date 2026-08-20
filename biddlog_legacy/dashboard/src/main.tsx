@@ -1528,6 +1528,14 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
       });
       const resJson = await res.json();
       if (resJson.status === 'success') {
+        setFastCache('obtained_data', {
+          status: 'success',
+          data: itemsToSync.map(it => ({
+            ...it,
+            obtained_price: it.price
+          })),
+          report_date: finalReportDate
+        });
         setSendSuccessMsg({ count: itemsToSync.length, date: finalReportDate });
       } else {
         alert('Gagal mengirim ke Laporan List Didapat: ' + (resJson.message || 'Error'));
