@@ -1348,43 +1348,6 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
     localStorage.setItem('biddlog_checker_invoice_name', invoiceFileName);
   }, [invoiceJson, invoiceFileName]);
 
-  // Keep latest bidding snapshot in sync for 1-click import in Laporan List Didapat
-  useEffect(() => {
-    if (!checkResult) return;
-    try {
-      const lines = checkResult.split('\n');
-      const parsedItems: any[] = [];
-      let curPerson = '';
-      const finalReportDate = detectedHeaderDate || getDefaultHeaderDate();
-
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed || /^enb\s+tgl/i.test(trimmed)) continue;
-        if (/^\d+\s*[*xX]\s*\d+/i.test(trimmed) || /^=\s*\d+/i.test(trimmed)) continue;
-
-        if (isPersonHeaderLine(trimmed)) {
-          curPerson = trimmed;
-          continue;
-        }
-
-        const parsedItem = parseObtainedItemLine(trimmed, curPerson);
-        parsedItems.push(parsedItem);
-      }
-
-      if (parsedItems.length > 0) {
-        const snapshot = {
-          reportDate: finalReportDate,
-          items: parsedItems,
-          rawText: checkResult,
-          timestamp: Date.now()
-        };
-        localStorage.setItem('biddlog_latest_bidding_result', JSON.stringify(snapshot));
-      }
-    } catch (err) {
-      console.error('Error saving bidding snapshot:', err);
-    }
-  }, [checkResult, detectedHeaderDate]);
-
   const handleResetCheckerInputs = () => {
     if (!targetText && !obtainedText && !reserveText && !invoiceJson) return;
     if (!window.confirm('Kosongkan semua input Hasil Bidding (Target, Didapat, Cadangan, Invoice)?')) return;
@@ -1399,73 +1362,6 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
     localStorage.removeItem('biddlog_checker_invoice_json');
     localStorage.removeItem('biddlog_checker_invoice_name');
     localStorage.removeItem('biddlog_latest_bidding_result');
-  };
-
-  const handleSendToObtainedReport = async () => {
-    if (!checkResult) {
-      alert('Tidak ada hasil cek bidding untuk dikirim.');
-      return;
-    }
-    setSentToReport(true);
-    setSendSuccessMsg(null);
-    try {
-      const lines = checkResult.split('\n');
-      const itemsToSync: any[] = [];
-      let curPerson = '';
-      const finalReportDate = detectedHeaderDate || getDefaultHeaderDate();
-
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed || /^enb\s+tgl/i.test(trimmed)) continue;
-        // Skip calculation formula or total line
-        if (/^\d+\s*[*xX]\s*\d+/i.test(trimmed) || /^=\s*\d+/i.test(trimmed)) continue;
-
-        if (isPersonHeaderLine(trimmed)) {
-          curPerson = trimmed;
-          continue;
-        }
-
-        const parsedItem = parseObtainedItemLine(trimmed, curPerson);
-        itemsToSync.push(parsedItem);
-      }
-
-      if (itemsToSync.length === 0) {
-        alert('Tidak ditemukan item barang yang valid dari hasil bidding.');
-        setSentToReport(false);
-        return;
-      }
-
-      // Save latest processed bidding snapshot for 1-click import in Laporan List Didapat
-      const snapshot = {
-        reportDate: finalReportDate,
-        items: itemsToSync,
-        rawText: checkResult,
-        timestamp: Date.now()
-      };
-      localStorage.setItem('biddlog_latest_bidding_result', JSON.stringify(snapshot));
-      localStorage.setItem('obtained_list_data', JSON.stringify(itemsToSync));
-
-      const res = await fetch('/api/obtained.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'sync_all',
-          report_date: finalReportDate,
-          items: itemsToSync,
-          clear_existing: true
-        })
-      });
-      const resJson = await res.json();
-      if (resJson.status === 'success') {
-        setSendSuccessMsg({ count: itemsToSync.length, date: finalReportDate });
-      } else {
-        alert('Gagal mengirim ke Laporan List Didapat: ' + (resJson.message || 'Error'));
-      }
-      setTimeout(() => setSentToReport(false), 2000);
-    } catch (e) {
-      console.error(e);
-      setSentToReport(false);
-    }
   };
 
   const handleAcc = async (row: ComparisonPreviewRow) => {
@@ -1538,6 +1434,110 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
     () => buildCheckResult(targetList, obtainedList, reserveList, invoiceItems, detectedHeaderDate),
     [invoiceItems, obtainedList, reserveList, targetList, detectedHeaderDate],
   );
+
+  // Keep latest bidding snapshot in sync for 1-click import in Laporan List Didapat
+  useEffect(() => {
+    if (!checkResult) return;
+    try {
+      const lines = checkResult.split('\n');
+      const parsedItems: any[] = [];
+      let curPerson = '';
+      const finalReportDate = detectedHeaderDate || getDefaultHeaderDate();
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || /^enb\s+tgl/i.test(trimmed)) continue;
+        if (/^\d+\s*[*xX]\s*\d+/i.test(trimmed) || /^=\s*\d+/i.test(trimmed)) continue;
+
+        if (isPersonHeaderLine(trimmed)) {
+          curPerson = trimmed;
+          continue;
+        }
+
+        const parsedItem = parseObtainedItemLine(trimmed, curPerson);
+        parsedItems.push(parsedItem);
+      }
+
+      if (parsedItems.length > 0) {
+        const snapshot = {
+          reportDate: finalReportDate,
+          items: parsedItems,
+          rawText: checkResult,
+          timestamp: Date.now()
+        };
+        localStorage.setItem('biddlog_latest_bidding_result', JSON.stringify(snapshot));
+      }
+    } catch (err) {
+      console.error('Error saving bidding snapshot:', err);
+    }
+  }, [checkResult, detectedHeaderDate]);
+
+  const handleSendToObtainedReport = async () => {
+    if (!checkResult) {
+      alert('Tidak ada hasil cek bidding untuk dikirim.');
+      return;
+    }
+    setSentToReport(true);
+    setSendSuccessMsg(null);
+    try {
+      const lines = checkResult.split('\n');
+      const itemsToSync: any[] = [];
+      let curPerson = '';
+      const finalReportDate = detectedHeaderDate || getDefaultHeaderDate();
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || /^enb\s+tgl/i.test(trimmed)) continue;
+        // Skip calculation formula or total line
+        if (/^\d+\s*[*xX]\s*\d+/i.test(trimmed) || /^=\s*\d+/i.test(trimmed)) continue;
+
+        if (isPersonHeaderLine(trimmed)) {
+          curPerson = trimmed;
+          continue;
+        }
+
+        const parsedItem = parseObtainedItemLine(trimmed, curPerson);
+        itemsToSync.push(parsedItem);
+      }
+
+      if (itemsToSync.length === 0) {
+        alert('Tidak ditemukan item barang yang valid dari hasil bidding.');
+        setSentToReport(false);
+        return;
+      }
+
+      // Save latest processed bidding snapshot for 1-click import in Laporan List Didapat
+      const snapshot = {
+        reportDate: finalReportDate,
+        items: itemsToSync,
+        rawText: checkResult,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('biddlog_latest_bidding_result', JSON.stringify(snapshot));
+      localStorage.setItem('obtained_list_data', JSON.stringify(itemsToSync));
+
+      const res = await fetch('/api/obtained.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'sync_all',
+          report_date: finalReportDate,
+          items: itemsToSync,
+          clear_existing: true
+        })
+      });
+      const resJson = await res.json();
+      if (resJson.status === 'success') {
+        setSendSuccessMsg({ count: itemsToSync.length, date: finalReportDate });
+      } else {
+        alert('Gagal mengirim ke Laporan List Didapat: ' + (resJson.message || 'Error'));
+      }
+      setTimeout(() => setSentToReport(false), 2000);
+    } catch (e) {
+      console.error(e);
+      setSentToReport(false);
+    }
+  };
 
   const missingInvoice = invoiceJson.trim().length > 0 && invoiceItems.length === 0;
 
