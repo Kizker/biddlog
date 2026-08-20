@@ -11,10 +11,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once 'config/db.php';
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Helper to sanitize report date string
+function cleanReportDateStr($str) {
+    if (empty($str)) return '';
+    $clean = trim($str);
+    $clean = preg_replace('/[\r\n\t]+/', ' ', $clean);
+    $clean = preg_replace('/\s+/', ' ', $clean);
+    return trim($clean);
+}
+
 // Helper to extract ISO date (YYYY-MM-DD)
 function extractIsoDate($rawDate) {
     if (empty($rawDate)) return date('Y-m-d');
-    $trimmed = trim($rawDate);
+    $trimmed = cleanReportDateStr($rawDate);
     if (preg_match('/(\d{1,2})[\/\-](\d{1,2})[\/\-]\s*(\d{4})/', $trimmed, $m)) {
         $d = str_pad($m[1], 2, '0', STR_PAD_LEFT);
         $mo = str_pad($m[2], 2, '0', STR_PAD_LEFT);
@@ -27,13 +36,13 @@ function extractIsoDate($rawDate) {
     return date('Y-m-d');
 }
 
-// Helper to normalize display date (e.g. "Enb tgl 19/08/ 2026")
+// Helper to normalize display date (e.g. "Enb tgl 20/08/ 2026")
 function normalizeDisplayDate($rawDate) {
     if (empty($rawDate)) {
         $today = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
         return "Enb tgl " . $today->format('d/m/ Y');
     }
-    $trimmed = trim($rawDate);
+    $trimmed = cleanReportDateStr($rawDate);
     if (preg_match('/(\d{1,2})[\/\-](\d{1,2})[\/\-]\s*(\d{4})/', $trimmed, $m)) {
         $d = str_pad($m[1], 2, '0', STR_PAD_LEFT);
         $mo = str_pad($m[2], 2, '0', STR_PAD_LEFT);
@@ -67,10 +76,13 @@ try {
             $dispNoSpace = preg_replace('/\/\s+/', '/', $dispDate);
             $dispWithSpace = preg_replace('/\/(\d{4})/', '/ $1', $dispNoSpace);
 
+            preg_match('/(\d{1,2})[\/\-](\d{1,2})[\/\-]\s*(\d{4})/', cleanReportDateStr($date), $mParts);
+            $wildcardPattern = !empty($mParts) ? "%{$mParts[1]}/{$mParts[2]}/%{$mParts[3]}%" : "%{$isoDate}%";
+
             $stmt = $pdo->prepare("SELECT o.*, u.username as user_name FROM obtained_items o LEFT JOIN users u ON o.user_id = u.id 
-                WHERE (o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR ((o.report_date IS NULL OR o.report_date = '') AND DATE(o.created_at) = ?))
+                WHERE (o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR o.report_date LIKE ? OR ((o.report_date IS NULL OR o.report_date = '') AND DATE(o.created_at) = ?))
                 ORDER BY o.id ASC");
-            $stmt->execute([$date, $dispDate, $dispNoSpace, $dispWithSpace, $isoDate]);
+            $stmt->execute([$date, $dispDate, $dispNoSpace, $dispWithSpace, $wildcardPattern, $isoDate]);
             $data = $stmt->fetchAll();
             echo json_encode(['status' => 'success', 'data' => $data, 'report_date' => $dispDate]);
         } else if ($loadAll) {
@@ -88,10 +100,13 @@ try {
                 $dispNoSpace = preg_replace('/\/\s+/', '/', $dispDate);
                 $dispWithSpace = preg_replace('/\/(\d{4})/', '/ $1', $dispNoSpace);
 
+                preg_match('/(\d{1,2})[\/\-](\d{1,2})[\/\-]\s*(\d{4})/', cleanReportDateStr($latestDate), $mParts);
+                $wildcardPattern = !empty($mParts) ? "%{$mParts[1]}/{$mParts[2]}/%{$mParts[3]}%" : "%{$isoDate}%";
+
                 $stmt = $pdo->prepare("SELECT o.*, u.username as user_name FROM obtained_items o LEFT JOIN users u ON o.user_id = u.id 
-                    WHERE (o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR ((o.report_date IS NULL OR o.report_date = '') AND DATE(o.created_at) = ?))
+                    WHERE (o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR o.report_date LIKE ? OR ((o.report_date IS NULL OR o.report_date = '') AND DATE(o.created_at) = ?))
                     ORDER BY o.id ASC");
-                $stmt->execute([$latestDate, $dispDate, $dispNoSpace, $dispWithSpace, $isoDate]);
+                $stmt->execute([$latestDate, $dispDate, $dispNoSpace, $dispWithSpace, $wildcardPattern, $isoDate]);
                 $data = $stmt->fetchAll();
                 echo json_encode(['status' => 'success', 'data' => $data, 'report_date' => $dispDate, 'is_latest' => true]);
             } else {
@@ -107,11 +122,14 @@ try {
         $action = $input['action'] ?? 'save_item';
 
         if ($action === 'sync_all') {
-            $rawDate = $input['report_date'] ?? date('Y-m-d');
+            $rawDate = cleanReportDateStr($input['report_date'] ?? date('Y-m-d'));
             $isoDate = extractIsoDate($rawDate);
             $dispDate = normalizeDisplayDate($rawDate);
             $dispNoSpace = preg_replace('/\/\s+/', '/', $dispDate);
             $dispWithSpace = preg_replace('/\/(\d{4})/', '/ $1', $dispNoSpace);
+
+            preg_match('/(\d{1,2})[\/\-](\d{1,2})[\/\-]\s*(\d{4})/', $rawDate, $mParts);
+            $wildcardPattern = !empty($mParts) ? "%{$mParts[1]}/{$mParts[2]}/%{$mParts[3]}%" : "%{$isoDate}%";
 
             $items = $input['items'] ?? [];
 
@@ -119,36 +137,55 @@ try {
                 $pdo->beginTransaction();
             }
 
-            // Clean existing records for this date cleanly to prevent duplicate stacking
+            // Clean existing records for this date cleanly using wildcard and exact match to prevent duplicate stacking
             $clear_existing = $input['clear_existing'] ?? true;
             if ($clear_existing) {
-                $delStmt = $pdo->prepare("DELETE FROM obtained_items WHERE report_date = ? OR report_date = ? OR report_date = ? OR report_date = ? OR DATE(created_at) = ?");
-                $delStmt->execute([$rawDate, $dispDate, $dispNoSpace, $dispWithSpace, $isoDate]);
+                $delStmt = $pdo->prepare("DELETE FROM obtained_items WHERE report_date = ? OR report_date = ? OR report_date = ? OR report_date = ? OR report_date LIKE ? OR DATE(created_at) = ?");
+                $delStmt->execute([$rawDate, $dispDate, $dispNoSpace, $dispWithSpace, $wildcardPattern, $isoDate]);
             }
 
+            // In-memory deduplication before insertion
+            $seenKeys = [];
             $insStmt = $pdo->prepare("INSERT INTO obtained_items 
                 (person, model, storage, grade, unit, obtained_price, fee_info, bidder, status, notes, report_date, raw_line) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             $insertedCount = 0;
             foreach ($items as $it) {
-                $person = trim($it['person'] ?? '');
-                $model = trim($it['model'] ?? '');
+                $person = cleanReportDateStr($it['person'] ?? '');
+                $model = cleanReportDateStr($it['model'] ?? '');
+                $storage = cleanReportDateStr(isset($it['storage']) ? (string)$it['storage'] : '');
+                $grade = cleanReportDateStr($it['grade'] ?? '');
+                $unit = intval($it['unit'] ?? 1);
+                $price = floatval($it['obtained_price'] ?? ($it['price'] ?? 0));
+                $fee_info = cleanReportDateStr($it['fee_info'] ?? '');
+                $bidder = cleanReportDateStr($it['bidder'] ?? '');
+                $status = cleanReportDateStr($it['status'] ?? 'approved');
+                $notes = cleanReportDateStr($it['notes'] ?? '');
+                $raw_line = cleanReportDateStr($it['raw_line'] ?? '');
+
                 if (!$person && !$model) continue;
+
+                // Unique signature to prevent duplicate lines in the same payload
+                $sig = strtolower("{$person}|{$model}|{$storage}|{$grade}|{$price}|{$fee_info}|{$bidder}|{$status}");
+                if (isset($seenKeys[$sig])) {
+                    continue; // Skip duplicate inside batch
+                }
+                $seenKeys[$sig] = true;
 
                 $insStmt->execute([
                     $person,
                     $model,
-                    isset($it['storage']) ? (string)$it['storage'] : '',
-                    trim($it['grade'] ?? ''),
-                    intval($it['unit'] ?? 1),
-                    floatval($it['obtained_price'] ?? ($it['price'] ?? 0)),
-                    trim($it['fee_info'] ?? ''),
-                    trim($it['bidder'] ?? ''),
-                    trim($it['status'] ?? 'approved'),
-                    trim($it['notes'] ?? ''),
+                    $storage,
+                    $grade,
+                    $unit,
+                    $price,
+                    $fee_info,
+                    $bidder,
+                    $status,
+                    $notes,
                     $dispDate,
-                    trim($it['raw_line'] ?? '')
+                    $raw_line
                 ]);
                 $insertedCount++;
             }
@@ -161,6 +198,7 @@ try {
                 'count' => $insertedCount,
                 'report_date' => $dispDate
             ]);
+            exit;
         } else if ($action === 'clean_duplicates') {
             $rawDate = $input['report_date'] ?? null;
             

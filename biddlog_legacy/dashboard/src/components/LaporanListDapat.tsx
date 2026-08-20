@@ -232,6 +232,31 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
     }
   };
 
+  // Helper to deduplicate item list based on person, model, storage, grade, price, bidder, fee
+  const deduplicateItemsList = (itemList: ObtainedItem[]): { unique: ObtainedItem[]; removedCount: number } => {
+    const seen = new Set<string>();
+    const unique: ObtainedItem[] = [];
+    let removedCount = 0;
+    for (const it of itemList) {
+      const p = (it.person || '').trim().toLowerCase();
+      const m = (it.model || '').trim().toLowerCase();
+      const s = String(it.storage || '').trim().toLowerCase();
+      const g = (it.grade || '').trim().toLowerCase();
+      const pr = String(it.price || 0).trim();
+      const b = (it.bidder || '').trim().toLowerCase();
+      const f = String(it.fee_info || '').trim();
+      const st = (it.status || 'approved').trim().toLowerCase();
+      const key = `${p}|${m}|${s}|${g}|${pr}|${b}|${f}|${st}`;
+      if (seen.has(key)) {
+        removedCount++;
+      } else {
+        seen.add(key);
+        unique.push(it);
+      }
+    }
+    return { unique, removedCount };
+  };
+
   // Fetch data from API with strict date isolation (Stale-While-Revalidate)
   const fetchData = async (targetDate?: string, silent = false) => {
     if (!silent && !cachedObtained) setLoading(true);
@@ -259,7 +284,8 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
             report_date: row.report_date || dateToFetch,
             raw_line: row.raw_line || ''
           }));
-          setItems(loaded);
+          const { unique } = deduplicateItemsList(loaded);
+          setItems(unique);
           if (json.report_date && !targetDate) {
             setReportDate(json.report_date);
           }
@@ -285,11 +311,12 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
   const syncToDatabase = async (currentItems: ObtainedItem[], customDate?: string) => {
     setSaveStatus('Menyimpan...');
     const syncDate = customDate || reportDate;
+    const { unique } = deduplicateItemsList(currentItems);
     try {
       const payload = {
         action: 'sync_all',
         report_date: syncDate,
-        items: currentItems.map(it => ({
+        items: unique.map(it => ({
           person: it.person,
           model: it.model,
           storage: it.storage,
@@ -365,12 +392,13 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
       newItems = [...items, ...uniqueToAppend];
     }
 
+    const { unique } = deduplicateItemsList(newItems);
     const finalDate = biddingSnapshot.reportDate || reportDate;
     setReportDate(finalDate);
-    setItems(newItems);
-    await syncToDatabase(newItems, finalDate);
+    setItems(unique);
+    await syncToDatabase(unique, finalDate);
     setShowImportBiddingModal(false);
-    setSaveStatus(`Berhasil mengimpor ${biddingSnapshot.items.length} item dari Hasil Bidding! ✨`);
+    setSaveStatus(`Berhasil mengimpor ${unique.length} item dari Hasil Bidding! ✨`);
     setTimeout(() => setSaveStatus(''), 3000);
   };
 
