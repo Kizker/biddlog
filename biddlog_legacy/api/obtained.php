@@ -122,12 +122,6 @@ try {
                 $delStmt->execute([$rawDate, $dispDate, $isoDate]);
             }
 
-            // In-memory deduplication before insertion
-            $seenKeys = [];
-            $insStmt = $pdo->prepare("INSERT INTO obtained_items 
-                (person, model, storage, grade, unit, obtained_price, fee_info, bidder, status, notes, report_date, raw_line) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
             $insertedCount = 0;
             foreach ($items as $it) {
                 $person = cleanReportDateStr($it['person'] ?? '');
@@ -143,13 +137,6 @@ try {
                 $raw_line = cleanReportDateStr($it['raw_line'] ?? '');
 
                 if (!$person && !$model) continue;
-
-                // Unique signature to prevent duplicate lines in the same payload
-                $sig = strtolower("{$person}|{$model}|{$storage}|{$grade}|{$price}|{$fee_info}|{$bidder}|{$status}");
-                if (isset($seenKeys[$sig])) {
-                    continue; // Skip duplicate inside batch
-                }
-                $seenKeys[$sig] = true;
 
                 $insStmt->execute([
                     $person,

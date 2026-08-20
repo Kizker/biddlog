@@ -268,8 +268,7 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
             report_date: row.report_date || dateToFetch,
             raw_line: row.raw_line || ''
           }));
-          const { unique } = deduplicateItemsList(loaded);
-          setItems(unique);
+          setItems(loaded);
           if (json.report_date && !targetDate) {
             setReportDate(json.report_date);
           }
@@ -293,12 +292,11 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
   const syncToDatabase = async (currentItems: ObtainedItem[], customDate?: string) => {
     setSaveStatus('Menyimpan...');
     const syncDate = customDate || reportDate;
-    const { unique } = deduplicateItemsList(currentItems);
     try {
       const payload = {
         action: 'sync_all',
         report_date: syncDate,
-        items: unique.map(it => ({
+        items: currentItems.map(it => ({
           person: it.person,
           model: it.model,
           storage: it.storage,
@@ -322,7 +320,7 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
         setSaveStatus('Tersimpan di DB ✅');
         setFastCache('obtained_data', {
           status: 'success',
-          data: unique.map(it => ({
+          data: currentItems.map(it => ({
             ...it,
             obtained_price: it.price
           })),
@@ -368,26 +366,20 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
         id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
       }));
     } else {
-      // Append mode - avoid duplicates based on person, model, storage, grade, price, bidder
-      const existingKeys = new Set(
-        items.map(it => `${(it.person || '').toLowerCase()}_${(it.model || '').toLowerCase()}_${it.storage}_${it.grade}_${it.price}_${it.bidder}`)
-      );
-      const uniqueToAppend = biddingSnapshot.items
-        .filter(it => !existingKeys.has(`${(it.person || '').toLowerCase()}_${(it.model || '').toLowerCase()}_${it.storage}_${it.grade}_${it.price}_${it.bidder}`))
-        .map(it => ({
-          ...it,
-          id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
-        }));
+      // Append mode
+      const uniqueToAppend = biddingSnapshot.items.map(it => ({
+        ...it,
+        id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
+      }));
       newItems = [...items, ...uniqueToAppend];
     }
 
-    const { unique } = deduplicateItemsList(newItems);
     const finalDate = biddingSnapshot.reportDate || reportDate;
     setReportDate(finalDate);
-    setItems(unique);
-    await syncToDatabase(unique, finalDate);
+    setItems(newItems);
+    await syncToDatabase(newItems, finalDate);
     setShowImportBiddingModal(false);
-    setSaveStatus(`Berhasil mengimpor ${unique.length} item dari Hasil Bidding! ✨`);
+    setSaveStatus(`Berhasil mengimpor ${newItems.length} item dari Hasil Bidding! ✨`);
     setTimeout(() => setSaveStatus(''), 3000);
   };
 
