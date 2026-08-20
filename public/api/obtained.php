@@ -122,6 +122,10 @@ try {
                 $delStmt->execute([$rawDate, $dispDate, $isoDate]);
             }
 
+            $insStmt = $pdo->prepare("INSERT INTO obtained_items 
+                (person, model, storage, grade, unit, obtained_price, fee_info, bidder, status, notes, report_date, raw_line) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
             $insertedCount = 0;
             foreach ($items as $it) {
                 $person = cleanReportDateStr($it['person'] ?? '');
