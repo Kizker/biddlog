@@ -823,397 +823,367 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-      {/* 1. Header Card - Clean, Streamlined & Modern */}
+      {/* 1. Integrated Header & Stat Bar - Sleek, Minimalist & Modern */}
       <div style={{
         background: 'white',
         borderRadius: '12px',
         border: '1px solid var(--line)',
-        padding: '16px 20px',
+        padding: '14px 18px',
         display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
-        gap: '14px'
+        flexDirection: 'column',
+        gap: '12px',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.03)'
       }}>
-        {/* Left: Title & Date Selector */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: 'var(--navy)', letterSpacing: '-0.2px' }}>
-                Laporan List Didapat
-              </h2>
-              {saveStatus && (
-                <span style={{
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  padding: '2px 8px',
-                  borderRadius: '12px',
-                  background: saveStatus.includes('✅') || saveStatus.includes('✨') ? '#ecfdf5' : '#fffbeb',
-                  color: saveStatus.includes('✅') || saveStatus.includes('✨') ? '#059669' : '#d97706',
-                  border: `1px solid ${saveStatus.includes('✅') || saveStatus.includes('✨') ? '#a7f3d0' : '#fde68a'}`
-                }}>
-                  {saveStatus}
-                </span>
-              )}
-            </div>
-            <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: 'var(--muted)' }}>
-              Rekap persetujuan barang didapat, fee, dan export chat harian.
-            </p>
-          </div>
-
-          {/* Date Picker Pill */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            background: '#f8fafc',
-            border: '1px solid var(--line)',
-            borderRadius: '8px',
-            padding: '2px 6px',
-            gap: '4px'
-          }}>
-            <span style={{ fontSize: '13px', color: '#64748b' }}>📅</span>
-            <input
-              type="text"
-              value={reportDate}
-              onChange={(e) => setReportDate(e.target.value)}
-              onBlur={() => fetchData(reportDate)}
-              style={{
-                border: 'none',
-                background: 'transparent',
-                fontSize: '12px',
-                fontWeight: 600,
-                color: 'var(--navy)',
-                padding: '4px 6px',
-                width: '145px',
-                outline: 'none'
-              }}
-              title="Ketik tanggal atau pilih dari riwayat"
-            />
-            {availableDates.length > 0 && (
-              <select
-                value={availableDates.some(d => d.report_date === reportDate) ? reportDate : ''}
-                onChange={(e) => {
-                  if (e.target.value) {
-                    setReportDate(e.target.value);
-                    fetchData(e.target.value);
-                  }
-                }}
+        {/* Top Row: Date Picker & Main Actions */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '10px'
+        }}>
+          {/* Left: Date Picker Pill & Live Save Status */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: '#f8fafc',
+              border: '1px solid var(--line)',
+              borderRadius: '8px',
+              padding: '3px 8px',
+              gap: '6px'
+            }}>
+              <span style={{ fontSize: '13px', color: '#64748b' }}>📅</span>
+              <input
+                type="text"
+                value={reportDate}
+                onChange={(e) => setReportDate(e.target.value)}
+                onBlur={() => fetchData(reportDate)}
                 style={{
                   border: 'none',
-                  background: '#f1f5f9',
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  color: '#475569',
-                  borderRadius: '4px',
-                  padding: '3px 6px',
-                  cursor: 'pointer',
+                  background: 'transparent',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  color: 'var(--navy)',
+                  padding: '2px 4px',
+                  width: '150px',
                   outline: 'none'
                 }}
-                title="Pilih riwayat tanggal tersimpan"
-              >
-                <option value="">Riwayat Tanggal ({availableDates.length})</option>
-                {availableDates.map(d => (
-                  <option key={d.report_date} value={d.report_date}>
-                    {d.report_date} ({d.item_count} item)
-                  </option>
-                ))}
-              </select>
+                title="Ketik tanggal atau pilih dari riwayat"
+              />
+              {availableDates.length > 0 && (
+                <select
+                  value={availableDates.some(d => d.report_date === reportDate) ? reportDate : ''}
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      setReportDate(e.target.value);
+                      fetchData(e.target.value);
+                    }
+                  }}
+                  style={{
+                    border: 'none',
+                    background: '#e2e8f0',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    color: '#334155',
+                    borderRadius: '4px',
+                    padding: '3px 6px',
+                    cursor: 'pointer',
+                    outline: 'none'
+                  }}
+                  title="Pilih riwayat tanggal tersimpan"
+                >
+                  <option value="">Riwayat ({availableDates.length})</option>
+                  {availableDates.map(d => (
+                    <option key={d.report_date} value={d.report_date}>
+                      {d.report_date} ({d.item_count} item)
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+
+            {saveStatus && (
+              <span style={{
+                fontSize: '11px',
+                fontWeight: 600,
+                padding: '3px 9px',
+                borderRadius: '12px',
+                background: saveStatus.includes('✅') || saveStatus.includes('✨') ? '#ecfdf5' : '#fffbeb',
+                color: saveStatus.includes('✅') || saveStatus.includes('✨') ? '#059669' : '#d97706',
+                border: `1px solid ${saveStatus.includes('✅') || saveStatus.includes('✨') ? '#a7f3d0' : '#fde68a'}`
+              }}>
+                {saveStatus}
+              </span>
             )}
           </div>
-        </div>
 
-        {/* Right: Core Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          {/* Main 1-Click Pull Button */}
-          <button
-            type="button"
-            onClick={handleOpenImportBidding}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '7px 14px',
-              background: 'linear-gradient(135deg, #0284c7, #0369a1)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '7px',
-              fontWeight: 600,
-              fontSize: '12px',
-              cursor: 'pointer',
-              boxShadow: '0 2px 4px rgba(2, 132, 199, 0.2)',
-              transition: 'transform 0.1s ease'
-            }}
-            title="Tarik hasil rekonsiliasi terbaru dari menu Hasil Bidding"
-          >
-            <span>⚡</span>
-            <span>Tarik Hasil Bidding</span>
-          </button>
-
-          {/* Copy Chat Button */}
-          <button
-            type="button"
-            onClick={handleCopyText}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '7px 13px',
-              background: copied ? '#10b981' : '#f1f5f9',
-              color: copied ? 'white' : '#1e293b',
-              border: `1px solid ${copied ? '#10b981' : '#cbd5e1'}`,
-              borderRadius: '7px',
-              fontWeight: 600,
-              fontSize: '12px',
-              cursor: 'pointer',
-              transition: 'all 0.15s'
-            }}
-            title="Salin teks laporan format chat WhatsApp"
-          >
-            <span>{copied ? '✅' : '📋'}</span>
-            <span>{copied ? 'Tersalin!' : 'Salin Chat'}</span>
-          </button>
-
-          {/* Kirim Gaji Button */}
-          <button
-            type="button"
-            onClick={handleSendToSalary}
-            disabled={sendingSalary || items.length === 0}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '7px 14px',
-              background: 'linear-gradient(135deg, #10b981, #059669)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '7px',
-              fontWeight: 700,
-              fontSize: '12px',
-              cursor: sendingSalary || items.length === 0 ? 'not-allowed' : 'pointer',
-              boxShadow: '0 2px 4px rgba(16, 185, 129, 0.2)'
-            }}
-            title="Simpan dan terbitkan ke menu Gaji"
-          >
-            <span>💸</span>
-            <span>{sendingSalary ? 'Mengirim...' : 'Kirim Gaji'}</span>
-          </button>
-
-          {/* More Actions Dropdown */}
-          <div style={{ position: 'relative' }}>
+          {/* Right: Core Actions */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            {/* Main 1-Click Pull Button */}
             <button
               type="button"
-              onClick={() => setShowMoreActions(!showMoreActions)}
+              onClick={handleOpenImportBidding}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                padding: '7px 10px',
-                background: '#f8fafc',
-                color: '#475569',
-                border: '1px solid var(--line)',
+                gap: '6px',
+                padding: '7px 14px',
+                background: 'linear-gradient(135deg, #0284c7, #0369a1)',
+                color: 'white',
+                border: 'none',
                 borderRadius: '7px',
                 fontWeight: 600,
                 fontSize: '12px',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                boxShadow: '0 2px 4px rgba(2, 132, 199, 0.2)',
+                transition: 'transform 0.1s ease'
               }}
-              title="Opsi Tambahan"
+              title="Tarik hasil rekonsiliasi terbaru dari menu Hasil Bidding"
             >
-              ⚙️ Opsi
+              <span>⚡</span>
+              <span>Tarik Hasil Bidding</span>
             </button>
 
-            {showMoreActions && (
-              <>
-                <div
-                  style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99 }}
-                  onClick={() => setShowMoreActions(false)}
-                />
-                <div style={{
-                  position: 'absolute',
-                  right: 0,
-                  top: '110%',
-                  width: '200px',
-                  background: 'white',
-                  borderRadius: '10px',
+            {/* Kirim Gaji Button */}
+            <button
+              type="button"
+              onClick={handleSendToSalary}
+              disabled={sendingSalary || items.length === 0}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '7px 14px',
+                background: 'linear-gradient(135deg, #10b981, #059669)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '7px',
+                fontWeight: 700,
+                fontSize: '12px',
+                cursor: sendingSalary || items.length === 0 ? 'not-allowed' : 'pointer',
+                boxShadow: '0 2px 4px rgba(16, 185, 129, 0.2)'
+              }}
+              title="Simpan dan terbitkan ke menu Gaji"
+            >
+              <span>💸</span>
+              <span>{sendingSalary ? 'Mengirim...' : 'Kirim Gaji'}</span>
+            </button>
+
+            {/* More Actions Dropdown */}
+            <div style={{ position: 'relative' }}>
+              <button
+                type="button"
+                onClick={() => setShowMoreActions(!showMoreActions)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '7px 11px',
+                  background: '#f8fafc',
+                  color: '#475569',
                   border: '1px solid var(--line)',
-                  boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
-                  zIndex: 100,
-                  padding: '6px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '2px'
-                }}>
-                  <button
-                    type="button"
-                    onClick={() => { setShowMoreActions(false); setShowPasteModal(true); }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 10px',
-                      background: 'transparent',
-                      color: '#334155',
-                      border: 'none',
-                      borderRadius: '6px',
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      textAlign: 'left',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <span>📝</span> Paste Teks Manual
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => { setShowMoreActions(false); setShowAddModal(true); }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 10px',
-                      background: 'transparent',
-                      color: '#334155',
-                      border: 'none',
-                      borderRadius: '6px',
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      textAlign: 'left',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <span>➕</span> Tambah Item Manual
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => { setShowMoreActions(false); handleCleanDuplicates(); }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 10px',
-                      background: 'transparent',
-                      color: '#b45309',
-                      border: 'none',
-                      borderRadius: '6px',
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      textAlign: 'left',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <span>🧹</span> Bersihkan Duplikat
-                  </button>
-                  <div style={{ height: '1px', background: 'var(--line)', margin: '4px 0' }} />
-                  <button
-                    type="button"
-                    onClick={() => { setShowMoreActions(false); handleResetStatusAndFee(); }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 10px',
-                      background: 'transparent',
-                      color: '#d97706',
-                      border: 'none',
-                      borderRadius: '6px',
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      textAlign: 'left',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <span>🔄</span> Reset Status & Fee
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => { setShowMoreActions(false); handleResetAllData(); }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 10px',
-                      background: 'transparent',
-                      color: '#ef4444',
-                      border: 'none',
-                      borderRadius: '6px',
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      textAlign: 'left',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <span>🗑️</span> Kosongkan Data
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
+                  borderRadius: '7px',
+                  fontWeight: 600,
+                  fontSize: '12px',
+                  cursor: 'pointer'
+                }}
+                title="Opsi Tambahan"
+              >
+                ⚙️ Opsi
+              </button>
 
-      {/* 2. Unified Compact Stat Strip - Replaces large chunky metric boxes */}
-      <div style={{
-        background: 'white',
-        borderRadius: '10px',
-        border: '1px solid var(--line)',
-        padding: '10px 16px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: '12px',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
-      }}>
-        {/* Metric Chips */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px' }}>
-            <span style={{ color: 'var(--muted)' }}>Total:</span>
-            <strong style={{ color: 'var(--navy)' }}>{totalItemsCount} item</strong>
-          </div>
-          <div style={{ height: '14px', width: '1px', background: 'var(--line)' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px' }}>
-            <span style={{ color: '#059669' }}>Disetujui:</span>
-            <strong style={{ color: '#059669' }}>{totalApproved}</strong>
-          </div>
-          <div style={{ height: '14px', width: '1px', background: 'var(--line)' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px' }}>
-            <span style={{ color: '#dc2626' }}>Ditolak:</span>
-            <strong style={{ color: '#dc2626' }}>{totalRejected}</strong>
-          </div>
-          <div style={{ height: '14px', width: '1px', background: 'var(--line)' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px' }}>
-            <span style={{ color: 'var(--muted)' }}>PIC:</span>
-            <strong style={{ color: '#7c3aed' }}>{groupedByPerson.length} orang</strong>
+              {showMoreActions && (
+                <>
+                  <div
+                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99 }}
+                    onClick={() => setShowMoreActions(false)}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: '110%',
+                    width: '200px',
+                    background: 'white',
+                    borderRadius: '10px',
+                    border: '1px solid var(--line)',
+                    boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
+                    zIndex: 100,
+                    padding: '6px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '2px'
+                  }}>
+                    <button
+                      type="button"
+                      onClick={() => { setShowMoreActions(false); setShowPasteModal(true); }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '8px 10px',
+                        background: 'transparent',
+                        color: '#334155',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: 500,
+                        textAlign: 'left',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <span>📝</span> Paste Teks Manual
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setShowMoreActions(false); setShowAddModal(true); }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '8px 10px',
+                        background: 'transparent',
+                        color: '#334155',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: 500,
+                        textAlign: 'left',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <span>➕</span> Tambah Item Manual
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setShowMoreActions(false); handleCleanDuplicates(); }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '8px 10px',
+                        background: 'transparent',
+                        color: '#b45309',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: 500,
+                        textAlign: 'left',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <span>🧹</span> Bersihkan Duplikat
+                    </button>
+                    <div style={{ height: '1px', background: 'var(--line)', margin: '4px 0' }} />
+                    <button
+                      type="button"
+                      onClick={() => { setShowMoreActions(false); handleResetStatusAndFee(); }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '8px 10px',
+                        background: 'transparent',
+                        color: '#d97706',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: 500,
+                        textAlign: 'left',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <span>🔄</span> Reset Status & Fee
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setShowMoreActions(false); handleResetAllData(); }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '8px 10px',
+                        background: 'transparent',
+                        color: '#ef4444',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: 500,
+                        textAlign: 'left',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <span>🗑️</span> Kosongkan Data
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Fee Formula Pill */}
-        {feeCalculation.formulaText ? (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: '#f8fafc',
-            padding: '4px 10px',
-            borderRadius: '6px',
-            border: '1px solid var(--line)'
-          }}>
-            <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 600 }}>Fee:</span>
-            <span style={{ fontSize: '12px', fontFamily: 'monospace', fontWeight: 700, color: 'var(--navy)' }}>
-              {feeCalculation.formulaText}
-            </span>
-            <span style={{ fontSize: '12px', fontWeight: 700, color: '#0284c7' }}>
-              {feeCalculation.totalText}
-            </span>
-            <span style={{ fontSize: '12px', fontWeight: 700, color: '#059669', marginLeft: '4px' }}>
-              (Rp {new Intl.NumberFormat('id-ID').format(feeCalculation.grandTotal * 1000)})
-            </span>
+        {/* Divider */}
+        <div style={{ height: '1px', background: '#f1f5f9', width: '100%' }} />
+
+        {/* Bottom Row: Compact Metric Chips & Fee Summary */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '10px'
+        }}>
+          {/* Metrics */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '13px' }}>
+              <span style={{ color: 'var(--muted)' }}>Total:</span>
+              <strong style={{ color: 'var(--navy)' }}>{totalItemsCount} item</strong>
+            </div>
+            <div style={{ height: '12px', width: '1px', background: 'var(--line)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '13px' }}>
+              <span style={{ color: '#059669' }}>Disetujui:</span>
+              <strong style={{ color: '#059669' }}>{totalApproved}</strong>
+            </div>
+            <div style={{ height: '12px', width: '1px', background: 'var(--line)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '13px' }}>
+              <span style={{ color: '#dc2626' }}>Ditolak:</span>
+              <strong style={{ color: '#dc2626' }}>{totalRejected}</strong>
+            </div>
+            <div style={{ height: '12px', width: '1px', background: 'var(--line)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '13px' }}>
+              <span style={{ color: 'var(--muted)' }}>PIC:</span>
+              <strong style={{ color: '#7c3aed' }}>{groupedByPerson.length} orang</strong>
+            </div>
           </div>
-        ) : (
-          <div style={{ fontSize: '12px', color: 'var(--muted)' }}>
-            Belum ada fee diatur
-          </div>
-        )}
+
+          {/* Fee Calculation */}
+          {feeCalculation.formulaText ? (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: '#f8fafc',
+              padding: '3px 8px',
+              borderRadius: '6px',
+              border: '1px solid var(--line)'
+            }}>
+              <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 600 }}>Fee:</span>
+              <span style={{ fontSize: '12px', fontFamily: 'monospace', fontWeight: 700, color: 'var(--navy)' }}>
+                {feeCalculation.formulaText}
+              </span>
+              <span style={{ fontSize: '12px', fontWeight: 700, color: '#0284c7' }}>
+                {feeCalculation.totalText}
+              </span>
+              <span style={{ fontSize: '12px', fontWeight: 700, color: '#059669', marginLeft: '3px' }}>
+                (Rp {new Intl.NumberFormat('id-ID').format(feeCalculation.grandTotal * 1000)})
+              </span>
+            </div>
+          ) : (
+            <div style={{ fontSize: '12px', color: 'var(--muted)' }}>
+              Belum ada fee diatur
+            </div>
+          )}
+        </div>
       </div>
 
       {/* 3. Integrated Toolbar (Tabs, Search, Bulk Fee) - 1 Single Compact Row */}
