@@ -66,9 +66,10 @@
 - [x] Add 1-click non-copy-paste '⚡ Tarik Hasil Bidding' direct import feature with preview modal, replace/append mode selection, and 1-click duplicate cleaner in Laporan List Didapat
 - [x] Add interactive success notification and direct navigation button in Hasil Bidding to seamlessly open Laporan List Didapat after sending data
 - [x] Implement Zero-Loading Instant Performance Engine (0ms rendering): In-memory & local persistent cache (SWR), app-level eager parallel background preloading (`preload.php`), sub-3ms ultra-low latency SQLite WAL / MySQL persistent connections, and zero-spinner instant tab switching across all modules
-- [x] Implement Multi-Alias support (comma-separated multiple aliases) with individual tag badges and smart bidirectional canonical matching
-- [x] Implement Member & Alias Merge feature (🔗 Gabungkan Anggota): Smart similarity detection engine, automatic suggestion banner, merge modal with target/source selectors, live alias preview, and historical data reconciliation
-
+- [x] Implement Multiple Aliases support (comma-separated, live tag badges preview, and multi-alias matching across all parser & salary modules)
+- [x] Implement Member Merge feature (🔗 Gabungkan Anggota) with target selection, multi-source checklist, auto-combined aliases, and database atomicity
+- [x] Add Smart Name Similarity Suggester banner detecting similar names (e.g. `Bilqis` ↔ `Bilqiis`) with 1-click quick merge action
+- [x] Add multi-row checkbox selection in Anggota & Alias list for quick bulk merging
 
 
 

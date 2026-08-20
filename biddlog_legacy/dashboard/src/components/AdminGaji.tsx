@@ -161,6 +161,13 @@ export default function AdminGaji() {
   // Selected people for bulk transfer marking
   const [selectedPeople, setSelectedPeople] = useState<string[]>([]);
 
+  // Selected members for merging
+  const [selectedMemberNamesForMerge, setSelectedMemberNamesForMerge] = useState<string[]>([]);
+  const [showMergeModal, setShowMergeModal] = useState<boolean>(false);
+  const [mergeTargetName, setMergeTargetName] = useState<string>('');
+  const [mergeSourceNames, setMergeSourceNames] = useState<string[]>([]);
+  const [mergeCustomAlias, setMergeCustomAlias] = useState<string>('');
+
   // Modal for adding / editing member & alias
   const [modalMember, setModalMember] = useState<{
     isEdit: boolean;
@@ -169,11 +176,41 @@ export default function AdminGaji() {
     notes: string;
   } | null>(null);
 
-  // Modal for Merging Members & Aliases
-  const [showMergeModal, setShowMergeModal] = useState(false);
-  const [mergeTarget, setMergeTarget] = useState('');
-  const [mergeSource, setMergeSource] = useState('');
-  const [isMerging, setIsMerging] = useState(false);
+  // Helper to split multiple comma-separated aliases
+  const splitAliases = (aliasStr: string | undefined | null): string[] => {
+    if (!aliasStr) return [];
+    return aliasStr
+      .split(',')
+      .map(a => a.trim())
+      .filter(a => a.length > 0);
+  };
+
+  // Helper to calculate similarity between names
+  const calculateSimilarity = (a: string, b: string): number => {
+    const s1 = (a || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const s2 = (b || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (!s1 || !s2) return 0;
+    if (s1 === s2) return 1;
+    if (s1.includes(s2) || s2.includes(s1)) return 0.85;
+
+    const d1 = s1.replace(/(.)\1+/g, '$1');
+    const d2 = s2.replace(/(.)\1+/g, '$1');
+    if (d1 === d2) return 0.95;
+
+    const getBigrams = (str: string) => {
+      const bigrams = new Set<string>();
+      for (let i = 0; i < str.length - 1; i++) {
+        bigrams.add(str.substring(i, i + 2));
+      }
+      return bigrams;
+    };
+    const b1 = getBigrams(s1);
+    const b2 = getBigrams(s2);
+    if (b1.size === 0 || b2.size === 0) return 0;
+    let intersection = 0;
+    b1.forEach(bg => { if (b2.has(bg)) intersection++; });
+    return (2 * intersection) / (b1.size + b2.size);
+  };
 
   // Fetch all salary & obtained data in background (Stale-While-Revalidate)
   const fetchData = async (silent = false) => {
@@ -270,7 +307,7 @@ export default function AdminGaji() {
     });
   };
 
-  // Find member where raw input matches Nama Asli or matches any of their comma-separated Aliases
+  // Find member where raw input matches Nama Asli or matches ANY of its multiple aliases
   const findMember = (rawName: string): MemberRecord | undefined => {
     const norm = (rawName || '').trim().toLowerCase();
     if (!norm) return undefined;
@@ -279,27 +316,21 @@ export default function AdminGaji() {
     const byName = members.find(m => m.name.toLowerCase().trim() === norm);
     if (byName) return byName;
 
-    // 2. Match on multi-alias (split by comma)
+    // 2. Match on any of multiple aliases (comma-separated)
     const byAlias = members.find(m => {
-      if (!m.alias) return false;
-      const aliases = m.alias.split(',').map(a => a.trim().toLowerCase());
-      return aliases.includes(norm);
+      const aliases = splitAliases(m.alias);
+      return aliases.some(a => a.toLowerCase().trim() === norm);
     });
     if (byAlias) return byAlias;
 
-    // 3. Fallback to bidderAliases table (support comma separated alias_name)
-    const byBidderAlias = bidderAliases.find(a => {
-      const bName = a.bidder_name.toLowerCase().trim();
-      const aName = (a.alias_name || '').toLowerCase().trim();
-      const aliases = aName.split(',').map(x => x.trim().toLowerCase());
-      return bName === norm || aliases.includes(norm);
-    });
+    // 3. Fallback to bidderAliases table
+    const byBidderAlias = bidderAliases.find(a => a.bidder_name.toLowerCase().trim() === norm);
     if (byBidderAlias && byBidderAlias.alias_name) {
-      const targetCanonical = byBidderAlias.bidder_name.toLowerCase().trim();
       const matchParent = members.find(m => {
-        if (m.name.toLowerCase().trim() === targetCanonical) return true;
-        const aliases = (m.alias || '').split(',').map(x => x.trim().toLowerCase());
-        return aliases.includes(targetCanonical);
+        const mNorm = m.name.toLowerCase().trim();
+        const mAliases = splitAliases(m.alias).map(a => a.toLowerCase().trim());
+        const targetAlias = byBidderAlias.alias_name.toLowerCase().trim();
+        return mNorm === targetAlias || mAliases.includes(targetAlias);
       });
       if (matchParent) return matchParent;
     }
@@ -312,15 +343,12 @@ export default function AdminGaji() {
       const dName = cName.replace(/(.)\1+/g, '$1');
       if (cName === cleanNorm || dName === deDupe) return true;
 
-      if (m.alias) {
-        const aliases = m.alias.split(',').map(a => a.trim().toLowerCase());
-        for (const al of aliases) {
-          const cAlias = al.replace(/[^a-z0-9]/g, '');
-          const dAlias = cAlias.replace(/(.)\1+/g, '$1');
-          if (cAlias === cleanNorm || dAlias === deDupe) return true;
-        }
-      }
-      return false;
+      const aliases = splitAliases(m.alias);
+      return aliases.some(a => {
+        const cAlias = a.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const dAlias = cAlias.replace(/(.)\1+/g, '$1');
+        return cAlias === cleanNorm || dAlias === deDupe;
+      });
     });
     if (fuzzy) return fuzzy;
 
@@ -353,63 +381,6 @@ export default function AdminGaji() {
     return (m && m.alias && m.alias.trim()) ? m.alias.trim() : '';
   };
 
-  // Helper to calculate similarity score between two member names
-  const calculateNameSimilarity = (name1: string, name2: string): number => {
-    const n1 = name1.toLowerCase().replace(/[^a-z0-9]/g, '');
-    const n2 = name2.toLowerCase().replace(/[^a-z0-9]/g, '');
-    if (!n1 || !n2 || n1 === n2) return 0;
-
-    // Substring match
-    if (n1.includes(n2) || n2.includes(n1)) return 0.85;
-
-    // Duplicate char reduction (e.g. bilqiis vs bilqis)
-    const d1 = n1.replace(/(.)\1+/g, '$1');
-    const d2 = n2.replace(/(.)\1+/g, '$1');
-    if (d1 === d2) return 0.95;
-    if (d1.includes(d2) || d2.includes(d1)) return 0.80;
-
-    // Common prefix
-    let common = 0;
-    const minLen = Math.min(n1.length, n2.length);
-    for (let i = 0; i < minLen; i++) {
-      if (n1[i] === n2[i]) common++;
-      else break;
-    }
-    if (common >= 3 && common / Math.max(n1.length, n2.length) >= 0.6) {
-      return 0.75;
-    }
-
-    return 0;
-  };
-
-  // Smart suggestions: Find members with similar names that can be merged
-  const similarNameSuggestions = useMemo(() => {
-    const suggestions: Array<{ target: string; source: string; score: number }> = [];
-    const seen = new Set<string>();
-
-    for (let i = 0; i < members.length; i++) {
-      for (let j = i + 1; j < members.length; j++) {
-        const m1 = members[i];
-        const m2 = members[j];
-        if (!m1.name || !m2.name) continue;
-
-        const score = calculateNameSimilarity(m1.name, m2.name);
-        if (score >= 0.75) {
-          // Choose standard/shorter or alphabetical as target
-          const target = m1.name.length <= m2.name.length ? m1.name : m2.name;
-          const source = m1.name.length <= m2.name.length ? m2.name : m1.name;
-          const key = `${target}__${source}`;
-
-          if (!seen.has(key)) {
-            seen.add(key);
-            suggestions.push({ target, source, score });
-          }
-        }
-      }
-    }
-    return suggestions;
-  }, [members]);
-
   // Map any person/bidder name to its sequence in the official Anggota & Alias list
   const getMemberOrderIndex = useCallback((personName: string): number => {
     const canonical = getCanonicalName(personName).toLowerCase().trim();
@@ -418,9 +389,8 @@ export default function AdminGaji() {
     // 1. Search in members array (exact order in Anggota & Alias)
     const idxInMembers = members.findIndex(m => {
       const mName = m.name.toLowerCase().trim();
-      const mAlias = (m.alias || '').toLowerCase().trim();
-      const aliases = mAlias.split(',').map(x => x.trim());
-      return mName === canonical || (mAlias && (mAlias === canonical || aliases.includes(canonical)));
+      const mAliases = splitAliases(m.alias).map(a => a.toLowerCase().trim());
+      return mName === canonical || mAliases.includes(canonical);
     });
     if (idxInMembers !== -1) return idxInMembers;
 
@@ -983,60 +953,167 @@ export default function AdminGaji() {
     }
   };
 
-  // Open Merge Modal
-  const handleOpenMergeModal = (sourceName?: string, targetName?: string) => {
-    setMergeSource(sourceName || '');
-    setMergeTarget(targetName || '');
+  // Open merge modal
+  const handleOpenMergeModal = (presetTarget?: string, presetSources?: string[]) => {
+    const target = presetTarget || (selectedMemberNamesForMerge.length > 0 ? selectedMemberNamesForMerge[0] : (membersAndAliases[0]?.name || ''));
+    const sources = presetSources || selectedMemberNamesForMerge.filter(n => n.toLowerCase() !== target.toLowerCase());
+
+    setMergeTargetName(target);
+    setMergeSourceNames(sources);
+
+    // Calculate combined aliases
+    const targetMem = membersAndAliases.find(m => m.name.toLowerCase() === target.toLowerCase());
+    const initialAliases = new Set<string>();
+    if (targetMem && targetMem.alias) {
+      splitAliases(targetMem.alias).forEach(a => initialAliases.add(a));
+    }
+    sources.forEach(srcName => {
+      initialAliases.add(srcName);
+      const srcMem = membersAndAliases.find(m => m.name.toLowerCase() === srcName.toLowerCase());
+      if (srcMem && srcMem.alias) {
+        splitAliases(srcMem.alias).forEach(a => initialAliases.add(a));
+      }
+    });
+    initialAliases.delete(target);
+    setMergeCustomAlias(Array.from(initialAliases).join(', '));
     setShowMergeModal(true);
   };
 
-  // Execute Member Merge
-  const handleExecuteMerge = async (customTarget?: string, customSource?: string) => {
-    const t = (customTarget || mergeTarget).trim();
-    const s = (customSource || mergeSource).trim();
+  // Change merge target
+  const handleSelectMergeTarget = (newTarget: string) => {
+    setMergeTargetName(newTarget);
+    const newSources = mergeSourceNames.filter(s => s.toLowerCase() !== newTarget.toLowerCase());
+    setMergeSourceNames(newSources);
 
-    if (!t || !s) {
-      alert('Pilih Anggota Utama (Target) dan Anggota yang Digabungkan (Sumber)');
+    const targetMem = membersAndAliases.find(m => m.name.toLowerCase() === newTarget.toLowerCase());
+    const allAli = new Set<string>();
+    if (targetMem && targetMem.alias) {
+      splitAliases(targetMem.alias).forEach(a => allAli.add(a));
+    }
+    newSources.forEach(s => {
+      allAli.add(s);
+      const sMem = membersAndAliases.find(m => m.name.toLowerCase() === s.toLowerCase());
+      if (sMem && sMem.alias) {
+        splitAliases(sMem.alias).forEach(a => allAli.add(a));
+      }
+    });
+    allAli.delete(newTarget);
+    setMergeCustomAlias(Array.from(allAli).join(', '));
+  };
+
+  // Toggle source in merge modal
+  const handleToggleMergeSource = (srcName: string) => {
+    let updatedSources: string[];
+    if (mergeSourceNames.includes(srcName)) {
+      updatedSources = mergeSourceNames.filter(s => s !== srcName);
+    } else {
+      updatedSources = [...mergeSourceNames, srcName];
+    }
+    setMergeSourceNames(updatedSources);
+
+    const targetMem = membersAndAliases.find(m => m.name.toLowerCase() === mergeTargetName.toLowerCase());
+    const allAli = new Set<string>();
+    if (targetMem && targetMem.alias) {
+      splitAliases(targetMem.alias).forEach(a => allAli.add(a));
+    }
+    updatedSources.forEach(s => {
+      allAli.add(s);
+      const sMem = membersAndAliases.find(m => m.name.toLowerCase() === s.toLowerCase());
+      if (sMem && sMem.alias) {
+        splitAliases(sMem.alias).forEach(a => allAli.add(a));
+      }
+    });
+    allAli.delete(mergeTargetName);
+    setMergeCustomAlias(Array.from(allAli).join(', '));
+  };
+
+  // Execute merge members
+  const handleExecuteMergeMembers = async () => {
+    if (!mergeTargetName) {
+      alert('Pilih nama anggota utama (target).');
+      return;
+    }
+    if (mergeSourceNames.length === 0) {
+      alert('Pilih minimal 1 anggota yang akan digabungkan.');
       return;
     }
 
-    if (t.toLowerCase() === s.toLowerCase()) {
-      alert('Anggota Utama dan Anggota yang Digabungkan tidak boleh sama');
+    if (!window.confirm(`Gabungkan ${mergeSourceNames.join(', ')} ke dalam "${mergeTargetName}"?\n\nAnggota yang digabung akan dihapus dan namanya otomatis ditambahkan ke daftar alias "${mergeTargetName}".`)) {
       return;
     }
 
-    if (!window.confirm(`Gabungkan anggota "${s}" ke "${t}"?\n\nNama "${s}" dan seluruh aliasnya akan ditambahkan sebagai alias dari "${t}", dan "${s}" akan dihapus dari daftar anggota utama.`)) {
-      return;
-    }
-
-    setIsMerging(true);
     try {
       const res = await fetch('/api/salary.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'merge_members',
-          target_name: t,
-          source_name: s
+          target_name: mergeTargetName,
+          source_names: mergeSourceNames,
+          combined_alias: mergeCustomAlias
         })
       });
       const json = await res.json();
       if (json.status === 'success') {
-        showToast(json.message || `Berhasil menggabungkan ${s} ke ${t} ✅`);
+        showToast(json.message || `Anggota berhasil digabungkan ke ${mergeTargetName}! ✅`);
         setShowMergeModal(false);
-        setMergeTarget('');
-        setMergeSource('');
+        setSelectedMemberNamesForMerge([]);
         fetchData();
       } else {
-        alert('Gagal menggabungkan: ' + (json.message || 'Error'));
+        alert('Gagal menggabungkan anggota: ' + (json.message || 'Error'));
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('Terjadi kesalahan saat memproses penggabungan.');
-    } finally {
-      setIsMerging(false);
+      alert('Terjadi kesalahan saat menggabungkan anggota: ' + (err.message || err));
     }
   };
+
+  // Toggle member selection in table
+  const handleToggleSelectMemberForMerge = (name: string) => {
+    if (selectedMemberNamesForMerge.includes(name)) {
+      setSelectedMemberNamesForMerge(selectedMemberNamesForMerge.filter(n => n !== name));
+    } else {
+      setSelectedMemberNamesForMerge([...selectedMemberNamesForMerge, name]);
+    }
+  };
+
+  // Select all or deselect all members
+  const handleToggleSelectAllMembers = () => {
+    if (selectedMemberNamesForMerge.length === displayedMembers.length) {
+      setSelectedMemberNamesForMerge([]);
+    } else {
+      setSelectedMemberNamesForMerge(displayedMembers.map(m => m.name));
+    }
+  };
+
+  // Detect pairs of similar member names that might need merging
+  const similarMemberSuggestions = useMemo(() => {
+    const suggestions: Array<{
+      memberA: string;
+      memberB: string;
+      score: number;
+      reason: string;
+    }> = [];
+
+    for (let i = 0; i < membersAndAliases.length; i++) {
+      for (let j = i + 1; j < membersAndAliases.length; j++) {
+        const a = membersAndAliases[i];
+        const b = membersAndAliases[j];
+        if (a.isOwner || b.isOwner) continue;
+
+        const score = calculateSimilarity(a.name, b.name);
+        if (score >= 0.70) {
+          suggestions.push({
+            memberA: a.name,
+            memberB: b.name,
+            score,
+            reason: score >= 0.90 ? 'Nama hampir identik' : 'Kemiripan nama tinggi'
+          });
+        }
+      }
+    }
+    return suggestions;
+  }, [membersAndAliases]);
 
   // Track which catalog cards are expanded
   const [expandedCardKeys, setExpandedCardKeys] = useState<Record<string, boolean>>({});
@@ -2424,7 +2501,7 @@ export default function AdminGaji() {
     </div>
   )}
 
-      {/* TAB 3: DAFTAR ANGGOTA & ALIAS (CLEAN & MODERN GRID + MULTI-ALIAS + MERGE) */}
+      {/* TAB 3: DAFTAR ANGGOTA & ALIAS (CLEAN & MODERN GRID WITH MERGE & MULTI-ALIAS) */}
       {activeTab === 'bidders' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Header & Controls Card */}
@@ -2452,7 +2529,7 @@ export default function AdminGaji() {
                 </span>
               </div>
               <p style={{ margin: '3px 0 0 0', fontSize: '12px', color: 'var(--muted)' }}>
-                Kelola anggota, tambahkan multi-alias (dipisah koma), atau gabungkan nama-nama mirip menjadi satu.
+                Kelola anggota, buat multiple alias (pisahkan koma), atau gabungkan nama-nama mirip ke satu nama utama.
               </p>
             </div>
 
@@ -2467,7 +2544,7 @@ export default function AdminGaji() {
                   borderRadius: '8px',
                   border: '1px solid var(--line)',
                   fontSize: '13px',
-                  width: '210px',
+                  width: '200px',
                   background: '#f8fafc'
                 }}
               />
@@ -2480,18 +2557,19 @@ export default function AdminGaji() {
                   alignItems: 'center',
                   gap: '6px',
                   padding: '8px 14px',
-                  background: '#f0fdf4',
-                  color: '#15803d',
-                  border: '1px solid #bbf7d0',
+                  background: 'linear-gradient(135deg, #4f46e5, #4338ca)',
+                  color: 'white',
+                  border: 'none',
                   borderRadius: '8px',
                   fontWeight: 700,
                   fontSize: '13px',
                   cursor: 'pointer',
+                  boxShadow: '0 2px 6px rgba(79,70,229,0.25)',
                   transition: 'all 0.15s'
                 }}
-                title="Gabungkan dua nama anggota dan satukan aliasnya"
               >
-                🔗 Gabungkan Anggota
+                <span>🔗</span>
+                Gabungkan Anggota
               </button>
 
               <button
@@ -2519,55 +2597,113 @@ export default function AdminGaji() {
             </div>
           </div>
 
-          {/* Smart Similarity Suggestion Banner */}
-          {similarNameSuggestions.length > 0 && (
+          {/* Smart Similar Name Suggester Banner */}
+          {similarMemberSuggestions.length > 0 && (
             <div style={{
-              background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)',
-              border: '1px solid #fde68a',
-              borderRadius: '10px',
-              padding: '12px 18px',
+              background: 'linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%)',
+              border: '1px solid #f0abfc',
+              borderRadius: '12px',
+              padding: '14px 18px',
               display: 'flex',
               flexDirection: 'column',
               gap: '10px'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 800, color: '#92400e' }}>
-                <span style={{ fontSize: '16px' }}>💡</span>
-                <span>Saran Penggabungan Otomatis (Ditemukan Kemiripan Nama yang Terpisah):</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '18px' }}>💡</span>
+                <span style={{ fontSize: '13px', fontWeight: 800, color: '#86198f' }}>
+                  Rekomendasi Penggabungan Nama Mirip ({similarMemberSuggestions.length} Pasangan Ditemukan):
+                </span>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {similarNameSuggestions.map((sug, sIdx) => (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                {similarMemberSuggestions.slice(0, 5).map((sug, sIdx) => (
                   <div key={sIdx} style={{
                     background: 'white',
                     padding: '6px 12px',
                     borderRadius: '8px',
-                    border: '1px solid #fcd34d',
-                    fontSize: '12px',
+                    border: '1px solid #e879f9',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '10px',
-                    boxShadow: '0 1px 2px rgba(0,0,0,0.04)'
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
                   }}>
-                    <span>
-                      Gabungkan <strong style={{ color: '#b45309' }}>{sug.source}</strong> ➡️ <strong style={{ color: '#0369a1' }}>{sug.target}</strong>
+                    <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#701a75' }}>
+                      <strong>{sug.memberA}</strong> ↔ <strong>{sug.memberB}</strong>
+                    </span>
+                    <span style={{ fontSize: '11px', color: '#a21caf', background: '#fdf4ff', padding: '1px 6px', borderRadius: '4px' }}>
+                      {Math.round(sug.score * 100)}% mirip
                     </span>
                     <button
                       type="button"
-                      onClick={() => handleExecuteMerge(sug.target, sug.source)}
+                      onClick={() => handleOpenMergeModal(sug.memberA, [sug.memberB])}
                       style={{
-                        background: 'linear-gradient(135deg, #d97706, #b45309)',
+                        background: '#9333ea',
                         color: 'white',
                         border: 'none',
-                        borderRadius: '6px',
                         padding: '3px 10px',
-                        fontSize: '11px',
+                        borderRadius: '5px',
+                        fontSize: '11.5px',
                         fontWeight: 700,
                         cursor: 'pointer'
                       }}
                     >
-                      ⚡ Gabung Sekarang
+                      🔗 Gabungkan
                     </button>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* Bulk Selection Bar */}
+          {selectedMemberNamesForMerge.length > 0 && (
+            <div style={{
+              background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)',
+              color: 'white',
+              padding: '12px 20px',
+              borderRadius: '10px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              boxShadow: '0 4px 12px rgba(49,46,129,0.25)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <span style={{ fontSize: '16px' }}>📌</span>
+                <span style={{ fontSize: '13px', fontWeight: 700 }}>
+                  {selectedMemberNamesForMerge.length} Anggota Dipilih: {selectedMemberNamesForMerge.join(', ')}
+                </span>
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  type="button"
+                  onClick={() => handleOpenMergeModal()}
+                  style={{
+                    background: '#6366f1',
+                    color: 'white',
+                    border: 'none',
+                    padding: '6px 14px',
+                    borderRadius: '6px',
+                    fontSize: '12.5px',
+                    fontWeight: 700,
+                    cursor: 'pointer'
+                  }}
+                >
+                  🔗 Gabungkan Anggota Terpilih
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedMemberNamesForMerge([])}
+                  style={{
+                    background: 'rgba(255,255,255,0.15)',
+                    color: 'white',
+                    border: 'none',
+                    padding: '6px 12px',
+                    borderRadius: '6px',
+                    fontSize: '12.5px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Batal
+                </button>
               </div>
             </div>
           )}
@@ -2583,10 +2719,8 @@ export default function AdminGaji() {
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 {displayedMembers.map((m, idx) => {
                   const initials = m.name.slice(0, 2).toUpperCase();
-                  const aliasList = (m.alias || '')
-                    .split(',')
-                    .map(a => a.trim())
-                    .filter(Boolean);
+                  const aliasesList = splitAliases(m.alias);
+                  const isChecked = selectedMemberNamesForMerge.includes(m.name);
 
                   return (
                     <div
@@ -2597,17 +2731,25 @@ export default function AdminGaji() {
                         justifyContent: 'space-between',
                         padding: '12px 20px',
                         borderBottom: idx === displayedMembers.length - 1 ? 'none' : '1px solid #f1f5f9',
-                        background: 'white',
+                        background: isChecked ? '#f5f3ff' : 'white',
                         transition: 'background 0.15s',
                         gap: '12px',
                         flexWrap: 'wrap'
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
-                      onMouseLeave={(e) => (e.currentTarget.style.background = 'white')}
+                      onMouseEnter={(e) => { if (!isChecked) e.currentTarget.style.background = '#f8fafc'; }}
+                      onMouseLeave={(e) => { if (!isChecked) e.currentTarget.style.background = 'white'; }}
                     >
-                      {/* Left: Number, Avatar & Name */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: '220px' }}>
-                        <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--muted)', width: '24px', textAlign: 'center' }}>
+                      {/* Left: Checkbox, Number, Avatar & Name */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: '240px' }}>
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => handleToggleSelectMemberForMerge(m.name)}
+                          style={{ cursor: 'pointer', width: '16px', height: '16px' }}
+                          title="Pilih anggota untuk digabungkan"
+                        />
+
+                        <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--muted)', width: '22px', textAlign: 'center' }}>
                           {idx + 1}
                         </span>
 
@@ -2633,20 +2775,25 @@ export default function AdminGaji() {
                             <span style={{ background: '#ecfdf5', color: '#059669', padding: '1px 6px', borderRadius: '4px', fontSize: '10px', fontWeight: 700 }}>
                               ✓ Anggota
                             </span>
+                            {aliasesList.length > 1 && (
+                              <span style={{ background: '#eff6ff', color: '#2563eb', padding: '1px 6px', borderRadius: '4px', fontSize: '10px', fontWeight: 700 }}>
+                                {aliasesList.length} Alias
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
 
                       {/* Middle: Multi-Alias Badges */}
-                      <div style={{ flex: 1, minWidth: '220px', display: 'flex', alignItems: 'center' }}>
-                        {aliasList.length > 0 ? (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
-                            <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 600, marginRight: '2px' }}>
-                              Alias ({aliasList.length}):
+                      <div style={{ flex: 1, minWidth: '220px', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
+                        {aliasesList.length > 0 ? (
+                          <>
+                            <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 600, marginRight: '4px' }}>
+                              Alias ({aliasesList.length}):
                             </span>
-                            {aliasList.map((al, alIdx) => (
+                            {aliasesList.map((ali, aIdx) => (
                               <span
-                                key={alIdx}
+                                key={aIdx}
                                 style={{
                                   background: '#eff6ff',
                                   color: '#1d4ed8',
@@ -2660,41 +2807,19 @@ export default function AdminGaji() {
                                   gap: '3px'
                                 }}
                               >
-                                🏷️ {al}
+                                🏷️ {ali}
                               </span>
                             ))}
-                          </div>
+                          </>
                         ) : (
                           <span style={{ fontSize: '12px', color: '#94a3b8', fontStyle: 'italic' }}>
-                            — (Belum ada alias terdaftar)
+                            — (Sama dengan nama)
                           </span>
                         )}
                       </div>
 
                       {/* Right: Actions */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <button
-                          type="button"
-                          onClick={() => handleOpenMergeModal(m.name)}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            padding: '6px 10px',
-                            fontSize: '12px',
-                            background: '#f0fdf4',
-                            color: '#15803d',
-                            border: '1px solid #bbf7d0',
-                            borderRadius: '6px',
-                            cursor: 'pointer',
-                            fontWeight: 700,
-                            transition: 'all 0.15s'
-                          }}
-                          title={`Gabungkan ${m.name} ke anggota lain`}
-                        >
-                          🔗 Gabung
-                        </button>
-
                         <button
                           type="button"
                           onClick={() => setModalMember({ isEdit: true, name: m.name, alias: m.alias || '', notes: m.notes || '' })}
@@ -2714,6 +2839,28 @@ export default function AdminGaji() {
                           }}
                         >
                           ✏️ Edit
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleOpenMergeModal(m.name, [])}
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            padding: '6px 10px',
+                            fontSize: '12px',
+                            background: '#f5f3ff',
+                            color: '#6366f1',
+                            border: '1px solid #ddd6fe',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            fontWeight: 700,
+                            transition: 'all 0.15s'
+                          }}
+                          title={`Gabungkan anggota lain ke ${m.name}`}
+                        >
+                          🔗 Gabung
                         </button>
 
                         {!m.isOwner && (
@@ -2757,7 +2904,7 @@ export default function AdminGaji() {
         </div>
       )}
 
-      {/* MODAL: TAMBAH / EDIT ANGGOTA & MULTI-ALIAS */}
+      {/* MODAL: TAMBAH / EDIT ANGGOTA & MULTIPLE ALIAS */}
       {modalMember && (
         <div style={{
           position: 'fixed',
@@ -2778,8 +2925,8 @@ export default function AdminGaji() {
               background: 'white',
               borderRadius: '14px',
               width: '100%',
-              maxWidth: '460px',
-              padding: '24px',
+              maxWidth: '480px',
+              padding: '22px',
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
@@ -2788,7 +2935,7 @@ export default function AdminGaji() {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3 style={{ margin: 0, fontSize: '17px', color: 'var(--navy)', fontWeight: 800 }}>
-                {modalMember.isEdit ? `✏️ Edit Alias: ${modalMember.name}` : '➕ Tambah Anggota & Multi-Alias'}
+                {modalMember.isEdit ? `✏️ Edit Anggota & Alias: ${modalMember.name}` : '➕ Tambah Anggota / Alias Baru'}
               </h3>
               <button
                 type="button"
@@ -2801,18 +2948,18 @@ export default function AdminGaji() {
 
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: 'var(--navy)', marginBottom: '4px' }}>
-                Nama Anggota (Nama Asli / PIC):
+                Nama Anggota Asli (PIC Utama):
               </label>
               <input
                 type="text"
                 value={modalMember.name}
                 onChange={e => setModalMember({ ...modalMember, name: e.target.value })}
-                placeholder="Contoh: Bilqis, Wenda, Fikri, dll."
+                placeholder="Contoh: Wenda, Fikri, Bilqis, dll."
                 disabled={modalMember.isEdit}
                 required
                 style={{
                   width: '100%',
-                  padding: '9px 12px',
+                  padding: '8px 12px',
                   borderRadius: '6px',
                   border: '1px solid var(--line)',
                   fontSize: '13px',
@@ -2825,20 +2972,20 @@ export default function AdminGaji() {
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                 <label style={{ fontSize: '12px', fontWeight: 700, color: 'var(--navy)' }}>
-                  Alias / Nama Akun Bidding:
+                  Alias / Nama Akun Bidding (Bisa Lebih dari 1):
                 </label>
-                <span style={{ fontSize: '11px', color: '#64748b' }}>
-                  (Bisa lebih dari satu, pisahkan koma <code>,</code>)
+                <span style={{ fontSize: '11px', color: '#6366f1', fontWeight: 600 }}>
+                  Pisahkan dengan tanda koma (,)
                 </span>
               </div>
               <input
                 type="text"
                 value={modalMember.alias}
                 onChange={e => setModalMember({ ...modalMember, alias: e.target.value })}
-                placeholder="Contoh: Bilqiis, Bilqis 2, Bilqis Utama"
+                placeholder="Contoh: bilqis, bilqiis, bilqis 2, bq"
                 style={{
                   width: '100%',
-                  padding: '9px 12px',
+                  padding: '8px 12px',
                   borderRadius: '6px',
                   border: '1px solid var(--line)',
                   fontSize: '13px'
@@ -2846,8 +2993,31 @@ export default function AdminGaji() {
                 autoFocus={modalMember.isEdit}
               />
               <p style={{ margin: '4px 0 0 0', fontSize: '11.5px', color: 'var(--muted)' }}>
-                💡 Setiap alias yang didaftarkan akan otomatis terhubung ke <strong>{modalMember.name || 'Anggota'}</strong> di seluruh rekap gaji & bidding.
+                💡 Masukkan semua variasi nama bidding yang digunakan orang ini. Sistem akan otomatis menyatukannya saat rekapitulasi gaji.
               </p>
+
+              {/* Live Preview Alias Tags */}
+              {splitAliases(modalMember.alias).length > 0 && (
+                <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '4px', alignItems: 'center' }}>
+                  <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Preview Alias:</span>
+                  {splitAliases(modalMember.alias).map((al, alIdx) => (
+                    <span
+                      key={alIdx}
+                      style={{
+                        background: '#eff6ff',
+                        color: '#1d4ed8',
+                        border: '1px solid #bfdbfe',
+                        padding: '2px 7px',
+                        borderRadius: '4px',
+                        fontSize: '11px',
+                        fontWeight: 700
+                      }}
+                    >
+                      🏷️ {al}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', paddingTop: '12px', borderTop: '1px solid var(--line)' }}>
@@ -2913,7 +3083,7 @@ export default function AdminGaji() {
         </div>
       )}
 
-      {/* MODAL: GABUNGKAN ANGGOTA & ALIAS (MERGE MEMBERS) */}
+      {/* MODAL: GABUNGKAN ANGGOTA (MERGE MEMBERS) */}
       {showMergeModal && (
         <div style={{
           position: 'fixed',
@@ -2931,126 +3101,192 @@ export default function AdminGaji() {
         }}>
           <div style={{
             background: 'white',
-            borderRadius: '16px',
+            borderRadius: '14px',
             width: '100%',
-            maxWidth: '520px',
-            padding: '24px',
+            maxWidth: '560px',
+            maxHeight: '90vh',
             display: 'flex',
             flexDirection: 'column',
-            gap: '18px',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-            border: '1px solid rgba(226, 232, 240, 0.8)'
+            boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
+            border: '1px solid rgba(226, 232, 240, 0.8)',
+            overflow: 'hidden'
           }}>
             {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{
+              padding: '18px 22px',
+              borderBottom: '1px solid var(--line)',
+              background: 'linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ fontSize: '20px' }}>🔗</span>
-                <h3 style={{ margin: 0, fontSize: '17px', color: 'var(--navy)', fontWeight: 800 }}>
-                  Gabungkan Anggota & Alias (Merge)
-                </h3>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '17px', color: '#4338ca', fontWeight: 800 }}>
+                    Gabungkan Anggota & Alias
+                  </h3>
+                  <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#6366f1' }}>
+                    Satukan nama-nama mirip menjadi 1 Nama Asli Utama dengan multiple alias.
+                  </p>
+                </div>
               </div>
               <button
                 type="button"
                 onClick={() => setShowMergeModal(false)}
                 style={{
-                  background: '#f1f5f9',
-                  border: 'none',
-                  borderRadius: '6px',
-                  width: '28px',
-                  height: '28px',
+                  background: 'white',
+                  border: '1px solid #ddd6fe',
+                  borderRadius: '8px',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '15px',
                   cursor: 'pointer',
-                  fontSize: '14px',
-                  color: '#64748b'
+                  color: '#4338ca'
                 }}
               >
                 ✕
               </button>
             </div>
 
-            <p style={{ margin: 0, fontSize: '12.5px', color: 'var(--muted)', lineHeight: '1.5' }}>
-              Gunakan fitur ini jika ada nama anggota yang mirip atau merupakan orang yang sama. Nama yang digabung (Sumber) akan otomatis ditambahkan sebagai <strong>alias</strong> dari Anggota Utama (Target).
-            </p>
-
-            {/* Form Inputs */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {/* Target Selector */}
+            {/* Body */}
+            <div style={{ padding: '20px 22px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* Step 1: Target Canonical Name */}
               <div>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: 'var(--navy)', marginBottom: '6px' }}>
-                  1. Anggota Utama (Target yang Dipertahankan):
+                  1. Pilih Nama Asli Utama (Target yang Dipertahankan):
                 </label>
                 <select
-                  value={mergeTarget}
-                  onChange={e => setMergeTarget(e.target.value)}
+                  value={mergeTargetName}
+                  onChange={e => handleSelectMergeTarget(e.target.value)}
                   style={{
                     width: '100%',
                     padding: '9px 12px',
                     borderRadius: '8px',
-                    border: '1.5px solid #bfdbfe',
-                    fontSize: '13px',
-                    background: '#f8fafc',
-                    fontWeight: 600,
-                    color: '#1e3a8a'
+                    border: '1.5px solid #6366f1',
+                    fontSize: '13.5px',
+                    fontWeight: 700,
+                    background: '#f5f3ff',
+                    color: '#312e81'
                   }}
                 >
-                  <option value="">-- Pilih Anggota Utama (Target) --</option>
-                  {members.map(m => (
-                    <option key={m.name} value={m.name} disabled={m.name.toLowerCase() === mergeSource.toLowerCase()}>
+                  <option value="">-- Pilih Nama Utama --</option>
+                  {membersAndAliases.map(m => (
+                    <option key={m.name} value={m.name}>
                       {m.name} {m.alias ? `(Alias: ${m.alias})` : ''}
                     </option>
                   ))}
                 </select>
               </div>
 
-              {/* Source Selector */}
+              {/* Step 2: Source Names to Merge */}
               <div>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: 'var(--navy)', marginBottom: '6px' }}>
-                  2. Anggota yang Digabungkan (Sumber yang Akan Dilebur Menjadi Alias):
+                  2. Pilih Anggota yang Akan Digabungkan ke "{mergeTargetName || 'Target'}":
                 </label>
-                <select
-                  value={mergeSource}
-                  onChange={e => setMergeSource(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '9px 12px',
-                    borderRadius: '8px',
-                    border: '1.5px solid #fde68a',
-                    fontSize: '13px',
-                    background: '#fffbeb',
-                    fontWeight: 600,
-                    color: '#92400e'
-                  }}
-                >
-                  <option value="">-- Pilih Anggota yang Digabung (Sumber) --</option>
-                  {members.map(m => (
-                    <option key={m.name} value={m.name} disabled={m.name.toLowerCase() === mergeTarget.toLowerCase()}>
-                      {m.name} {m.alias ? `(Alias: ${m.alias})` : ''}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Live Preview Box */}
-              {mergeTarget && mergeSource && (
                 <div style={{
-                  background: '#f0fdf4',
-                  border: '1px solid #bbf7d0',
+                  maxHeight: '160px',
+                  overflowY: 'auto',
+                  border: '1px solid var(--line)',
                   borderRadius: '8px',
-                  padding: '12px',
-                  fontSize: '12px',
-                  color: '#166534',
+                  padding: '8px 12px',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '4px'
+                  gap: '6px',
+                  background: '#f8fafc'
                 }}>
-                  <div style={{ fontWeight: 800 }}>📋 Ringkasan Hasil Penggabungan:</div>
-                  <div>• <strong>{mergeSource}</strong> akan dilebur menjadi alias baru dari <strong>{mergeTarget}</strong>.</div>
-                  <div>• Seluruh data bidding dan histori gaji milik <strong>{mergeSource}</strong> otomatis masuk ke <strong>{mergeTarget}</strong>.</div>
+                  {membersAndAliases
+                    .filter(m => m.name.toLowerCase() !== mergeTargetName.toLowerCase() && !m.isOwner)
+                    .map(m => {
+                      const isSrcChecked = mergeSourceNames.includes(m.name);
+                      return (
+                        <label
+                          key={m.name}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            cursor: 'pointer',
+                            fontSize: '13px',
+                            padding: '4px 6px',
+                            borderRadius: '6px',
+                            background: isSrcChecked ? '#ede9fe' : 'transparent'
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isSrcChecked}
+                            onChange={() => handleToggleMergeSource(m.name)}
+                          />
+                          <span style={{ fontWeight: isSrcChecked ? 700 : 500, color: isSrcChecked ? '#4338ca' : '#334155' }}>
+                            {m.name} {m.alias ? `(Alias: ${m.alias})` : ''}
+                          </span>
+                        </label>
+                      );
+                    })}
                 </div>
-              )}
+              </div>
+
+              {/* Step 3: Resulting Combined Aliases */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <label style={{ fontSize: '12px', fontWeight: 700, color: 'var(--navy)' }}>
+                    3. Hasil Daftar Alias Baru untuk "{mergeTargetName}":
+                  </label>
+                  <span style={{ fontSize: '11px', color: '#6366f1', fontWeight: 600 }}>
+                    Pisahkan koma (,)
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  value={mergeCustomAlias}
+                  onChange={e => setMergeCustomAlias(e.target.value)}
+                  placeholder="Contoh: bilqiis, bilqis 2, bq"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid var(--line)',
+                    fontSize: '13px'
+                  }}
+                />
+
+                {splitAliases(mergeCustomAlias).length > 0 && (
+                  <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '4px', alignItems: 'center' }}>
+                    <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Preview Tags:</span>
+                    {splitAliases(mergeCustomAlias).map((al, alIdx) => (
+                      <span
+                        key={alIdx}
+                        style={{
+                          background: '#ede9fe',
+                          color: '#4338ca',
+                          border: '1px solid #c7d2fe',
+                          padding: '2px 7px',
+                          borderRadius: '4px',
+                          fontSize: '11px',
+                          fontWeight: 700
+                        }}
+                      >
+                        🏷️ {al}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Footer Actions */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '6px', paddingTop: '14px', borderTop: '1px solid var(--line)' }}>
+            {/* Footer */}
+            <div style={{
+              padding: '14px 22px',
+              borderTop: '1px solid var(--line)',
+              background: '#f8fafc',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: '10px'
+            }}>
               <button
                 type="button"
                 onClick={() => setShowMergeModal(false)}
@@ -3061,25 +3297,24 @@ export default function AdminGaji() {
               </button>
               <button
                 type="button"
-                onClick={() => handleExecuteMerge()}
-                disabled={!mergeTarget || !mergeSource || isMerging}
+                onClick={handleExecuteMergeMembers}
                 style={{
-                  padding: '9px 20px',
-                  background: (!mergeTarget || !mergeSource || isMerging) ? '#94a3b8' : 'linear-gradient(135deg, #16a34a, #15803d)',
+                  padding: '8px 20px',
+                  background: 'linear-gradient(135deg, #4f46e5, #4338ca)',
                   color: 'white',
                   border: 'none',
                   borderRadius: '8px',
                   fontWeight: 700,
                   fontSize: '13px',
-                  cursor: (!mergeTarget || !mergeSource || isMerging) ? 'not-allowed' : 'pointer',
-                  boxShadow: '0 2px 6px rgba(22,163,74,0.25)',
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 6px rgba(79,70,229,0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px'
                 }}
               >
-                <span>🔗</span>
-                {isMerging ? 'Memproses...' : 'Konfirmasi Gabungkan'}
+                <span>⚡</span>
+                Konfirmasi Gabungkan Anggota
               </button>
             </div>
           </div>

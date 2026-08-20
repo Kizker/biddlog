@@ -397,10 +397,21 @@ try {
             ]);
         } else if ($action === 'save_member_alias' || $action === 'save_bidder_alias') {
             $name = trim($input['name'] ?? ($input['bidder_name'] ?? ''));
-            $aliasName = trim($input['alias_name'] ?? '');
+            $rawAlias = trim($input['alias_name'] ?? ($input['alias'] ?? ''));
             $notes = trim($input['notes'] ?? '');
 
             if (!$name) throw new Exception("Nama anggota / bidder diperlukan");
+
+            // Clean and normalize multi-alias (comma-separated, trimmed, unique)
+            $aliasParts = array_filter(array_map('trim', explode(',', $rawAlias)), fn($a) => $a !== '');
+            $uniqueAliases = [];
+            foreach ($aliasParts as $ap) {
+                $low = strtolower($ap);
+                if (!isset($uniqueAliases[$low]) && $low !== strtolower($name)) {
+                    $uniqueAliases[$low] = $ap;
+                }
+            }
+            $aliasName = implode(', ', array_values($uniqueAliases));
 
             // 1. Save or update in members table
             $checkMem = $pdo->prepare("SELECT id FROM members WHERE LOWER(name) = LOWER(?)");
@@ -430,98 +441,96 @@ try {
 
             echo json_encode([
                 'status' => 'success',
-                'message' => "Data anggota {$name} berhasil disimpan ✅"
+                'message' => "Data anggota {$name} berhasil disimpan ✅",
+                'alias' => $aliasName
             ]);
         } else if ($action === 'merge_members') {
             $targetName = trim($input['target_name'] ?? '');
-            $sourceName = trim($input['source_name'] ?? '');
+            $sourceNames = $input['source_names'] ?? [];
+            $manualCombinedAlias = trim($input['combined_alias'] ?? '');
 
-            if (!$targetName || !$sourceName) {
-                throw new Exception("Nama anggota utama (target) dan anggota yang digabungkan (source) wajib diisi");
+            if (!$targetName) throw new Exception("Nama anggota target diperlukan");
+            if (!is_array($sourceNames) || count($sourceNames) === 0) {
+                throw new Exception("Pilih minimal 1 anggota yang akan digabungkan");
             }
 
-            if (strcasecmp($targetName, $sourceName) === 0) {
-                throw new Exception("Anggota utama dan anggota yang digabungkan tidak boleh sama");
-            }
+            // Fetch target member
+            $tStmt = $pdo->prepare("SELECT * FROM members WHERE LOWER(name) = LOWER(?)");
+            $tStmt->execute([$targetName]);
+            $targetMem = $tStmt->fetch();
 
-            // 1. Fetch target member
-            $stmtTarget = $pdo->prepare("SELECT * FROM members WHERE LOWER(name) = LOWER(?)");
-            $stmtTarget->execute([$targetName]);
-            $targetMem = $stmtTarget->fetch();
-
-            // 2. Fetch source member
-            $stmtSource = $pdo->prepare("SELECT * FROM members WHERE LOWER(name) = LOWER(?)");
-            $stmtSource->execute([$sourceName]);
-            $sourceMem = $stmtSource->fetch();
-
-            // 3. Compile all unique aliases
-            $aliasList = [];
-
-            // Add existing target aliases
+            // Collect all aliases from target and sources
+            $allAliases = [];
             if ($targetMem && !empty($targetMem['alias'])) {
-                $rawTargetAliases = explode(',', $targetMem['alias']);
-                foreach ($rawTargetAliases as $a) {
-                    $cleaned = trim($a);
-                    if ($cleaned && strcasecmp($cleaned, $targetName) !== 0 && !in_array(strtolower($cleaned), array_map('strtolower', $aliasList))) {
-                        $aliasList[] = $cleaned;
-                    }
+                foreach (explode(',', $targetMem['alias']) as $a) {
+                    $tr = trim($a);
+                    if ($tr) $allAliases[strtolower($tr)] = $tr;
                 }
             }
 
-            // Add source name as an alias
-            if (strcasecmp($sourceName, $targetName) !== 0 && !in_array(strtolower($sourceName), array_map('strtolower', $aliasList))) {
-                $aliasList[] = $sourceName;
-            }
-
-            // Add existing source aliases
-            if ($sourceMem && !empty($sourceMem['alias'])) {
-                $rawSourceAliases = explode(',', $sourceMem['alias']);
-                foreach ($rawSourceAliases as $a) {
-                    $cleaned = trim($a);
-                    if ($cleaned && strcasecmp($cleaned, $targetName) !== 0 && !in_array(strtolower($cleaned), array_map('strtolower', $aliasList))) {
-                        $aliasList[] = $cleaned;
-                    }
+            // Also add manual alias if provided
+            if ($manualCombinedAlias) {
+                foreach (explode(',', $manualCombinedAlias) as $a) {
+                    $tr = trim($a);
+                    if ($tr) $allAliases[strtolower($tr)] = $tr;
                 }
             }
 
-            $mergedAliasString = implode(', ', $aliasList);
+            foreach ($sourceNames as $src) {
+                $srcTrim = trim($src);
+                if (!$srcTrim || strtolower($srcTrim) === strtolower($targetName)) continue;
 
-            // 4. Update or insert target member
+                // Add source name itself as alias
+                $allAliases[strtolower($srcTrim)] = $srcTrim;
+
+                // Fetch source member's existing aliases
+                $sStmt = $pdo->prepare("SELECT * FROM members WHERE LOWER(name) = LOWER(?)");
+                $sStmt->execute([$srcTrim]);
+                $srcMem = $sStmt->fetch();
+                if ($srcMem && !empty($srcMem['alias'])) {
+                    foreach (explode(',', $srcMem['alias']) as $a) {
+                        $tr = trim($a);
+                        if ($tr) $allAliases[strtolower($tr)] = $tr;
+                    }
+                }
+
+                // Delete source member from members and bidder_aliases
+                $delMem = $pdo->prepare("DELETE FROM members WHERE LOWER(name) = LOWER(?)");
+                $delMem->execute([$srcTrim]);
+
+                $delAlias = $pdo->prepare("DELETE FROM bidder_aliases WHERE LOWER(bidder_name) = LOWER(?)");
+                $delAlias->execute([$srcTrim]);
+
+                // Update items in salary_items & obtained_items to target name
+                $updSal = $pdo->prepare("UPDATE salary_items SET person = ? WHERE LOWER(person) = LOWER(?)");
+                $updSal->execute([$targetName, $srcTrim]);
+
+                $updObt = $pdo->prepare("UPDATE obtained_items SET person = ? WHERE LOWER(person) = LOWER(?)");
+                $updObt->execute([$targetName, $srcTrim]);
+            }
+
+            // Remove target name itself from aliases to keep it clean
+            unset($allAliases[strtolower($targetName)]);
+            $finalCombinedAlias = implode(', ', array_values($allAliases));
+
+            // Save or update target member
             if ($targetMem) {
-                $updTarget = $pdo->prepare("UPDATE members SET alias = ? WHERE id = ?");
-                $updTarget->execute([$mergedAliasString, $targetMem['id']]);
+                $upd = $pdo->prepare("UPDATE members SET alias = ? WHERE id = ?");
+                $upd->execute([$finalCombinedAlias, $targetMem['id']]);
             } else {
-                $insTarget = $pdo->prepare("INSERT INTO members (name, alias, notes) VALUES (?, ?, ?)");
-                $insTarget->execute([$targetName, $mergedAliasString, '']);
+                $ins = $pdo->prepare("INSERT INTO members (name, alias) VALUES (?, ?)");
+                $ins->execute([$targetName, $finalCombinedAlias]);
             }
 
-            // 5. Update bidder_aliases table
-            $delOldAliases = $pdo->prepare("DELETE FROM bidder_aliases WHERE LOWER(bidder_name) = LOWER(?) OR LOWER(bidder_name) = LOWER(?)");
-            $delOldAliases->execute([$targetName, $sourceName]);
-
-            $insNewAlias = $pdo->prepare("INSERT INTO bidder_aliases (bidder_name, alias_name, notes) VALUES (?, ?, ?)");
-            $insNewAlias->execute([$targetName, $mergedAliasString, 'Merged from ' . $sourceName]);
-
-            // 6. Delete source from members
-            $delSource = $pdo->prepare("DELETE FROM members WHERE LOWER(name) = LOWER(?)");
-            $delSource->execute([$sourceName]);
-
-            // 7. Update historical items and salary records where person = sourceName to targetName
-            $updSalary = $pdo->prepare("UPDATE salary_items SET person = ? WHERE LOWER(person) = LOWER(?)");
-            $updSalary->execute([$targetName, $sourceName]);
-
-            $updObtained = $pdo->prepare("UPDATE obtained_items SET person = ? WHERE LOWER(person) = LOWER(?)");
-            $updObtained->execute([$targetName, $sourceName]);
-
-            $updTransfers = $pdo->prepare("UPDATE salary_transfers SET person = ? WHERE LOWER(person) = LOWER(?)");
-            $updTransfers->execute([$targetName, $sourceName]);
+            // Sync to bidder_aliases
+            $syncAlias = $pdo->prepare("UPDATE bidder_aliases SET alias_name = ? WHERE LOWER(bidder_name) = LOWER(?)");
+            $syncAlias->execute([$finalCombinedAlias, $targetName]);
 
             echo json_encode([
                 'status' => 'success',
-                'message' => "Berhasil menggabungkan '{$sourceName}' ke '{$targetName}'! Alias saat ini: {$mergedAliasString} 🔗",
+                'message' => count($sourceNames) . " anggota berhasil digabungkan ke {$targetName} dengan alias: {$finalCombinedAlias} ✅",
                 'target_name' => $targetName,
-                'source_name' => $sourceName,
-                'merged_alias' => $mergedAliasString
+                'combined_alias' => $finalCombinedAlias
             ]);
         } else if ($action === 'delete_member_alias') {
             $name = trim($input['name'] ?? ($input['bidder_name'] ?? ''));
