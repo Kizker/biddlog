@@ -18,6 +18,7 @@ $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES   => false,
+    PDO::ATTR_PERSISTENT         => true,
 ];
 
 try {
@@ -27,6 +28,10 @@ try {
             $sqlitePath = __DIR__ . '/../../../database/database.sqlite';
         }
         $pdo = new PDO("sqlite:" . $sqlitePath, null, null, $options);
+        $pdo->exec("PRAGMA journal_mode = WAL;");
+        $pdo->exec("PRAGMA synchronous = NORMAL;");
+        $pdo->exec("PRAGMA cache_size = -64000;");
+        $pdo->exec("PRAGMA temp_store = MEMORY;");
         $pdo->sqliteCreateFunction('CURDATE', fn() => date('Y-m-d'));
         $pdo->sqliteCreateFunction('NOW', fn() => date('Y-m-d H:i:s'));
         $pdo->sqliteCreateFunction('DATE', function ($val) {
@@ -35,17 +40,25 @@ try {
         });
     } else {
         $host = $env['DB_HOST'] ?? '127.0.0.1';
+        $port = $env['DB_PORT'] ?? '3306';
         $db = $env['DB_DATABASE'] ?? 'biddlog_db';
         $user = $env['DB_USERNAME'] ?? 'root';
         $pass = $env['DB_PASSWORD'] ?? '';
         $charset = 'utf8mb4';
-        $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-        $pdo = new PDO($dsn, $user, $pass, $options);
+        $mysqlOptions = $options;
+        if (defined('PDO::MYSQL_ATTR_INIT_COMMAND')) {
+            $mysqlOptions[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES utf8mb4";
+        }
+        $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
+        $pdo = new PDO($dsn, $user, $pass, $mysqlOptions);
     }
 } catch (\PDOException $e) {
     try {
         $sqlitePath = __DIR__ . '/../../../database/database.sqlite';
         $pdo = new PDO("sqlite:" . $sqlitePath, null, null, $options);
+        $pdo->exec("PRAGMA journal_mode = WAL;");
+        $pdo->exec("PRAGMA synchronous = NORMAL;");
+        $pdo->exec("PRAGMA cache_size = -64000;");
         $pdo->sqliteCreateFunction('CURDATE', fn() => date('Y-m-d'));
         $pdo->sqliteCreateFunction('NOW', fn() => date('Y-m-d H:i:s'));
         $pdo->sqliteCreateFunction('DATE', function ($val) {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { getFastCache, setFastCache } from '../utils/fastCache';
 
 export interface ObtainedItem {
   id: string | number;
@@ -148,7 +149,12 @@ export const parseObtainedItemLine = (rawLine: string, person: string): Obtained
 };
 
 export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavigateToHasilBidding?: () => void }) {
+  // Read instant cache for 0ms initial render
+  const cachedObtained = useMemo(() => getFastCache<any>('obtained_data'), []);
+  const cachedDates = useMemo(() => getFastCache<any>('obtained_dates'), []);
+
   const [reportDate, setReportDate] = useState<string>(() => {
+    if (cachedObtained?.report_date) return cachedObtained.report_date;
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -156,8 +162,28 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
     return `Enb tgl ${day}/${month}/ ${year}`;
   });
 
-  const [items, setItems] = useState<ObtainedItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [items, setItems] = useState<ObtainedItem[]>(() => {
+    if (cachedObtained && Array.isArray(cachedObtained.data)) {
+      return cachedObtained.data.map((row: any) => ({
+        id: row.id,
+        person: row.person || row.username || 'Umum',
+        model: row.model || '',
+        storage: row.storage ? String(row.storage) : '',
+        grade: row.grade || '',
+        unit: row.unit || 1,
+        price: row.obtained_price || 0,
+        fee_info: row.fee_info || '',
+        bidder: row.bidder || '',
+        status: (row.status === 'rejected' ? 'rejected' : 'approved') as 'approved' | 'rejected',
+        notes: row.notes || '',
+        report_date: row.report_date || '',
+        raw_line: row.raw_line || ''
+      }));
+    }
+    return [];
+  });
+
+  const [loading, setLoading] = useState<boolean>(() => !cachedObtained);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'approved' | 'rejected'>('all');
   const [activeTab, setActiveTab] = useState<'cards' | 'preview' | 'table'>('cards');
@@ -166,7 +192,7 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
   const [pasteText, setPasteText] = useState<string>('');
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [saveStatus, setSaveStatus] = useState<string>('');
-  const [availableDates, setAvailableDates] = useState<{ report_date: string; item_count: number }[]>([]);
+  const [availableDates, setAvailableDates] = useState<{ report_date: string; item_count: number }[]>(() => cachedDates?.data || []);
 
   // Import from Bidding State
   const [showImportBiddingModal, setShowImportBiddingModal] = useState<boolean>(false);
@@ -198,6 +224,7 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
       const res = await fetch('/api/obtained.php?action=get_dates');
       const json = await res.json();
       if (json.status === 'success' && Array.isArray(json.data)) {
+        setFastCache('obtained_dates', json);
         setAvailableDates(json.data);
       }
     } catch (e) {
@@ -205,14 +232,17 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
     }
   };
 
-  // Fetch data from API with strict date isolation
-  const fetchData = async (targetDate?: string) => {
-    setLoading(true);
+  // Fetch data from API with strict date isolation (Stale-While-Revalidate)
+  const fetchData = async (targetDate?: string, silent = false) => {
+    if (!silent && !cachedObtained) setLoading(true);
     try {
       const dateToFetch = targetDate || reportDate;
       const res = await fetch(`/api/obtained.php?date=${encodeURIComponent(dateToFetch)}`);
       const json = await res.json();
       if (json.status === 'success') {
+        if (!targetDate) {
+          setFastCache('obtained_data', json);
+        }
         if (Array.isArray(json.data) && json.data.length > 0) {
           const loaded: ObtainedItem[] = json.data.map((row: any) => ({
             id: row.id,
@@ -234,7 +264,6 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
             setReportDate(json.report_date);
           }
         } else if (json.is_latest && json.data.length === 0) {
-          // If completely empty DB
           setItems([]);
         } else {
           setItems([]);
@@ -248,7 +277,7 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(undefined, Boolean(cachedObtained));
     fetchAvailableDates();
   }, []);
 

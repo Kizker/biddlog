@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.css';
+import { preloadAllAppData, setFastCache } from './utils/fastCache';
 import AdminDashboard from './components/AdminDashboard';
 import AdminAnalyzer from './components/AdminAnalyzer';
 import PembagianBarang from './components/PembagianBarang';
@@ -2247,6 +2248,8 @@ function App() {
           localStorage.setItem('role', 'admin');
           setAdminView('Analyzer');
           setActiveView('analyzer');
+          // Instantly trigger background preload of all modules
+          preloadAllAppData();
         } else {
           setLoginError(data.message || 'Username atau password salah');
         }
@@ -2258,6 +2261,26 @@ function App() {
   };
 
   useLayoutEffect(() => {
+    // Eager preload core application datasets in background (0ms tab transitions)
+    preloadAllAppData();
+
+    fetch(getApiUrl('preload.php'))
+      .then(res => res.json())
+      .then(preloadData => {
+        if (preloadData && preloadData.status === 'success') {
+          if (preloadData.salary) {
+            setFastCache('salary_data', { status: 'success', data: preloadData.salary });
+          }
+          if (preloadData.obtained) {
+            setFastCache('obtained_data', { status: 'success', data: preloadData.obtained.items, report_date: preloadData.obtained.report_date });
+            if (preloadData.obtained.dates) {
+              setFastCache('obtained_dates', { status: 'success', data: preloadData.obtained.dates });
+            }
+          }
+        }
+      })
+      .catch(() => {});
+
     fetch(getApiUrl('test_connection.php'))
       .then(res => res.json())
       .then(data => {

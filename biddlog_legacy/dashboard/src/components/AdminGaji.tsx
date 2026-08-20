@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import { getFastCache, setFastCache } from '../utils/fastCache';
 
 // Strict owner rule: Only exact 'menik' and 'mubdi' are owners. 'Mubdi 2' is a regular member.
 export const isOwnerPerson = (personName: string): boolean => {
@@ -104,12 +105,29 @@ interface MemberRecord {
 }
 
 export default function AdminGaji() {
-  const [items, setItems] = useState<ObtainedItem[]>([]);
-  const [transfers, setTransfers] = useState<SalaryTransfer[]>([]);
-  const [members, setMembers] = useState<MemberRecord[]>([]);
-  const [bidderAliases, setBidderAliases] = useState<BidderAlias[]>([]);
-  const [availableDates, setAvailableDates] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Read instant cache for 0ms initial render
+  const initialCache = useMemo(() => {
+    const cached = getFastCache<any>('salary_data');
+    return cached?.data || null;
+  }, []);
+
+  const [items, setItems] = useState<ObtainedItem[]>(() => initialCache?.items || []);
+  const [transfers, setTransfers] = useState<SalaryTransfer[]>(() => initialCache?.transfers || []);
+  const [members, setMembers] = useState<MemberRecord[]>(() => initialCache?.members || []);
+  const [bidderAliases, setBidderAliases] = useState<BidderAlias[]>(() => initialCache?.bidder_aliases || []);
+  const [availableDates, setAvailableDates] = useState<string[]>(() => {
+    if (!initialCache) return [];
+    const dateSet = new Set<string>();
+    (initialCache.items || []).forEach((it: any) => {
+      const d = it.report_date || (it.created_at ? it.created_at.split(' ')[0] : '');
+      if (d) dateSet.add(d);
+    });
+    (initialCache.dates || []).forEach((dObj: any) => {
+      if (dObj.report_day) dateSet.add(dObj.report_day);
+    });
+    return Array.from(dateSet).sort((a, b) => b.localeCompare(a));
+  });
+  const [loading, setLoading] = useState(() => !initialCache);
 
   // Active month page for Catalog (e.g. '2026-08')
   const [selectedMonth, setSelectedMonth] = useState<string>('');
@@ -151,13 +169,14 @@ export default function AdminGaji() {
     notes: string;
   } | null>(null);
 
-  // Fetch all salary & obtained data
-  const fetchData = async () => {
-    setLoading(true);
+  // Fetch all salary & obtained data in background (Stale-While-Revalidate)
+  const fetchData = async (silent = false) => {
+    if (!silent && !initialCache) setLoading(true);
     try {
       const res = await fetch('/api/salary.php');
       const json = await res.json();
       if (json.status === 'success') {
+        setFastCache('salary_data', json);
         const data = json.data;
         const fetchedItems: ObtainedItem[] = data.items || [];
         setItems(fetchedItems);
@@ -191,7 +210,7 @@ export default function AdminGaji() {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(Boolean(initialCache));
   }, []);
 
   const showToast = (msg: string) => {
