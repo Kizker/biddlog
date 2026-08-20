@@ -75,7 +75,7 @@ button:disabled {
 
 .app-inner {
   margin: 0 auto;
-  max-width: 1040px;
+  max-width: 100%;
   width: 100%;
 }
 
@@ -1937,7 +1937,7 @@ h2 {
    ======================================== */
 
 .guide-container {
-  max-width: 1040px;
+  max-width: 100%;
   width: 100%;
   margin: 0 auto;
   padding: 8px 0;

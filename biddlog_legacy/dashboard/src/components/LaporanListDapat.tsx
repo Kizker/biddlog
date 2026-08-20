@@ -822,7 +822,7 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
       {/* 1. Integrated Header & Stat Bar - Sleek, Minimalist & Modern */}
       <div style={{
         background: 'white',
