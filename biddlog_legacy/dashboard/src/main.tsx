@@ -1537,12 +1537,18 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
           report_date: finalReportDate
         });
         setSendSuccessMsg({ count: itemsToSync.length, date: finalReportDate });
+        
+        // Seamlessly navigate directly to Laporan List Didapat so user sees the 57 items immediately
+        if (onNavigateToListDapat) {
+          onNavigateToListDapat();
+        }
       } else {
         alert('Gagal mengirim ke Laporan List Didapat: ' + (resJson.message || 'Error'));
       }
-      setTimeout(() => setSentToReport(false), 2000);
-    } catch (e) {
+      setSentToReport(false);
+    } catch (e: any) {
       console.error(e);
+      alert('Terjadi kesalahan saat mengirim: ' + (e?.message || 'Error koneksi'));
       setSentToReport(false);
     }
   };
