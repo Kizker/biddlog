@@ -151,7 +151,6 @@ export const parseObtainedItemLine = (rawLine: string, person: string): Obtained
 export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavigateToHasilBidding?: () => void }) {
   // Read instant cache for 0ms initial render
   const cachedObtained = useMemo(() => getFastCache<any>('obtained_data'), []);
-  const cachedDates = useMemo(() => getFastCache<any>('obtained_dates'), []);
 
   const [reportDate, setReportDate] = useState<string>(() => {
     if (cachedObtained?.report_date) return cachedObtained.report_date;
@@ -192,7 +191,6 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
   const [pasteText, setPasteText] = useState<string>('');
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [saveStatus, setSaveStatus] = useState<string>('');
-  const [availableDates, setAvailableDates] = useState<{ report_date: string; item_count: number }[]>(() => cachedDates?.data || []);
 
   // Import from Bidding State
   const [showImportBiddingModal, setShowImportBiddingModal] = useState<boolean>(false);
@@ -217,20 +215,6 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
     status: 'approved',
     notes: '',
   });
-
-  // Fetch available dates for history dropdown
-  const fetchAvailableDates = async () => {
-    try {
-      const res = await fetch('/api/obtained.php?action=get_dates');
-      const json = await res.json();
-      if (json.status === 'success' && Array.isArray(json.data)) {
-        setFastCache('obtained_dates', json);
-        setAvailableDates(json.data);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   // Helper to deduplicate item list based on person, model, storage, grade, price, bidder, fee
   const deduplicateItemsList = (itemList: ObtainedItem[]): { unique: ObtainedItem[]; removedCount: number } => {
@@ -304,7 +288,6 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
 
   useEffect(() => {
     fetchData(undefined, Boolean(cachedObtained));
-    fetchAvailableDates();
   }, []);
 
   // Sync to database with safe date normalization
@@ -338,7 +321,6 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
       const data = await res.json();
       if (data.status === 'success') {
         setSaveStatus('Tersimpan di DB ✅');
-        fetchAvailableDates();
         setTimeout(() => setSaveStatus(''), 2500);
       } else {
         setSaveStatus('Gagal simpan ⚠️');
@@ -850,10 +832,10 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
               background: '#f8fafc',
               border: '1px solid var(--line)',
               borderRadius: '8px',
-              padding: '3px 8px',
+              padding: '4px 10px',
               gap: '6px'
             }}>
-              <span style={{ fontSize: '13px', color: '#64748b' }}>📅</span>
+              <span style={{ fontSize: '14px', color: '#64748b' }}>📅</span>
               <input
                 type="text"
                 value={reportDate}
@@ -866,41 +848,11 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
                   fontWeight: 700,
                   color: 'var(--navy)',
                   padding: '2px 4px',
-                  width: '150px',
+                  width: '155px',
                   outline: 'none'
                 }}
-                title="Ketik tanggal atau pilih dari riwayat"
+                title="Tanggal Laporan"
               />
-              {availableDates.length > 0 && (
-                <select
-                  value={availableDates.some(d => d.report_date === reportDate) ? reportDate : ''}
-                  onChange={(e) => {
-                    if (e.target.value) {
-                      setReportDate(e.target.value);
-                      fetchData(e.target.value);
-                    }
-                  }}
-                  style={{
-                    border: 'none',
-                    background: '#e2e8f0',
-                    fontSize: '11px',
-                    fontWeight: 600,
-                    color: '#334155',
-                    borderRadius: '4px',
-                    padding: '3px 6px',
-                    cursor: 'pointer',
-                    outline: 'none'
-                  }}
-                  title="Pilih riwayat tanggal tersimpan"
-                >
-                  <option value="">Riwayat ({availableDates.length})</option>
-                  {availableDates.map(d => (
-                    <option key={d.report_date} value={d.report_date}>
-                      {d.report_date} ({d.item_count} item)
-                    </option>
-                  ))}
-                </select>
-              )}
             </div>
 
             {saveStatus && (

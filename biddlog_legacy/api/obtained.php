@@ -58,31 +58,19 @@ function normalizeDisplayDate($rawDate) {
 try {
     if ($method === 'GET') {
         $action = $_GET['action'] ?? '';
-        
-        // List unique dates stored in database
-        if ($action === 'get_dates' || isset($_GET['get_dates'])) {
-            $stmt = $pdo->query("SELECT DISTINCT report_date, DATE(created_at) as created_date, COUNT(*) as item_count FROM obtained_items WHERE report_date IS NOT NULL AND report_date != '' GROUP BY report_date ORDER BY id DESC");
-            $dates = $stmt->fetchAll();
-            echo json_encode(['status' => 'success', 'data' => $dates]);
-            exit;
-        }
 
         $date = $_GET['date'] ?? null;
         $loadAll = isset($_GET['all']) && $_GET['all'] === '1';
 
         if ($date) {
-            $isoDate = extractIsoDate($date);
-            $dispDate = normalizeDisplayDate($date);
-            $dispNoSpace = preg_replace('/\/\s+/', '/', $dispDate);
-            $dispWithSpace = preg_replace('/\/(\d{4})/', '/ $1', $dispNoSpace);
-
-            preg_match('/(\d{1,2})[\/\-](\d{1,2})[\/\-]\s*(\d{4})/', cleanReportDateStr($date), $mParts);
-            $wildcardPattern = !empty($mParts) ? "%{$mParts[1]}/{$mParts[2]}/%{$mParts[3]}%" : "%{$isoDate}%";
+            $cleanDate = cleanReportDateStr($date);
+            $isoDate = extractIsoDate($cleanDate);
+            $dispDate = normalizeDisplayDate($cleanDate);
 
             $stmt = $pdo->prepare("SELECT o.*, u.username as user_name FROM obtained_items o LEFT JOIN users u ON o.user_id = u.id 
-                WHERE (o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR o.report_date LIKE ? OR ((o.report_date IS NULL OR o.report_date = '') AND DATE(o.created_at) = ?))
+                WHERE (o.report_date = ? OR o.report_date = ? OR DATE(o.created_at) = ?)
                 ORDER BY o.id ASC");
-            $stmt->execute([$date, $dispDate, $dispNoSpace, $dispWithSpace, $wildcardPattern, $isoDate]);
+            $stmt->execute([$cleanDate, $dispDate, $isoDate]);
             $data = $stmt->fetchAll();
             echo json_encode(['status' => 'success', 'data' => $data, 'report_date' => $dispDate]);
         } else if ($loadAll) {
@@ -90,23 +78,18 @@ try {
             $data = $stmt->fetchAll();
             echo json_encode(['status' => 'success', 'data' => $data]);
         } else {
-            // Default: Fetch only the latest date's batch to avoid mixing past dates together
+            // Default: Fetch only the latest date's batch
             $stmtLatest = $pdo->query("SELECT report_date FROM obtained_items WHERE report_date IS NOT NULL AND report_date != '' ORDER BY id DESC LIMIT 1");
             $latestRow = $stmtLatest->fetch();
             if ($latestRow && !empty($latestRow['report_date'])) {
-                $latestDate = $latestRow['report_date'];
+                $latestDate = cleanReportDateStr($latestRow['report_date']);
                 $isoDate = extractIsoDate($latestDate);
                 $dispDate = normalizeDisplayDate($latestDate);
-                $dispNoSpace = preg_replace('/\/\s+/', '/', $dispDate);
-                $dispWithSpace = preg_replace('/\/(\d{4})/', '/ $1', $dispNoSpace);
-
-                preg_match('/(\d{1,2})[\/\-](\d{1,2})[\/\-]\s*(\d{4})/', cleanReportDateStr($latestDate), $mParts);
-                $wildcardPattern = !empty($mParts) ? "%{$mParts[1]}/{$mParts[2]}/%{$mParts[3]}%" : "%{$isoDate}%";
 
                 $stmt = $pdo->prepare("SELECT o.*, u.username as user_name FROM obtained_items o LEFT JOIN users u ON o.user_id = u.id 
-                    WHERE (o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR o.report_date = ? OR o.report_date LIKE ? OR ((o.report_date IS NULL OR o.report_date = '') AND DATE(o.created_at) = ?))
+                    WHERE (o.report_date = ? OR o.report_date = ? OR DATE(o.created_at) = ?)
                     ORDER BY o.id ASC");
-                $stmt->execute([$latestDate, $dispDate, $dispNoSpace, $dispWithSpace, $wildcardPattern, $isoDate]);
+                $stmt->execute([$latestDate, $dispDate, $isoDate]);
                 $data = $stmt->fetchAll();
                 echo json_encode(['status' => 'success', 'data' => $data, 'report_date' => $dispDate, 'is_latest' => true]);
             } else {
@@ -125,11 +108,6 @@ try {
             $rawDate = cleanReportDateStr($input['report_date'] ?? date('Y-m-d'));
             $isoDate = extractIsoDate($rawDate);
             $dispDate = normalizeDisplayDate($rawDate);
-            $dispNoSpace = preg_replace('/\/\s+/', '/', $dispDate);
-            $dispWithSpace = preg_replace('/\/(\d{4})/', '/ $1', $dispNoSpace);
-
-            preg_match('/(\d{1,2})[\/\-](\d{1,2})[\/\-]\s*(\d{4})/', $rawDate, $mParts);
-            $wildcardPattern = !empty($mParts) ? "%{$mParts[1]}/{$mParts[2]}/%{$mParts[3]}%" : "%{$isoDate}%";
 
             $items = $input['items'] ?? [];
 
@@ -137,11 +115,11 @@ try {
                 $pdo->beginTransaction();
             }
 
-            // Clean existing records for this date cleanly using wildcard and exact match to prevent duplicate stacking
+            // Clean existing records strictly for this specific date
             $clear_existing = $input['clear_existing'] ?? true;
             if ($clear_existing) {
-                $delStmt = $pdo->prepare("DELETE FROM obtained_items WHERE report_date = ? OR report_date = ? OR report_date = ? OR report_date = ? OR report_date LIKE ? OR DATE(created_at) = ?");
-                $delStmt->execute([$rawDate, $dispDate, $dispNoSpace, $dispWithSpace, $wildcardPattern, $isoDate]);
+                $delStmt = $pdo->prepare("DELETE FROM obtained_items WHERE report_date = ? OR report_date = ? OR DATE(created_at) = ?");
+                $delStmt->execute([$rawDate, $dispDate, $isoDate]);
             }
 
             // In-memory deduplication before insertion

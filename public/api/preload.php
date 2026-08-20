@@ -32,11 +32,7 @@ try {
     $aliasesStmt = $pdo->query("SELECT * FROM bidder_aliases ORDER BY id ASC");
     $aliases = $aliasesStmt->fetchAll();
 
-    // 6. Fetch obtained dates
-    $obtainedDatesStmt = $pdo->query("SELECT DISTINCT report_date, DATE(created_at) as created_date, COUNT(*) as item_count FROM obtained_items WHERE report_date IS NOT NULL AND report_date != '' GROUP BY report_date ORDER BY id DESC LIMIT 50");
-    $obtainedDates = $obtainedDatesStmt->fetchAll();
-
-    // 7. Fetch latest obtained items
+    // 6. Fetch latest obtained items
     $latestObtainedStmt = $pdo->query("SELECT report_date FROM obtained_items WHERE report_date IS NOT NULL AND report_date != '' ORDER BY id DESC LIMIT 1");
     $latestRow = $latestObtainedStmt->fetch();
     $obtainedItems = [];
@@ -59,7 +55,6 @@ try {
             'bidder_aliases' => $aliases
         ],
         'obtained' => [
-            'dates' => $obtainedDates,
             'report_date' => $latestReportDate,
             'items' => $obtainedItems
         ]
