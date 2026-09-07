@@ -1,12 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { parseTextList } from '../main';
 
 export default function AdminAnalyzer() {
-  const [rawText, setRawText] = useState('');
-  const [parsedData, setParsedData] = useState<any[]>([]);
+  const [rawText, setRawText] = useState(() => {
+    try {
+      return localStorage.getItem('biddlog_admin_analyzer_raw_text') || '';
+    } catch {
+      return '';
+    }
+  });
+  const [parsedData, setParsedData] = useState<any[]>(() => {
+    try {
+      const saved = localStorage.getItem('biddlog_admin_analyzer_parsed');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return [];
+  });
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [showAIAJ, setShowAIAJ] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (rawText) {
+        localStorage.setItem('biddlog_admin_analyzer_raw_text', rawText);
+      } else {
+        localStorage.removeItem('biddlog_admin_analyzer_raw_text');
+      }
+    } catch (e) {}
+  }, [rawText]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('biddlog_admin_analyzer_parsed', JSON.stringify(parsedData));
+    } catch (e) {}
+  }, [parsedData]);
+
+  const handleResetInputs = () => {
+    if (!rawText && parsedData.length === 0) return;
+    if (!window.confirm('Kosongkan input teks dan hasil scan?')) return;
+    setRawText('');
+    setParsedData([]);
+    setMessage('');
+    try {
+      localStorage.removeItem('biddlog_admin_analyzer_raw_text');
+      localStorage.removeItem('biddlog_admin_analyzer_parsed');
+    } catch (e) {}
+  };
 
   const handleParse = () => {
     if (!rawText.trim()) return;
@@ -66,7 +106,27 @@ export default function AdminAnalyzer() {
     <section className="workspace">
       <aside className="panel input-panel">
         <section className="json-input-section" style={{ padding: '16px', background: 'var(--bg)', borderRadius: '8px', border: '1px solid var(--line)' }}>
-          <h3 style={{ marginBottom: '16px', color: 'var(--navy)', fontSize: '15px' }}>Analyzer (Scan List Barang)</h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+            <h3 style={{ margin: 0, color: 'var(--navy)', fontSize: '15px' }}>Analyzer (Scan List Barang)</h3>
+            {(rawText || parsedData.length > 0) && (
+              <button
+                type="button"
+                onClick={handleResetInputs}
+                style={{
+                  padding: '4px 8px',
+                  background: '#fee2e2',
+                  color: '#dc2626',
+                  border: '1px solid #fecaca',
+                  borderRadius: '6px',
+                  fontWeight: 600,
+                  fontSize: '11px',
+                  cursor: 'pointer'
+                }}
+              >
+                🗑️ Reset
+              </button>
+            )}
+          </div>
           <p style={{ marginBottom: '12px', fontSize: '12px', color: 'var(--muted)' }}>Paste teks raw dari grup bidding di sini.</p>
           <textarea 
             style={{ width: '100%', height: '300px', padding: '12px', borderRadius: '6px', border: '1px solid var(--line)', fontFamily: 'monospace', fontSize: '12px', resize: 'vertical' }} 
@@ -74,10 +134,15 @@ export default function AdminAnalyzer() {
             value={rawText}
             onChange={e => setRawText(e.target.value)}
           ></textarea>
-          <div style={{ marginTop: '16px' }}>
-            <button onClick={handleParse} className="btn-admin" style={{ width: '100%', padding: '12px', background: 'var(--blue)', color: 'white', borderRadius: '6px', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}>
+          <div style={{ marginTop: '16px', display: 'flex', gap: '8px' }}>
+            <button onClick={handleParse} className="btn-admin" style={{ flex: 1, padding: '12px', background: 'var(--blue)', color: 'white', borderRadius: '6px', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}>
               Scan & Parse Data
             </button>
+            {(rawText || parsedData.length > 0) && (
+              <button onClick={handleResetInputs} className="secondary-button" style={{ padding: '12px 16px', color: '#dc2626', borderColor: '#fca5a5' }}>
+                Reset
+              </button>
+            )}
           </div>
           {message && (
             <div style={{ marginTop: '12px', fontSize: '12px', padding: '10px', background: message.includes('Berhasil') ? '#dcfce7' : '#fee2e2', color: message.includes('Berhasil') ? '#166534' : '#991b1b', borderRadius: '6px', fontWeight: 500 }}>

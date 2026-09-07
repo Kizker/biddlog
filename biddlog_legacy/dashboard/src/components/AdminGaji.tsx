@@ -35,6 +35,9 @@ export const getMonthKey = (dateStr: string): string => {
   return `${year}-${month}`;
 };
 
+export const indonesianDays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+export const indonesianDaysShort = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+
 export const indonesianMonths = [
   'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
@@ -53,11 +56,12 @@ export const formatMonthLabel = (monthKey: string): string => {
 export const formatDateLabelIndo = (dateStr: string): string => {
   const d = parseDateRobust(dateStr);
   if (!d) return dateStr;
+  const dayName = indonesianDays[d.getDay()] || '';
   const day = String(d.getDate()).padStart(2, '0');
   const mIndex = d.getMonth();
-  const mName = indonesianMonths[mIndex] || '';
+  const mName = indonesianMonths[mIndex] ? indonesianMonths[mIndex].substring(0, 3) : '';
   const year = d.getFullYear();
-  return `${day} ${mName} ${year}`;
+  return `${dayName}, ${day} ${mName} ${year}`;
 };
 
 interface ObtainedItem {
@@ -239,11 +243,6 @@ export default function AdminGaji() {
 
         const sortedDates = Array.from(dateSet).sort((a, b) => b.localeCompare(a));
         setAvailableDates(sortedDates);
-
-        // Default to latest date if not set
-        if (sortedDates.length > 0 && selectedDates.length === 0) {
-          setSelectedDates([sortedDates[0]]);
-        }
       }
     } catch (err) {
       console.error('Error fetching salary data:', err);
@@ -264,9 +263,7 @@ export default function AdminGaji() {
   // Toggle date selection for multi-day payroll batch
   const handleToggleDate = (date: string) => {
     if (selectedDates.includes(date)) {
-      if (selectedDates.length > 1) {
-        setSelectedDates(selectedDates.filter(d => d !== date));
-      }
+      setSelectedDates(selectedDates.filter(d => d !== date));
     } else {
       setSelectedDates([...selectedDates, date].sort((a, b) => b.localeCompare(a)));
     }
@@ -289,22 +286,6 @@ export default function AdminGaji() {
     if (availableDates.length > 0) {
       setSelectedDates(availableDates.slice(0, count));
     }
-  };
-
-  // Check if a person has been transferred for the selected dates
-  const getTransferRecord = (person: string, dates: string[]): SalaryTransfer | undefined => {
-    return transfers.find(t => {
-      if (t.person.toLowerCase() !== person.toLowerCase()) return false;
-      try {
-        const parsed = JSON.parse(t.dates_included);
-        if (Array.isArray(parsed)) {
-          return dates.every(d => parsed.includes(d));
-        }
-      } catch {
-        return dates.some(d => t.dates_included.includes(d));
-      }
-      return false;
-    });
   };
 
   // Find member where raw input matches Nama Asli or matches ANY of its multiple aliases
@@ -381,6 +362,125 @@ export default function AdminGaji() {
     return (m && m.alias && m.alias.trim()) ? m.alias.trim() : '';
   };
 
+  // Normalize date string for resilient comparison (YYYY-MM-DD)
+  const normalizeDateKey = (dateStr: string): string => {
+    if (!dateStr) return '';
+    const d = parseDateRobust(dateStr);
+    if (d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+    return dateStr.toLowerCase().trim().replace(/^[Ee]nb\s+tgl\s+/i, '').replace(/\s+/g, '');
+  };
+
+  // Match 2 dates regardless of format ('Enb tgl 07/09/ 2026' vs '2026-09-07' vs '07/09/2026')
+  const areDatesMatching = (d1: string, d2: string): boolean => {
+    if (!d1 || !d2) return false;
+    if (d1 === d2) return true;
+    return normalizeDateKey(d1) === normalizeDateKey(d2);
+  };
+
+  // Safely extract all date strings from a transfer's dates_included field
+  const extractDatesFromTransfer = (datesIncluded: string): string[] => {
+    if (!datesIncluded) return [];
+    try {
+      const parsed = JSON.parse(datesIncluded);
+      if (Array.isArray(parsed)) {
+        return parsed.map(d => String(d).trim()).filter(Boolean);
+      }
+    } catch {
+      if (typeof datesIncluded === 'string') {
+        return datesIncluded.split(',').map(d => d.trim()).filter(Boolean);
+      }
+    }
+    return [String(datesIncluded).trim()];
+  };
+
+  // Comprehensive transfer status evaluation for a person across a specific set of target dates
+  const evaluatePersonTransferStatus = (
+    personName: string,
+    rawNames: Set<string>,
+    personItems: ObtainedItem[],
+    targetDates: string[]
+  ): {
+    isTransferred: boolean;
+    paidDatesCount: number;
+    totalDatesCount: number;
+    transferInfo?: SalaryTransfer;
+  } => {
+    const canonical = getCanonicalName(personName);
+    const canonicalLower = canonical.toLowerCase().trim();
+
+    // 1. Gather all unique dates where this person has items in this period
+    const personDateSet = new Set<string>();
+    personItems.forEach(it => {
+      const d = it.report_date || (it.created_at ? it.created_at.split(' ')[0] : '');
+      if (d) personDateSet.add(d);
+    });
+
+    const personDates = Array.from(personDateSet);
+    if (personDates.length === 0) {
+      return { isTransferred: false, paidDatesCount: 0, totalDatesCount: 0 };
+    }
+
+    // 2. Find all transfer records that belong to this person (canonical, alias, or raw input name)
+    const personTransfers = transfers.filter(t => {
+      const tNorm = (t.person || '').toLowerCase().trim();
+      if (tNorm === canonicalLower) return true;
+      if (rawNames.has(t.person)) return true;
+      const tCanonical = getCanonicalName(t.person).toLowerCase().trim();
+      return tCanonical === canonicalLower;
+    });
+
+    if (personTransfers.length === 0) {
+      return { isTransferred: false, paidDatesCount: 0, totalDatesCount: personDates.length };
+    }
+
+    // 3. Collect all normalized date keys covered by all transfer records of this person
+    const coveredDateKeys = new Set<string>();
+    let latestTransfer: SalaryTransfer | undefined = undefined;
+
+    personTransfers.forEach(t => {
+      const tDates = extractDatesFromTransfer(t.dates_included);
+      tDates.forEach(td => {
+        const normKey = normalizeDateKey(td);
+        if (normKey) coveredDateKeys.add(normKey);
+      });
+      if (!latestTransfer || t.id > latestTransfer.id) {
+        latestTransfer = t;
+      }
+    });
+
+    // 4. Check how many of the person's item dates are covered by transfers
+    const paidDates = personDates.filter(d => coveredDateKeys.has(normalizeDateKey(d)));
+    const isAllCovered = paidDates.length === personDates.length;
+
+    return {
+      isTransferred: isAllCovered,
+      paidDatesCount: paidDates.length,
+      totalDatesCount: personDates.length,
+      transferInfo: latestTransfer
+    };
+  };
+
+  // Backwards-compatible getTransferRecord helper
+  const getTransferRecord = (person: string, dates: string[]): SalaryTransfer | undefined => {
+    const status = evaluatePersonTransferStatus(
+      person,
+      new Set([person]),
+      items.filter(it => {
+        const d = it.report_date || (it.created_at ? it.created_at.split(' ')[0] : '');
+        const matchD = dates.length === 0 || dates.some(sd => areDatesMatching(sd, d));
+        const matchP = getCanonicalName(it.person) === getCanonicalName(person);
+        return matchD && matchP;
+      }),
+      dates
+    );
+    return status.isTransferred ? status.transferInfo : undefined;
+  };
+
   // Map any person/bidder name to its sequence in the official Anggota & Alias list
   const getMemberOrderIndex = useCallback((personName: string): number => {
     const canonical = getCanonicalName(personName).toLowerCase().trim();
@@ -410,7 +510,7 @@ export default function AdminGaji() {
   const filteredActiveItems = useMemo(() => {
     return items.filter(it => {
       const d = it.report_date || (it.created_at ? it.created_at.split(' ')[0] : '');
-      const inDate = selectedDates.includes(d);
+      const inDate = selectedDates.length > 0 && selectedDates.some(sd => areDatesMatching(sd, d));
       const isApproved = it.status === 'approved';
       const isNotOwner = !isOwnerPerson(it.person);
       return inDate && isApproved && isNotOwner;
@@ -488,11 +588,9 @@ export default function AdminGaji() {
       pObj.formulaParts = parts;
       pObj.formulaText = parts.length > 0 ? `${parts.join(' + ')} = ${totalPoints}` : '0';
 
-      const transfer = getTransferRecord(pObj.person, selectedDates) || Array.from(pObj.rawNames).map(r => getTransferRecord(r, selectedDates)).find(Boolean);
-      if (transfer) {
-        pObj.isTransferred = true;
-        pObj.transferInfo = transfer;
-      }
+      const transferStatus = evaluatePersonTransferStatus(pObj.person, pObj.rawNames, pObj.items, selectedDates);
+      pObj.isTransferred = transferStatus.isTransferred;
+      pObj.transferInfo = transferStatus.transferInfo;
 
       return pObj;
     });
@@ -644,7 +742,7 @@ export default function AdminGaji() {
   };
 
   // Unmark person transfer
-  const handleUnmarkTransferred = async (transferId: number) => {
+  const handleUnmarkTransferred = async (transferId?: number, person?: string, targetDates?: string[]) => {
     if (!window.confirm('Batalkan tanda transfer untuk anggota ini?')) return;
     try {
       const res = await fetch('/api/salary.php', {
@@ -652,7 +750,9 @@ export default function AdminGaji() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'unmark_transferred',
-          id: transferId
+          id: transferId,
+          person: person,
+          dates: targetDates || selectedDates
         })
       });
       const json = await res.json();
@@ -669,10 +769,13 @@ export default function AdminGaji() {
   };
 
   // Mark multiple selected people as transferred in batch
-  const handleBatchMarkTransferred = async (targetPayrollList?: any[], targetDates?: string[]) => {
+  const handleBatchMarkTransferred = async (targetPayrollList?: any[], targetDates?: string[], specificPeople?: string[]) => {
     const list = targetPayrollList || aggregatedPayroll;
     const dates = targetDates || selectedDates;
-    const toTransfer = list.filter((p: any) => selectedPeople.includes(p.person) && !p.isTransferred);
+    const peopleFilter = specificPeople || (targetPayrollList ? null : selectedPeople);
+    const toTransfer = list.filter((p: any) => 
+      peopleFilter ? (peopleFilter.includes(p.person) && !p.isTransferred) : !p.isTransferred
+    );
     if (toTransfer.length === 0) {
       alert('Pilih minimal satu anggota yang belum ditransfer.');
       return;
@@ -1137,7 +1240,7 @@ export default function AdminGaji() {
   const getPayrollDataForDates = (datesList: string[]) => {
     const activeItems = items.filter(it => {
       const itemDate = it.report_date || (it.created_at ? it.created_at.split(' ')[0] : '');
-      const isDateMatch = datesList.length === 0 || datesList.includes(itemDate);
+      const isDateMatch = datesList.length === 0 || datesList.some(sd => areDatesMatching(sd, itemDate));
       const isApproved = it.status === 'approved';
       const isNotOwner = !isOwnerPerson(it.person);
       return isDateMatch && isApproved && isNotOwner;
@@ -1210,11 +1313,9 @@ export default function AdminGaji() {
       pObj.formulaParts = parts;
       pObj.formulaText = parts.length > 0 ? `${parts.join(' + ')} = ${totalPoints}` : '0';
 
-      const transfer = getTransferRecord(pObj.person, datesList) || Array.from(pObj.rawNames).map(r => getTransferRecord(r, datesList)).find(Boolean);
-      if (transfer) {
-        pObj.isTransferred = true;
-        pObj.transferInfo = transfer;
-      }
+      const transferStatus = evaluatePersonTransferStatus(pObj.person, pObj.rawNames, pObj.items, datesList);
+      pObj.isTransferred = transferStatus.isTransferred;
+      pObj.transferInfo = transferStatus.transferInfo;
 
       return pObj;
     }).sort((a, b) => {
@@ -1318,7 +1419,7 @@ export default function AdminGaji() {
     return availableDates.filter(d => getMonthKey(d) === selectedMonth);
   }, [availableDates, selectedMonth]);
 
-  // Group currentMonthDates into Weeks (Minggu 1, 2, 3, 4, 5)
+  // Group currentMonthDates into Workweeks (Senin - Jumat)
   const currentMonthWeeks = useMemo(() => {
     const weeks: Array<{
       weekIndex: number;
@@ -1336,41 +1437,77 @@ export default function AdminGaji() {
     const year = parseInt(yearStr, 10) || new Date().getFullYear();
     const month = parseInt(monthStr, 10) || (new Date().getMonth() + 1);
     const daysInMonth = new Date(year, month, 0).getDate();
+    const mNameShort = indonesianMonths[month - 1] ? indonesianMonths[month - 1].substring(0, 3) : '';
 
-    const weekRanges = [
-      { index: 1, start: 1, end: 7 },
-      { index: 2, start: 8, end: 14 },
-      { index: 3, start: 15, end: 21 },
-      { index: 4, start: 22, end: 28 },
-      { index: 5, start: 29, end: daysInMonth }
-    ];
+    // Partition month into Monday-to-Sunday calendar weeks
+    const calendarWeeks: Array<{
+      dayNumbers: number[];
+      workDays: number[];
+    }> = [];
 
-    weekRanges.forEach(range => {
-      if (range.start > daysInMonth) return;
-      const end = Math.min(range.end, daysInMonth);
-      const mNameShort = indonesianMonths[month - 1] ? indonesianMonths[month - 1].substring(0, 3) : '';
+    let currentWeekDays: number[] = [];
 
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dObj = new Date(year, month - 1, day);
+      const dow = dObj.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+
+      // Monday starts a new workweek (if we already gathered days from previous week)
+      if (dow === 1 && currentWeekDays.length > 0) {
+        const workDays = currentWeekDays.filter(d => {
+          const w = new Date(year, month - 1, d).getDay();
+          return w >= 1 && w <= 5; // Monday to Friday
+        });
+        calendarWeeks.push({
+          dayNumbers: [...currentWeekDays],
+          workDays: workDays.length > 0 ? workDays : [...currentWeekDays]
+        });
+        currentWeekDays = [];
+      }
+      currentWeekDays.push(day);
+    }
+
+    if (currentWeekDays.length > 0) {
+      const workDays = currentWeekDays.filter(d => {
+        const w = new Date(year, month - 1, d).getDay();
+        return w >= 1 && w <= 5;
+      });
+      calendarWeeks.push({
+        dayNumbers: [...currentWeekDays],
+        workDays: workDays.length > 0 ? workDays : [...currentWeekDays]
+      });
+    }
+
+    // Map dates in active month into each calendar workweek
+    let activeWeekCounter = 1;
+    calendarWeeks.forEach(cWeek => {
       const matchingDates = currentMonthDates.filter(dStr => {
         const dObj = parseDateRobust(dStr);
         if (!dObj) return false;
         const day = dObj.getDate();
-        return day >= range.start && day <= end;
+        return cWeek.dayNumbers.includes(day);
       });
 
       if (matchingDates.length > 0) {
-        // Sort dates within the week newest first
+        // Sort dates within the week chronologically from Monday to Friday (Senin -> Jumat)
         const sortedMatchingDates = [...matchingDates].sort((a, b) => {
           const da = parseDateRobust(a)?.getTime() || 0;
           const db = parseDateRobust(b)?.getTime() || 0;
-          return db - da;
+          return da - db;
         });
+
+        // Determine title start and end dates from workdays
+        const startDay = cWeek.workDays[0] || cWeek.dayNumbers[0];
+        const endDay = cWeek.workDays[cWeek.workDays.length - 1] || cWeek.dayNumbers[cWeek.dayNumbers.length - 1];
+        const weekNum = activeWeekCounter++;
 
         const weekPayroll = getPayrollDataForDates(sortedMatchingDates);
         weeks.push({
-          weekIndex: range.index,
-          weekTitle: `Minggu ke-${range.index} (${String(range.start).padStart(2, '0')} - ${String(end).padStart(2, '0')} ${mNameShort} ${year})`,
-          startDay: range.start,
-          endDay: end,
+          weekIndex: weekNum,
+          weekTitle: startDay === endDay
+            ? `Minggu ke-${weekNum} (${String(startDay).padStart(2, '0')} ${mNameShort} ${year})`
+            : `Minggu ke-${weekNum} (${String(startDay).padStart(2, '0')} - ${String(endDay).padStart(2, '0')} ${mNameShort} ${year})`,
+          startDay,
+          endDay,
           dates: sortedMatchingDates,
           totalUnits: weekPayroll.totalUnits,
           totalRupiah: weekPayroll.totalRupiah,
@@ -1380,7 +1517,7 @@ export default function AdminGaji() {
       }
     });
 
-    // Newest week on top (Minggu 5 -> 4 -> 3 -> 2 -> 1)
+    // Newest week on top (e.g. Minggu 2 on top, Minggu 1 below)
     return weeks.reverse();
   }, [currentMonthDates, selectedMonth, items, transfers, members, bidderAliases]);
 
@@ -1388,6 +1525,7 @@ export default function AdminGaji() {
     const currentIndex = availableMonths.indexOf(selectedMonth);
     if (currentIndex < availableMonths.length - 1 && currentIndex >= 0) {
       setSelectedMonth(availableMonths[currentIndex + 1]);
+      setSelectedDates([]);
     }
   };
 
@@ -1395,6 +1533,7 @@ export default function AdminGaji() {
     const currentIndex = availableMonths.indexOf(selectedMonth);
     if (currentIndex > 0) {
       setSelectedMonth(availableMonths[currentIndex - 1]);
+      setSelectedDates([]);
     }
   };
 
@@ -1619,7 +1758,10 @@ export default function AdminGaji() {
                 <span style={{ fontSize: '18px' }}>📅</span>
                 <select
                   value={selectedMonth}
-                  onChange={e => setSelectedMonth(e.target.value)}
+                  onChange={e => {
+                    setSelectedMonth(e.target.value);
+                    setSelectedDates([]);
+                  }}
                   style={{
                     padding: '7px 14px',
                     borderRadius: '8px',
@@ -2067,7 +2209,7 @@ export default function AdminGaji() {
                                 {p.isTransferred ? (
                                   <button
                                     type="button"
-                                    onClick={() => p.transferInfo && handleUnmarkTransferred(p.transferInfo.id)}
+                                    onClick={() => handleUnmarkTransferred(p.transferInfo?.id, p.person, selectedDates)}
                                     style={{
                                       display: 'inline-flex',
                                       alignItems: 'center',
@@ -2462,8 +2604,7 @@ export default function AdminGaji() {
                           type="button"
                           onClick={() => {
                             const unpaidPeople = cardData.payrollList.filter((p: any) => !p.isTransferred).map((p: any) => p.person);
-                            setSelectedPeople(unpaidPeople);
-                            handleBatchMarkTransferred(cardData.payrollList, [dateStr]);
+                            handleBatchMarkTransferred(cardData.payrollList, [dateStr], unpaidPeople);
                           }}
                           style={{
                             padding: '5px 6px',
@@ -3830,7 +3971,7 @@ export default function AdminGaji() {
                         {p.isTransferred ? (
                           <button
                             type="button"
-                            onClick={() => p.transferInfo && handleUnmarkTransferred(p.transferInfo.id)}
+                            onClick={() => handleUnmarkTransferred(p.transferInfo?.id, p.person, [modalDetailDate])}
                             style={{
                               background: '#ecfdf5',
                               color: '#059669',

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { getFastCache, setFastCache } from '../utils/fastCache';
+import { getFastCache, setFastCache, clearFastCache } from '../utils/fastCache';
 
 export interface ObtainedItem {
   id: string | number;
@@ -200,8 +200,6 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
     rawText: string;
     timestamp: number;
   } | null>(null);
-  const [importMode, setImportMode] = useState<'replace' | 'append'>('replace');
-
   // Form state for adding manual item
   const [newItem, setNewItem] = useState<Partial<ObtainedItem>>({
     person: '',
@@ -288,14 +286,16 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
     fetchData(undefined, Boolean(cachedObtained));
   }, []);
 
-  // Sync to database with safe date normalization
-  const syncToDatabase = async (currentItems: ObtainedItem[], customDate?: string) => {
+  // Sync to database with safe date normalization and optional clean replace
+  const syncToDatabase = async (currentItems: ObtainedItem[], customDate?: string, replaceAll = false) => {
     setSaveStatus('Menyimpan...');
     const syncDate = customDate || reportDate;
     try {
       const payload = {
         action: 'sync_all',
         report_date: syncDate,
+        replace_all: replaceAll,
+        clear_existing: true,
         items: currentItems.map(it => ({
           person: it.person,
           model: it.model,
@@ -355,31 +355,29 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
     }
   };
 
-  // Execute Import from Bidding
+  // Execute Import from Bidding (Clean Replacement - No Stacking/Appending)
   const handleExecuteImportBidding = async () => {
-    if (!biddingSnapshot || !biddingSnapshot.items) return;
+    if (!biddingSnapshot || !biddingSnapshot.items || biddingSnapshot.items.length === 0) return;
 
-    let newItems: ObtainedItem[] = [];
-    if (importMode === 'replace') {
-      newItems = biddingSnapshot.items.map(it => ({
-        ...it,
-        id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
-      }));
-    } else {
-      // Append mode
-      const uniqueToAppend = biddingSnapshot.items.map(it => ({
-        ...it,
-        id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
-      }));
-      newItems = [...items, ...uniqueToAppend];
-    }
+    // 1. Generate clean item list with fresh unique IDs
+    const newItems: ObtainedItem[] = biddingSnapshot.items.map((it, idx) => ({
+      ...it,
+      id: 'item_' + Date.now() + '_' + idx + '_' + Math.random().toString(36).substr(2, 5)
+    }));
 
     const finalDate = biddingSnapshot.reportDate || reportDate;
     setReportDate(finalDate);
     setItems(newItems);
-    await syncToDatabase(newItems, finalDate);
+
+    // 2. Wipe old caches completely
+    clearFastCache('obtained_data');
+    clearFastCache('obtained_dates');
+    localStorage.setItem('obtained_list_data', JSON.stringify(newItems));
+
+    // 3. Atomically replace database records with the new list
+    await syncToDatabase(newItems, finalDate, true);
     setShowImportBiddingModal(false);
-    setSaveStatus(`Berhasil mengimpor ${newItems.length} item dari Hasil Bidding! ✨`);
+    setSaveStatus(`Berhasil mengganti list dengan ${newItems.length} item dari Hasil Bidding! ✨`);
     setTimeout(() => setSaveStatus(''), 3000);
   };
 
@@ -586,24 +584,41 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
 
   // Reset all data completely
   const handleResetAllData = async () => {
-    if (!window.confirm('Apakah Anda yakin ingin menghapus SEMUA data list didapat? Tindakan ini akan mengosongkan list secara permanen.')) return;
+    if (!window.confirm('Apakah Anda yakin ingin mengosongkan SEMUA data list didapat? Tindakan ini akan menghapus data secara permanen.')) return;
+    
+    // 1. Immediately empty local UI state
     setItems([]);
+    setSaveStatus('Mengosongkan database...');
+
+    // 2. Clear all local storage & RAM caches
     localStorage.removeItem('obtained_list_data');
+    localStorage.removeItem('biddlog_latest_bidding_result');
+    clearFastCache('obtained_data');
+    clearFastCache('obtained_dates');
     setFastCache('obtained_data', { status: 'success', data: [], report_date: reportDate });
+
+    // 3. Send permanent deletion to backend
     try {
-      await fetch('/api/obtained.php', {
+      const res = await fetch('/api/obtained.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          action: 'clear_date', 
-          report_date: reportDate,
-          clear_all: true 
+          action: 'clear_all', 
+          clear_all: true,
+          report_date: reportDate
         })
       });
-      setSaveStatus('Data berhasil di-reset 🗑️');
+      const resJson = await res.json();
+      if (resJson && resJson.status === 'success') {
+        setSaveStatus('Data berhasil dikosongkan bersih 🗑️');
+      } else {
+        setSaveStatus('Gagal mengosongkan DB ⚠️');
+      }
       setTimeout(() => setSaveStatus(''), 2500);
     } catch (e) {
       console.error(e);
+      setSaveStatus('Error koneksi ⚠️');
+      setTimeout(() => setSaveStatus(''), 2500);
     }
   };
 
@@ -959,7 +974,7 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
                     position: 'absolute',
                     right: 0,
                     top: '110%',
-                    width: '200px',
+                    width: '180px',
                     background: 'white',
                     borderRadius: '10px',
                     border: '1px solid var(--line)',
@@ -970,67 +985,6 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
                     flexDirection: 'column',
                     gap: '2px'
                   }}>
-                    <button
-                      type="button"
-                      onClick={() => { setShowMoreActions(false); setShowPasteModal(true); }}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        padding: '8px 10px',
-                        background: 'transparent',
-                        color: '#334155',
-                        border: 'none',
-                        borderRadius: '6px',
-                        fontSize: '12px',
-                        fontWeight: 500,
-                        textAlign: 'left',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <span>📝</span> Paste Teks Manual
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { setShowMoreActions(false); setShowAddModal(true); }}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        padding: '8px 10px',
-                        background: 'transparent',
-                        color: '#334155',
-                        border: 'none',
-                        borderRadius: '6px',
-                        fontSize: '12px',
-                        fontWeight: 500,
-                        textAlign: 'left',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <span>➕</span> Tambah Item Manual
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { setShowMoreActions(false); handleCleanDuplicates(); }}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        padding: '8px 10px',
-                        background: 'transparent',
-                        color: '#b45309',
-                        border: 'none',
-                        borderRadius: '6px',
-                        fontSize: '12px',
-                        fontWeight: 500,
-                        textAlign: 'left',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <span>🧹</span> Bersihkan Duplikat
-                    </button>
-                    <div style={{ height: '1px', background: 'var(--line)', margin: '4px 0' }} />
                     <button
                       type="button"
                       onClick={() => { setShowMoreActions(false); handleResetStatusAndFee(); }}

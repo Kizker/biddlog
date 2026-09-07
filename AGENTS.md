@@ -70,6 +70,16 @@
 - [x] Implement Member Merge feature (🔗 Gabungkan Anggota) with target selection, multi-source checklist, auto-combined aliases, and database atomicity
 - [x] Add Smart Name Similarity Suggester banner detecting similar names (e.g. `Bilqis` ↔ `Bilqiis`) with 1-click quick merge action
 - [x] Add multi-row checkbox selection in Anggota & Alias list for quick bulk merging
+- [x] Import complete production database dump `u141095167_bid.sql` (1,530 rows across 25 tables) into local SQLite database with automatic schema conversion, indexes, and zero-downtime integration
+- [x] Simplified '⚙️ Opsi' dropdown in Laporan List Didapat: removed manual paste, add item, and clean duplicates actions, retaining only 'Reset Status & Fee' and 'Kosongkan Data'
+- [x] Fixed 'Kosongkan Data' lingering data & reload bug: updated backend `obtained.php` to unconditionally execute `DELETE FROM obtained_items` on `clear_all`, wiped persistent RAM & LocalStorage caches (`obtained_data`, `biddlog_latest_bidding_result`, `obtained_dates`), and prevented outdated date batches from reappearing on page reload
+- [x] Enforced clean atomic replacement (`replace_all: true`) for '⚡ Tarik Hasil Bidding' and '📤 Kirim Laporan ke Hasil Didapat': completely wipes previous obtained batches before inserting new items, guarantees 0 leftover items, prevents list stacking/accumulation, and purges stale browser caches
+- [x] Added persistent state (LocalStorage) and '🗑️ Reset Input' button in Analyzer view: file JSON, filters, search query, sorting, and brand order remain persistent across page reloads and tab switches until explicitly cleared with 'Reset Input'
+- [x] Simplified Analyzer toolbar: retained a single '🗑️ Reset Input' button beside 'Pilih File JSON' in the sidebar, removed redundant toolbar reset button, and removed deprecated 'Bagikan ke Pembagian Barang' button
+- [x] Implemented 1-Click Master '⚡ Auto-Select Model' Button in Analyzer: single click instantly selects ALL target model series (Semua Series S26, S25, S24, S23, S22, S21, S20, S10, Note 20, Note 10, Note 9, Fold, Flip, A72, A55, A54, A53, A52s, A52, A35, A34, A33) in one action, neatly positioned as 1 single dedicated button inside the Model sidebar filter
+- [x] Fixed Gaji default selection behavior: set default state to 0 selected dates (no auto-selected latest date on page load), enabled complete unselect toggle, and automatically cleared selection when switching/navigating months
+- [x] Implemented real calendar workweek (Senin s/d Jumat) row grouping in Gaji: each row strictly encapsulates 1 workweek (Senin - Jumat), cards ordered chronologically from Senin to Jumat (left to right), and added explicit day names (`Senin`, `Selasa`, `Rabu`, `Kamis`, `Jumat`) to card titles
+- [x] Fixed transfer status sync bug (Tandai Lunas vs Pending across multi-date selections): implemented resilient date normalization (`areDatesMatching`), comprehensive multi-transfer date coverage evaluator (`evaluatePersonTransferStatus`), eliminated React state race condition on batch transfer buttons, and updated backend `unmark_transferred` with JSON date array retention
 
 
 

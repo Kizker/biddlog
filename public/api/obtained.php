@@ -110,14 +110,20 @@ try {
             $dispDate = normalizeDisplayDate($rawDate);
 
             $items = $input['items'] ?? [];
+            $replaceAll = !empty($input['replace_all']);
+            $clearExisting = $input['clear_existing'] ?? true;
 
             if ($pdo->inTransaction() === false) {
                 $pdo->beginTransaction();
             }
 
-            // Clean existing records strictly for this specific date
-            $clear_existing = $input['clear_existing'] ?? true;
-            if ($clear_existing) {
+            // Clean existing records: completely wipe table if replace_all, or clean specific date
+            if ($replaceAll) {
+                $pdo->exec("DELETE FROM obtained_items");
+                try {
+                    $pdo->exec("DELETE FROM sqlite_sequence WHERE name = 'obtained_items'");
+                } catch (\Exception $sqEx) {}
+            } else if ($clearExisting) {
                 $delStmt = $pdo->prepare("DELETE FROM obtained_items WHERE report_date = ? OR report_date = ? OR DATE(created_at) = ?");
                 $delStmt->execute([$rawDate, $dispDate, $isoDate]);
             }
@@ -253,13 +259,23 @@ try {
             $stmt->execute([$id]);
 
             echo json_encode(['status' => 'success', 'message' => 'Item berhasil dihapus']);
-        } else if ($action === 'clear_date' || $action === 'clear_all') {
+        } else if ($action === 'clear_all' || $action === 'clear_date') {
+            $clearAll = ($action === 'clear_all') || !empty($input['clear_all']);
             $rawDate = cleanReportDateStr($input['report_date'] ?? ($input['date'] ?? ''));
-            $clearAll = !empty($input['clear_all']);
 
-            if ($clearAll && empty($rawDate)) {
-                $pdo->query("DELETE FROM obtained_items");
-                $delMsg = "Seluruh data list didapat berhasil dikosongkan";
+            if ($clearAll) {
+                // Completely empty obtained_items table
+                $pdo->exec("DELETE FROM obtained_items");
+                try {
+                    $pdo->exec("DELETE FROM sqlite_sequence WHERE name = 'obtained_items'");
+                } catch (\Exception $sqEx) {}
+
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Seluruh data list didapat berhasil dikosongkan secara permanen',
+                    'count' => 0
+                ]);
+                exit;
             } else {
                 $cleanDate = cleanReportDateStr($rawDate);
                 $isoDate = extractIsoDate($cleanDate);
@@ -267,10 +283,15 @@ try {
 
                 $stmt = $pdo->prepare("DELETE FROM obtained_items WHERE report_date = ? OR report_date = ? OR DATE(created_at) = ?");
                 $stmt->execute([$cleanDate, $dispDate, $isoDate]);
-                $delMsg = "Data tanggal {$dispDate} berhasil dibersihkan";
-            }
+                $deletedCount = $stmt->rowCount();
 
-            echo json_encode(['status' => 'success', 'message' => $delMsg]);
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => "Data tanggal {$dispDate} berhasil dibersihkan",
+                    'deleted_count' => $deletedCount
+                ]);
+                exit;
+            }
         } else {
             // Single insert fallback
             $rawDate = $input['report_date'] ?? date('Y-m-d');

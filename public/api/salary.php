@@ -377,17 +377,38 @@ try {
             ]);
         } else if ($action === 'unmark_transferred') {
             $id = $input['id'] ?? null;
-            $person = $input['person'] ?? null;
-            $date = $input['date'] ?? null;
+            $person = trim($input['person'] ?? '');
+            $dates = $input['dates'] ?? ($input['date'] ?? null);
 
             if ($id) {
                 $del = $pdo->prepare("DELETE FROM salary_transfers WHERE id = ?");
                 $del->execute([$id]);
-            } else if ($person && $date) {
-                $del = $pdo->prepare("DELETE FROM salary_transfers WHERE person = ? AND (dates_included LIKE ? OR dates_included = ?)");
-                $del->execute([$person, "%{$date}%", $date]);
+            } else if ($person && !empty($dates)) {
+                $dateArray = is_array($dates) ? $dates : [$dates];
+                $allTransfers = $pdo->prepare("SELECT id, dates_included FROM salary_transfers WHERE LOWER(person) = LOWER(?)");
+                $allTransfers->execute([$person]);
+                $rows = $allTransfers->fetchAll();
+
+                foreach ($rows as $r) {
+                    $parsed = json_decode($r['dates_included'], true);
+                    if (is_array($parsed)) {
+                        $remaining = array_values(array_filter($parsed, function($d) use ($dateArray) {
+                            return !in_array($d, $dateArray, true);
+                        }));
+                        if (empty($remaining)) {
+                            $del = $pdo->prepare("DELETE FROM salary_transfers WHERE id = ?");
+                            $del->execute([$r['id']]);
+                        } else {
+                            $upd = $pdo->prepare("UPDATE salary_transfers SET dates_included = ? WHERE id = ?");
+                            $upd->execute([json_encode($remaining), $r['id']]);
+                        }
+                    } else {
+                        $del = $pdo->prepare("DELETE FROM salary_transfers WHERE id = ?");
+                        $del->execute([$r['id']]);
+                    }
+                }
             } else if ($person) {
-                $del = $pdo->prepare("DELETE FROM salary_transfers WHERE person = ?");
+                $del = $pdo->prepare("DELETE FROM salary_transfers WHERE LOWER(person) = LOWER(?)");
                 $del->execute([$person]);
             }
 

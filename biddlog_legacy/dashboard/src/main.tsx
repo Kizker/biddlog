@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.css';
-import { preloadAllAppData, setFastCache } from './utils/fastCache';
+import { preloadAllAppData, setFastCache, clearFastCache } from './utils/fastCache';
 import AdminDashboard from './components/AdminDashboard';
 import AdminAnalyzer from './components/AdminAnalyzer';
 import PembagianBarang from './components/PembagianBarang';
@@ -1282,6 +1282,177 @@ function buildCheckResult(
   return `${finalHeader}\n\n${resultBody}`;
 }
 
+export interface ModelPreset {
+  id: string;
+  label: string;
+  shortLabel: string;
+  category: 'S Series' | 'Note Series' | 'Z Series' | 'A Series';
+  regex: RegExp;
+}
+
+export const MODEL_PRESETS: ModelPreset[] = [
+  // Galaxy S Series
+  { id: 's26', label: 'Semua Series S26', shortLabel: 'S26', category: 'S Series', regex: /(^|\s|\b)s26(\b|u|\+|fe|\s)/i },
+  { id: 's25', label: 'Semua Series S25', shortLabel: 'S25', category: 'S Series', regex: /(^|\s|\b)s25(\b|u|\+|fe|\s)/i },
+  { id: 's24', label: 'Semua Series S24', shortLabel: 'S24', category: 'S Series', regex: /(^|\s|\b)s24(\b|u|\+|fe|\s)/i },
+  { id: 's23', label: 'Semua Series S23', shortLabel: 'S23', category: 'S Series', regex: /(^|\s|\b)s23(\b|u|\+|fe|\s)/i },
+  { id: 's22', label: 'Semua Series S22', shortLabel: 'S22', category: 'S Series', regex: /(^|\s|\b)s22(\b|u|\+|fe|\s)/i },
+  { id: 's21', label: 'Semua Series S21', shortLabel: 'S21', category: 'S Series', regex: /(^|\s|\b)s21(\b|u|\+|fe|\s)/i },
+  { id: 's20', label: 'Semua Series S20', shortLabel: 'S20', category: 'S Series', regex: /(^|\s|\b)s20(\b|u|\+|fe|\s)/i },
+  { id: 's10', label: 'Semua Series S10', shortLabel: 'S10', category: 'S Series', regex: /(^|\s|\b)s10(\b|u|\+|e|fe|\s)/i },
+
+  // Galaxy Note Series
+  { id: 'note20', label: 'Semua Series Note 20', shortLabel: 'Note 20', category: 'Note Series', regex: /note\s*20(\b|u|\+|\s)/i },
+  { id: 'note10', label: 'Semua Series Note 10', shortLabel: 'Note 10', category: 'Note Series', regex: /note\s*10(\b|u|\+|lite|\s)/i },
+  { id: 'note9', label: 'Semua Series Note 9', shortLabel: 'Note 9', category: 'Note Series', regex: /note\s*9(\b|u|\+|\s)/i },
+
+  // Galaxy Z Series (Fold & Flip)
+  { id: 'fold', label: 'Semua Series Fold', shortLabel: 'Fold', category: 'Z Series', regex: /fold/i },
+  { id: 'flip', label: 'Semua Series Flip', shortLabel: 'Flip', category: 'Z Series', regex: /flip/i },
+
+  // Galaxy A Series
+  { id: 'a72', label: 'A72', shortLabel: 'A72', category: 'A Series', regex: /(^|\s|\b)a72(\b|5g|\s)/i },
+  { id: 'a55', label: 'A55', shortLabel: 'A55', category: 'A Series', regex: /(^|\s|\b)a55(\b|5g|\s)/i },
+  { id: 'a54', label: 'A54', shortLabel: 'A54', category: 'A Series', regex: /(^|\s|\b)a54(\b|5g|\s)/i },
+  { id: 'a53', label: 'A53', shortLabel: 'A53', category: 'A Series', regex: /(^|\s|\b)a53(\b|5g|\s)/i },
+  { id: 'a52s', label: 'A52s', shortLabel: 'A52s', category: 'A Series', regex: /(^|\s|\b)a52s(\b|5g|\s)/i },
+  { id: 'a52', label: 'Series A52', shortLabel: 'A52', category: 'A Series', regex: /(^|\s|\b)a52(\b|5g|\s)/i },
+  { id: 'a35', label: 'A35', shortLabel: 'A35', category: 'A Series', regex: /(^|\s|\b)a35(\b|5g|\s)/i },
+  { id: 'a34', label: 'A34', shortLabel: 'A34', category: 'A Series', regex: /(^|\s|\b)a34(\b|5g|\s)/i },
+  { id: 'a33', label: 'Series A33', shortLabel: 'A33', category: 'A Series', regex: /(^|\s|\b)a33(\b|5g|\s)/i },
+];
+
+function ModelFilterWithPresets({
+  values,
+  selected,
+  onSetSelected,
+  onToggle,
+}: {
+  values: string[];
+  selected: string[];
+  onSetSelected: (models: string[]) => void;
+  onToggle: (value: string) => void;
+}) {
+  const [modelSearch, setModelSearch] = useState('');
+
+  // All target models present in current dataset matching the user's master series list
+  const targetModelsInDataset = useMemo(() => {
+    return values.filter((model) => MODEL_PRESETS.some((preset) => preset.regex.test(model)));
+  }, [values]);
+
+  const isAllTargetSelected = useMemo(() => {
+    if (targetModelsInDataset.length === 0) return false;
+    return targetModelsInDataset.every((m) => selected.includes(m));
+  }, [targetModelsInDataset, selected]);
+
+  const handleToggleAllTargets = () => {
+    if (targetModelsInDataset.length === 0) return;
+    if (isAllTargetSelected) {
+      onSetSelected(selected.filter((m) => !targetModelsInDataset.includes(m)));
+    } else {
+      onSetSelected(Array.from(new Set([...selected, ...targetModelsInDataset])));
+    }
+  };
+
+  const filteredValues = useMemo(() => {
+    if (!modelSearch.trim()) return values;
+    return values.filter((v) => v.toLowerCase().includes(modelSearch.toLowerCase()));
+  }, [values, modelSearch]);
+
+  return (
+    <section className="filter-group model-filter-group">
+      <div className="filter-group-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span>Model</span>
+          {selected.length > 0 && (
+            <span style={{ background: '#dbeafe', color: '#1d4ed8', padding: '1px 6px', borderRadius: '10px', fontSize: '10px', fontWeight: 600 }}>
+              {selected.length} dipilih
+            </span>
+          )}
+        </div>
+        {selected.length > 0 && (
+          <button
+            type="button"
+            onClick={() => onSetSelected([])}
+            style={{ border: 'none', background: 'transparent', color: '#dc2626', fontSize: '10px', cursor: 'pointer', fontWeight: 600, padding: 0 }}
+          >
+            Reset
+          </button>
+        )}
+      </div>
+
+      {/* 1-Click Master Auto-Select Button */}
+      <div style={{ padding: '8px 9px', background: isAllTargetSelected ? '#f0fdf4' : '#eff6ff', borderBottom: '1px solid var(--line)' }}>
+        <button
+          type="button"
+          onClick={handleToggleAllTargets}
+          disabled={targetModelsInDataset.length === 0}
+          title="Pilih semua series: S26, S25, S24, S23, S22, S21, S20, S10, Note 20, Note 10, Note 9, Fold, Flip, A72, A52, A52s, A53, A54, A55, A33, A34, A35"
+          style={{
+            width: '100%',
+            padding: '8px 10px',
+            borderRadius: '6px',
+            border: isAllTargetSelected ? '1px solid #16a34a' : '1px solid var(--blue)',
+            background: isAllTargetSelected ? '#16a34a' : 'var(--blue)',
+            color: '#ffffff',
+            fontWeight: 700,
+            fontSize: '11px',
+            cursor: targetModelsInDataset.length > 0 ? 'pointer' : 'not-allowed',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+            boxShadow: isAllTargetSelected ? '0 2px 4px rgba(22,163,74,0.3)' : '0 2px 4px rgba(37,99,235,0.2)',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          {isAllTargetSelected ? (
+            <>✓ Auto-Select Aktif ({targetModelsInDataset.length} Model)</>
+          ) : (
+            <>⚡ Auto-Select Model ({targetModelsInDataset.length})</>
+          )}
+        </button>
+      </div>
+
+      {values.length > 8 && (
+        <div style={{ padding: '6px 9px', background: '#fff', borderBottom: '1px solid #f1f5f9' }}>
+          <input
+            type="text"
+            value={modelSearch}
+            onChange={(e) => setModelSearch(e.target.value)}
+            placeholder="Cari model..."
+            style={{
+              width: '100%',
+              padding: '4px 8px',
+              fontSize: '11px',
+              border: '1px solid #e2e8f0',
+              borderRadius: '4px',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+      )}
+
+      <div className="filter-options" style={{ maxHeight: '160px', overflowY: 'auto' }}>
+        {filteredValues.length === 0 ? (
+          <p className="empty-filter">Belum ada data</p>
+        ) : (
+          filteredValues.map((value) => (
+            <label className="check-option" key={value}>
+              <input
+                type="checkbox"
+                checked={selected.includes(value)}
+                onChange={() => onToggle(value)}
+              />
+              <span>{value}</span>
+            </label>
+          ))
+        )}
+      </div>
+    </section>
+  );
+}
+
 function MultiFilter({
   title,
   values,
@@ -1506,7 +1677,12 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
         return;
       }
 
-      // Save latest processed bidding snapshot for 1-click import in Laporan List Didapat
+      // 1. Wipe all previous obtained caches to prevent any leftover items
+      clearFastCache('obtained_data');
+      clearFastCache('obtained_dates');
+      localStorage.removeItem('obtained_list_data');
+
+      // 2. Save latest processed bidding snapshot for 1-click import in Laporan List Didapat
       const snapshot = {
         reportDate: finalReportDate,
         items: itemsToSync,
@@ -1516,6 +1692,7 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
       localStorage.setItem('biddlog_latest_bidding_result', JSON.stringify(snapshot));
       localStorage.setItem('obtained_list_data', JSON.stringify(itemsToSync));
 
+      // 3. Atomically replace database records with the new list
       const res = await fetch('/api/obtained.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1523,6 +1700,7 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
           action: 'sync_all',
           report_date: finalReportDate,
           items: itemsToSync,
+          replace_all: true,
           clear_existing: true
         })
       });
@@ -1538,7 +1716,7 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
         });
         setSendSuccessMsg({ count: itemsToSync.length, date: finalReportDate });
         
-        // Seamlessly navigate directly to Laporan List Didapat so user sees the 57 items immediately
+        // Seamlessly navigate directly to Laporan List Didapat so user sees the new items immediately
         if (onNavigateToListDapat) {
           onNavigateToListDapat();
         }
@@ -2266,18 +2444,119 @@ function App() {
     localStorage.setItem('role', role);
   }, [role]);
 
-  const [rawJson, setRawJson] = useState('');
-  const [importedFileName, setImportedFileName] = useState('');
-  const [filters, setFilters] = useState<FilterState>(emptyFilters);
-  const [search, setSearch] = useState('');
-  const [sortMode, setSortMode] = useState<SortMode>('catalog');
-  const [brandOrder, setBrandOrder] = useState(defaultBrandOrder);
+  // Analyzer State with LocalStorage Persistence
+  const [rawJson, setRawJson] = useState(() => {
+    try {
+      return localStorage.getItem('biddlog_analyzer_raw_json') || '';
+    } catch {
+      return '';
+    }
+  });
+  const [importedFileName, setImportedFileName] = useState(() => {
+    try {
+      return localStorage.getItem('biddlog_analyzer_file_name') || '';
+    } catch {
+      return '';
+    }
+  });
+  const [filters, setFilters] = useState<FilterState>(() => {
+    try {
+      const saved = localStorage.getItem('biddlog_analyzer_filters');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return emptyFilters;
+  });
+  const [search, setSearch] = useState(() => {
+    try {
+      return localStorage.getItem('biddlog_analyzer_search') || '';
+    } catch {
+      return '';
+    }
+  });
+  const [sortMode, setSortMode] = useState<SortMode>(() => {
+    try {
+      return (localStorage.getItem('biddlog_analyzer_sort_mode') as SortMode) || 'catalog';
+    } catch {
+      return 'catalog';
+    }
+  });
+  const [brandOrder, setBrandOrder] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('biddlog_analyzer_brand_order');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return defaultBrandOrder;
+  });
   const [newBrand, setNewBrand] = useState('');
   const [draggedBrandIndex, setDraggedBrandIndex] = useState<number | null>(null);
   const [copiedItemCodes, setCopiedItemCodes] = useState(false);
   const sidebarRef = useRef<HTMLElement | null>(null);
   const [sidebarHeight, setSidebarHeight] = useState(0);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  // Sync Analyzer state to LocalStorage
+  useEffect(() => {
+    try {
+      if (rawJson) {
+        localStorage.setItem('biddlog_analyzer_raw_json', rawJson);
+      } else {
+        localStorage.removeItem('biddlog_analyzer_raw_json');
+      }
+    } catch (e) {}
+  }, [rawJson]);
+
+  useEffect(() => {
+    try {
+      if (importedFileName) {
+        localStorage.setItem('biddlog_analyzer_file_name', importedFileName);
+      } else {
+        localStorage.removeItem('biddlog_analyzer_file_name');
+      }
+    } catch (e) {}
+  }, [importedFileName]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('biddlog_analyzer_filters', JSON.stringify(filters));
+    } catch (e) {}
+  }, [filters]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('biddlog_analyzer_search', search);
+    } catch (e) {}
+  }, [search]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('biddlog_analyzer_sort_mode', sortMode);
+    } catch (e) {}
+  }, [sortMode]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('biddlog_analyzer_brand_order', JSON.stringify(brandOrder));
+    } catch (e) {}
+  }, [brandOrder]);
+
+  const handleResetAnalyzerInputs = () => {
+    if (!rawJson && !importedFileName && !search && Object.values(filters).every(v => v.length === 0)) return;
+    if (!window.confirm('Kosongkan semua input file dan filter pada view Analyzer?')) return;
+    setRawJson('');
+    setImportedFileName('');
+    setFilters(emptyFilters);
+    setSearch('');
+    setSortMode('catalog');
+    setBrandOrder(defaultBrandOrder);
+    try {
+      localStorage.removeItem('biddlog_analyzer_raw_json');
+      localStorage.removeItem('biddlog_analyzer_file_name');
+      localStorage.removeItem('biddlog_analyzer_filters');
+      localStorage.removeItem('biddlog_analyzer_search');
+      localStorage.removeItem('biddlog_analyzer_sort_mode');
+      localStorage.removeItem('biddlog_analyzer_brand_order');
+    } catch (e) {}
+  };
 
   const getApiUrl = (endpoint: string) => {
     return `/api/${endpoint.replace(/^\//, '')}`;
@@ -2374,13 +2653,7 @@ function App() {
   }, [activeView]);
 
   function importJsonFile(file: File | undefined) {
-    if (!file) {
-      setRawJson('');
-      setImportedFileName('');
-      setFilters(emptyFilters);
-      setSearch('');
-      return;
-    }
+    if (!file) return; // Do not reset if user cancels file dialog
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -2390,10 +2663,7 @@ function App() {
       setSearch('');
     };
     reader.onerror = () => {
-      setRawJson('');
-      setImportedFileName('');
-      setFilters(emptyFilters);
-      setSearch('');
+      alert('Gagal membaca file.');
     };
     reader.readAsText(file);
   }
@@ -2857,15 +3127,40 @@ function App() {
                     <section className="json-input-section" style={{ padding: '16px', background: 'var(--bg)', borderRadius: '8px', border: '1px solid var(--line)', marginBottom: '16px' }}>
                       <p className="section-label" style={{ marginBottom: '12px' }}>Output Collector JSON</p>
                       <div className="json-input-card">
-                        <label className="file-input-button" style={{ display: 'block', padding: '10px 16px', background: 'var(--blue)', color: 'white', textAlign: 'center', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
-                          Pilih File JSON
-                          <input
-                            accept=".json"
-                            type="file"
-                            onChange={(event) => importJsonFile(event.target.files?.[0])}
-                            style={{ display: 'none' }}
-                          />
-                        </label>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                          <label className="file-input-button" style={{ flex: 1, display: 'block', padding: '10px 16px', background: 'var(--blue)', color: 'white', textAlign: 'center', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
+                            Pilih File JSON
+                            <input
+                              accept=".json"
+                              type="file"
+                              onChange={(event) => importJsonFile(event.target.files?.[0])}
+                              style={{ display: 'none' }}
+                            />
+                          </label>
+                          {(rawJson || importedFileName || search || activeFilterCount > 0) && (
+                            <button
+                              type="button"
+                              onClick={handleResetAnalyzerInputs}
+                              title="Reset & Kosongkan Input Analyzer"
+                              style={{
+                                padding: '10px 12px',
+                                background: '#fee2e2',
+                                color: '#dc2626',
+                                border: '1px solid #fecaca',
+                                borderRadius: '6px',
+                                fontWeight: 600,
+                                fontSize: '12px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
+                              🗑️ Reset Input
+                            </button>
+                          )}
+                        </div>
                         <div className="file-status" style={{ marginTop: '12px', fontSize: '12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
                           <strong style={{ color: 'var(--text)' }}>{importedFileName || 'Belum ada file'}</strong>
                           <span style={{ color: 'var(--muted)' }}>{rawJson ? `${collectorItems.length} baris data terbaca` : 'Data masih kosong'}</span>
@@ -2967,7 +3262,7 @@ function App() {
                     </div>
 
                     <MultiFilter title="Merek HP" values={filterOptions.brands} selected={filters.brands} onToggle={(value) => setFilters((current) => toggleFilter(current, 'brands', value))} />
-                    <MultiFilter title="Model" values={filterOptions.models} selected={filters.models} onToggle={(value) => setFilters((current) => toggleFilter(current, 'models', value))} />
+                    <ModelFilterWithPresets values={filterOptions.models} selected={filters.models} onSetSelected={(models) => setFilters((current) => ({ ...current, models }))} onToggle={(value) => setFilters((current) => toggleFilter(current, 'models', value))} />
                     <MultiFilter title="Storage" values={filterOptions.storages} selected={filters.storages} onToggle={(value) => setFilters((current) => toggleFilter(current, 'storages', value))} />
                     <MultiFilter title="Grade" values={filterOptions.grades} selected={filters.grades} onToggle={(value) => setFilters((current) => toggleFilter(current, 'grades', value))} />
                     <MultiFilter title="Status" values={filterOptions.statuses} selected={filters.statuses} onToggle={(value) => setFilters((current) => toggleFilter(current, 'statuses', value))} />
@@ -2977,18 +3272,9 @@ function App() {
                     <div className="filters">
                       <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari model, kode item, raw name" />
                       <div className="filter-actions">
-                        <button 
-                          type="button" 
-                          onClick={handleBagikan} 
-                          disabled={visibleItems.length === 0}
-                          style={{ background: 'var(--navy)', color: 'white', border: 'none', fontWeight: 'bold' }}
-                        >
-                          Bagikan ke Pembagian Barang
-                        </button>
                         <button className="secondary-button" disabled={visibleItems.length === 0} onClick={copyItemCodes} type="button">
                           {copiedItemCodes ? 'Tersalin' : 'Copy Kode Item'}
                         </button>
-                        <button type="button" onClick={exportXlsx}>Export</button>
                       </div>
                     </div>
 
