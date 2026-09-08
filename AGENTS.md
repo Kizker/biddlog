@@ -80,6 +80,7 @@
 - [x] Fixed Gaji default selection behavior: set default state to 0 selected dates (no auto-selected latest date on page load), enabled complete unselect toggle, and automatically cleared selection when switching/navigating months
 - [x] Implemented real calendar workweek (Senin s/d Jumat) row grouping in Gaji: each row strictly encapsulates 1 workweek (Senin - Jumat), cards ordered chronologically from Senin to Jumat (left to right), and added explicit day names (`Senin`, `Selasa`, `Rabu`, `Kamis`, `Jumat`) to card titles
 - [x] Fixed transfer status sync bug (Tandai Lunas vs Pending across multi-date selections): implemented resilient date normalization (`areDatesMatching`), comprehensive multi-transfer date coverage evaluator (`evaluatePersonTransferStatus`), eliminated React state race condition on batch transfer buttons, and updated backend `unmark_transferred` with JSON date array retention
+- [x] Restored and upgraded 'Export Excel' action in Analyzer view: added professional Excel styling (slate navy header, zebra striping, auto-fit column widths, frozen header row, total sum row with formula), direct Indonesian Rupiah currency number formatting (`"Rp "#,##0;("Rp "#,##0);"-"`), and dynamic bundle code-splitting
 
 
 

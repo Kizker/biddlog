@@ -2834,6 +2834,11 @@ function App() {
   }
 
   async function exportXlsx() {
+    if (visibleItems.length === 0) {
+      alert('Tidak ada data yang dapat diexport.');
+      return;
+    }
+
     const headers = [
       'No',
       'Kode Item',
@@ -2846,56 +2851,156 @@ function App() {
       'Layar',
       'Urutan Layar',
       'Kelengkapan',
-      'Status',
       'Harga Lelang',
+      'Status',
       'Source Hash',
       'Raw Name',
     ];
+
     const rows = visibleItems.map((item, index) => ({
       No: index + 1,
       'Kode Item': item.item_code,
       Brand: item.brand,
       Model: item.model,
-      Storage: item.storage,
-      Grade: item.grade_code.toUpperCase(),
+      Storage: item.storage || '-',
+      Grade: item.grade_code.toUpperCase() || '-',
       'Unit Ke': item.unit_no,
       Marker: item.scan_marker || '-',
       Layar: item.screen_no || '-',
       'Urutan Layar': item.screen_item_no || '-',
       Kelengkapan: item.condition || '-',
+      'Harga Lelang': typeof item.auction_price_number === 'number' ? item.auction_price_number : null,
       Status: item.status || '-',
-      'Harga Lelang': item.auction_price_number,
       'Source Hash': item.source_hash || '-',
-      'Raw Name': item.raw_name,
+      'Raw Name': item.raw_name || '',
     }));
+
     const ExcelJS = await import('exceljs');
     const Workbook = ExcelJS.Workbook ?? ExcelJS.default.Workbook;
     const workbook = new Workbook();
-    workbook.creator = 'Bidding Item Analyzer';
+    workbook.creator = 'Biddlog Analyzer';
     workbook.created = new Date();
 
-    const worksheet = workbook.addWorksheet('Bidding Items');
-    worksheet.addRow(headers);
-    rows.forEach((row) => {
-      worksheet.addRow(headers.map((header) => row[header as keyof typeof row]));
+    const worksheet = workbook.addWorksheet('Data Analyzer', {
+      views: [{ state: 'frozen', ySplit: 1, showGridLines: true }],
     });
 
-    worksheet.getRow(1).font = { bold: true };
-    worksheet.getRow(1).alignment = { vertical: 'middle' };
-    worksheet.views = [{ state: 'frozen', ySplit: 1 }];
-
-    headers.forEach((header, index) => {
-      const widestCell = rows.reduce((max, row) => {
-        const value = row[header as keyof (typeof rows)[number]];
-        return Math.max(max, String(value ?? '').length);
-      }, header.length);
-
-      const column = worksheet.getColumn(index + 1);
-      column.width = Math.min(Math.max(widestCell + 3, 10), 120);
-      column.alignment = {
-        vertical: 'top',
-        wrapText: true,
+    // 1. Add Header Row
+    const headerRow = worksheet.addRow(headers);
+    headerRow.height = 28;
+    headerRow.font = { name: 'Calibri', size: 11, bold: true, color: { argb: 'FFFFFFFF' } };
+    headerRow.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FF1E293B' }, // Slate Navy
+    };
+    headerRow.alignment = { vertical: 'middle', horizontal: 'center' };
+    headerRow.eachCell((cell) => {
+      cell.border = {
+        top: { style: 'medium', color: { argb: 'FF0F172A' } },
+        bottom: { style: 'medium', color: { argb: 'FF0F172A' } },
+        left: { style: 'thin', color: { argb: 'FF334155' } },
+        right: { style: 'thin', color: { argb: 'FF334155' } },
       };
+    });
+
+    // 2. Add Data Rows
+    rows.forEach((row, index) => {
+      const isEven = index % 2 === 1;
+      const rowValues = headers.map((header) => row[header as keyof typeof row]);
+      const addedRow = worksheet.addRow(rowValues);
+      addedRow.height = 22;
+
+      const bgArgb = isEven ? 'FFF8FAFC' : 'FFFFFFFF';
+
+      addedRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+        cell.font = { name: 'Calibri', size: 10 };
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: bgArgb },
+        };
+        cell.border = {
+          top: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+          bottom: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+          left: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+          right: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+        };
+
+        // Alignments & formats per column
+        // 1: No, 5: Storage, 7: Unit Ke, 8: Marker, 9: Layar, 10: Urutan Layar, 13: Status
+        if ([1, 5, 7, 8, 9, 10, 13].includes(colNumber)) {
+          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        } else if (colNumber === 2 || colNumber === 6) {
+          // 2: Kode Item, 6: Grade
+          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+          cell.font = { name: 'Calibri', size: 10, bold: true };
+        } else if (colNumber === 4) {
+          // 4: Model
+          cell.alignment = { vertical: 'middle', horizontal: 'left' };
+          cell.font = { name: 'Calibri', size: 10, bold: true };
+        } else if (colNumber === 12) {
+          // 12: Harga Lelang (Direct Indonesian Rupiah Currency format)
+          cell.alignment = { vertical: 'middle', horizontal: 'right' };
+          cell.numFmt = '"Rp "#,##0;("Rp "#,##0);"-"';
+          cell.font = { name: 'Calibri', size: 10, bold: true, color: { argb: 'FF0F766E' } };
+        } else {
+          cell.alignment = { vertical: 'middle', horizontal: 'left' };
+        }
+      });
+    });
+
+    // 3. Add Summary/Total Row if rows exist
+    if (rows.length > 0) {
+      const totalRowNumber = rows.length + 2;
+      const totalRow = worksheet.addRow([]);
+      totalRow.height = 25;
+
+      const labelCell = totalRow.getCell(1);
+      labelCell.value = `TOTAL (${rows.length} ITEM)`;
+
+      const sumCell = totalRow.getCell(12);
+      sumCell.value = { formula: `SUM(L2:L${totalRowNumber - 1})` };
+      sumCell.numFmt = '"Rp "#,##0;("Rp "#,##0);"-"';
+
+      totalRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+        cell.font = { name: 'Calibri', size: 10.5, bold: true, color: { argb: 'FF0F172A' } };
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'FFF1F5F9' },
+        };
+        cell.border = {
+          top: { style: 'thin', color: { argb: 'FF94A3B8' } },
+          bottom: { style: 'double', color: { argb: 'FF334155' } },
+          left: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+          right: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+        };
+        if (colNumber === 12) {
+          cell.alignment = { vertical: 'middle', horizontal: 'right' };
+        } else if (colNumber === 1) {
+          cell.alignment = { vertical: 'middle', horizontal: 'left' };
+        }
+      });
+    }
+
+    // 4. Auto-fit column widths with nice padding
+    headers.forEach((header, index) => {
+      const column = worksheet.getColumn(index + 1);
+      let maxLen = header.length;
+      rows.forEach((row) => {
+        const val = row[header as keyof typeof row];
+        if (val !== null && val !== undefined) {
+          if (header === 'Harga Lelang' && typeof val === 'number') {
+            const strVal = `Rp ${val.toLocaleString('id-ID')}`;
+            if (strVal.length > maxLen) maxLen = strVal.length;
+          } else {
+            const strVal = String(val);
+            if (strVal.length > maxLen) maxLen = strVal.length;
+          }
+        }
+      });
+      column.width = Math.min(Math.max(maxLen + 4, 11), 60);
     });
 
     const buffer = await workbook.xlsx.writeBuffer();
@@ -2911,7 +3016,7 @@ function App() {
       now.getFullYear(),
     ].join('');
     link.href = url;
-    link.download = `biddlog-${dateStamp}.xlsx`;
+    link.download = `biddlog-analyzer-${dateStamp}.xlsx`;
     link.style.display = 'none';
     document.body.appendChild(link);
     link.click();
@@ -3271,9 +3376,26 @@ function App() {
                   <section className="panel table-panel" style={sidebarHeight > 0 ? ({ '--sidebar-height': `${sidebarHeight}px` } as React.CSSProperties) : undefined}>
                     <div className="filters">
                       <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari model, kode item, raw name" />
-                      <div className="filter-actions">
+                      <div className="filter-actions" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <button className="secondary-button" disabled={visibleItems.length === 0} onClick={copyItemCodes} type="button">
                           {copiedItemCodes ? 'Tersalin' : 'Copy Kode Item'}
+                        </button>
+                        <button
+                          className="secondary-button"
+                          disabled={visibleItems.length === 0}
+                          onClick={exportXlsx}
+                          type="button"
+                          title="Export data katalog analyzer ke Excel (.xlsx)"
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                          </svg>
+                          Export Excel
                         </button>
                       </div>
                     </div>
