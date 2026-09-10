@@ -11,6 +11,7 @@ import AdminGaji from './components/AdminGaji';
 import LimitHargaFee from './components/LimitHargaFee';
 import ManajemenPengguna from './components/ManajemenPengguna';
 import AuditTrail from './components/AuditTrail';
+import { SubmissionPredictionWidget } from './components/SubmissionPredictionWidget';
 import type {
   CollectorItem,
   ParsedItem,
@@ -613,21 +614,41 @@ function cleanListText(value: string) {
     .trim();
 }
 
+export function cleanPersonRawName(value: string): string {
+  if (!value) return '';
+  let cleaned = cleanListText(value);
+
+  // 1. Remove trailing account notes / mapping after colon/dash or in parentheses, e.g. " : menik/mubdi/aldi", ": Menik/Aldi", " - Aldi", "(menik/mubdi)", etc.
+  cleaned = cleaned.replace(/:\s*(?:menik|mubdi|aldi|\/|\s)+$/gi, '');
+  cleaned = cleaned.replace(/:\s*[^:]*$/g, '');
+  cleaned = cleaned.replace(/[\-–—]\s*(?:menik|mubdi|aldi|\/|\s)+$/gi, '');
+  cleaned = cleaned.replace(/\s*\((?:menik|mubdi|aldi|\/|\s)+\)\s*$/gi, '');
+  cleaned = cleaned.replace(/[:\-–—]\s*$/g, '');
+
+  // 2. Remove leading number and bullet prefixes (e.g. "1.", "14.", "28.", "28 28.", "28. ", "1 - ")
+  // Examples: "28 28.Via" -> "Via", "14.Bilqis" -> "Bilqis", "15.Bilqis 2" -> "Bilqis 2", "1. Mubdi" -> "Mubdi"
+  cleaned = cleaned.replace(/^\s*\d+(?:\s+\d+)?[\.\-\s]+/g, '');
+  cleaned = cleaned.replace(/^\s*\d+\.\s*/g, '');
+
+  return cleaned.trim();
+}
+
 export function normalizePersonName(value: string) {
-  const normalized = cleanListText(value)
+  const cleaned = cleanPersonRawName(value);
+  const normalized = cleaned
     .toLowerCase()
-    .replace(/:+$/g, '')
     .replace(/\bbilqiis\b/g, 'bilqis')
     .replace(/\briski\b/g, 'rizky')
     .replace(/\bzaky\b/g, 'zacky')
     .replace(/\bmb\s+atik\b/g, 'mba atik')
     .replace(/\bk\s+agam\b/g, 'ka agam')
     .trim();
-  return normalized || 'Tanpa Nama';
+  return normalized || 'tanpa nama';
 }
 
-function displayPersonName(value: string) {
-  return cleanListText(value).replace(/:+$/g, '').trim() || 'Tanpa Nama';
+export function displayPersonName(value: string) {
+  const cleaned = cleanPersonRawName(value);
+  return cleaned || 'Tanpa Nama';
 }
 
 export function normalizeAccountName(value: string) {
@@ -1745,8 +1766,9 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
   }
 
   return (
-    <section className="checker-layout">
-      <aside className="panel checker-input-panel">
+    <div className="bidding-workspace-container" style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
+      <section className="checker-layout">
+        <aside className="panel checker-input-panel">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
           <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--navy)' }}>📋 Input Data Bidding</span>
           {(targetText || obtainedText || reserveText || invoiceJson) ? (
@@ -1965,6 +1987,16 @@ function ResultChecker({ onNavigateToListDapat }: { onNavigateToListDapat?: () =
         </div>
       </section>
     </section>
+
+    {/* Standalone Full-Width Prediction Section Spanning Across the Bottom */}
+    <SubmissionPredictionWidget
+      targetList={targetList}
+      obtainedList={obtainedList}
+      reserveList={reserveList}
+      invoiceItems={invoiceItems}
+      detectedHeaderDate={detectedHeaderDate}
+    />
+  </div>
   );
 }
 
