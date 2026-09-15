@@ -43,6 +43,29 @@ export const isPersonHeaderLine = (line: string): boolean => {
   return trimmed.length < 40;
 };
 
+// Helper to sanitize model and notes so notes never stick inside the model name
+export const sanitizeModelAndNotes = (model: string, notes?: string): { cleanModel: string; cleanNotes: string } => {
+  let cleanModel = (model || '').trim();
+  let cleanNotes = (notes || '').trim();
+
+  // Pattern for notes that might appear anywhere in the model string
+  const noteKeywordsRegex = /\b(barang\s+sama(?:\s+[a-zA-Z0-9_, -]+)?|ga(?:k)?\s*ada\s*(?:di\s*|d)?invoice|tidak\s*ada\s*(?:di\s*|d)?invoice|cadangan|bonus|pending|lewat(?:\s+\d+)?)\b/i;
+
+  let match = cleanModel.match(noteKeywordsRegex);
+  while (match) {
+    const extracted = match[0].trim();
+    cleanModel = cleanModel.replace(new RegExp(extracted.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), ' ').replace(/\s+/g, ' ').trim();
+    if (!cleanNotes) {
+      cleanNotes = extracted;
+    } else if (!cleanNotes.toLowerCase().includes(extracted.toLowerCase())) {
+      cleanNotes = `${cleanNotes} ${extracted}`.trim();
+    }
+    match = cleanModel.match(noteKeywordsRegex);
+  }
+
+  return { cleanModel: cleanModel || 'Item', cleanNotes };
+};
+
 // Helper to parse individual item lines accurately
 export const parseObtainedItemLine = (rawLine: string, person: string): ObtainedItem => {
   const raw = rawLine.trim();
@@ -55,11 +78,19 @@ export const parseObtainedItemLine = (rawLine: string, person: string): Obtained
     status = 'approved';
   }
 
-  // 2. Notes (e.g. lewat 22, cadangan, bonus)
+  // 2. Notes extraction
   let notes = '';
-  const notesMatch = raw.match(/(lewat\s+\d+|cadangan|bonus|pending)/i);
-  if (notesMatch) {
-    notes = notesMatch[0];
+  // Also extract anything after the status emoji [✅❌⚠️] if present
+  const trailingAfterEmoji = raw.match(/[✅❌⚠️]\s*([a-zA-Z0-9\s_,-]+)$/);
+  if (trailingAfterEmoji) {
+    notes = trailingAfterEmoji[1].trim();
+  } else {
+    // Match known note patterns anywhere in the line
+    const knownNotesRegex = /\b(barang\s+sama(?:\s+[a-zA-Z0-9_, -]+)?|ga(?:k)?\s*ada\s*(?:di\s*|d)?invoice|tidak\s*ada\s*(?:di\s*|d)?invoice|lewat\s+\d+|cadangan|bonus|pending)\b/i;
+    const notesMatch = raw.match(knownNotesRegex);
+    if (notesMatch) {
+      notes = notesMatch[0].trim();
+    }
   }
 
   // 3. Bidder account (word right before emoji)
@@ -89,9 +120,9 @@ export const parseObtainedItemLine = (rawLine: string, person: string): Obtained
     storage = storageMatch[1];
   }
 
-  // 6. Grade (2 letters like ad, ae, af, ag, ah, ai, ab, ac)
+  // 6. Grade (2 letters like ad, ae, af, ag, ah, ai, ab, ac, aj, gi)
   let grade = '';
-  const gradeMatch = raw.match(/\b(a[a-z]|b[a-z]|c[a-z])\b/i);
+  const gradeMatch = raw.match(/\b(a[a-z]|b[a-z]|c[a-z]|gi)\b/i);
   if (gradeMatch) {
     grade = gradeMatch[1].toLowerCase();
   }
@@ -122,20 +153,25 @@ export const parseObtainedItemLine = (rawLine: string, person: string): Obtained
   let modelClean = raw;
   modelClean = modelClean.replace(/[✅❌⚠️@]/g, ' ');
   if (bidder) modelClean = modelClean.replace(new RegExp(`\\b${bidder}\\b`, 'gi'), ' ');
-  if (notes) modelClean = modelClean.replace(new RegExp(notes, 'gi'), ' ');
+  if (notes) {
+    const escapedNotes = notes.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    modelClean = modelClean.replace(new RegExp(escapedNotes, 'gi'), ' ');
+  }
+  // Thoroughly strip any note keywords from modelClean
+  modelClean = modelClean.replace(/\b(barang\s+sama|ga(?:k)?\s*ada\s*(?:di\s*|d)?invoice|tidak\s*ada\s*(?:di\s*|d)?invoice|cadangan|bonus|pending)\b/gi, ' ');
   if (storage) modelClean = modelClean.replace(new RegExp(`\\b${storage}\\b`, 'g'), ' ');
   if (grade) modelClean = modelClean.replace(new RegExp(`\\b${grade}\\b`, 'gi'), ' ');
   if (price) modelClean = modelClean.replace(new RegExp(`@?${price}`, 'g'), ' ');
   modelClean = modelClean.replace(/\(\d+\)/g, ' ');
-  modelClean = modelClean.replace(/\blewat\b/gi, ' ');
+  modelClean = modelClean.replace(/\blewat(?:\s+\d+)?\b/gi, ' ');
   modelClean = modelClean.replace(/\s+/g, ' ').trim();
 
-  if (!modelClean) modelClean = 'Item';
+  const sanitized = sanitizeModelAndNotes(modelClean, notes);
 
   return {
     id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
     person: person || 'Umum',
-    model: modelClean,
+    model: sanitized.cleanModel,
     storage,
     grade,
     unit,
@@ -143,7 +179,7 @@ export const parseObtainedItemLine = (rawLine: string, person: string): Obtained
     fee_info,
     bidder: bidder || 'mubdi',
     status,
-    notes,
+    notes: sanitized.cleanNotes,
     raw_line: rawLine
   };
 };
@@ -163,21 +199,24 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
 
   const [items, setItems] = useState<ObtainedItem[]>(() => {
     if (cachedObtained && Array.isArray(cachedObtained.data)) {
-      return cachedObtained.data.map((row: any) => ({
-        id: row.id,
-        person: row.person || row.username || 'Umum',
-        model: row.model || '',
-        storage: row.storage ? String(row.storage) : '',
-        grade: row.grade || '',
-        unit: row.unit || 1,
-        price: row.obtained_price || 0,
-        fee_info: row.fee_info || '',
-        bidder: row.bidder || '',
-        status: (row.status === 'rejected' ? 'rejected' : 'approved') as 'approved' | 'rejected',
-        notes: row.notes || '',
-        report_date: row.report_date || '',
-        raw_line: row.raw_line || ''
-      }));
+      return cachedObtained.data.map((row: any) => {
+        const { cleanModel, cleanNotes } = sanitizeModelAndNotes(row.model, row.notes);
+        return {
+          id: row.id,
+          person: row.person || row.username || 'Umum',
+          model: cleanModel,
+          storage: row.storage ? String(row.storage) : '',
+          grade: row.grade || '',
+          unit: row.unit || 1,
+          price: row.obtained_price || 0,
+          fee_info: row.fee_info || '',
+          bidder: row.bidder || '',
+          status: (row.status === 'rejected' ? 'rejected' : 'approved') as 'approved' | 'rejected',
+          notes: cleanNotes,
+          report_date: row.report_date || '',
+          raw_line: row.raw_line || ''
+        };
+      });
     }
     return [];
   });
@@ -251,21 +290,24 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
           setFastCache('obtained_data', json);
         }
         if (Array.isArray(json.data) && json.data.length > 0) {
-          const loaded: ObtainedItem[] = json.data.map((row: any) => ({
-            id: row.id,
-            person: row.person || row.username || 'Umum',
-            model: row.model || '',
-            storage: row.storage ? String(row.storage) : '',
-            grade: row.grade || '',
-            unit: row.unit || 1,
-            price: row.obtained_price || 0,
-            fee_info: row.fee_info || '',
-            bidder: row.bidder || '',
-            status: (row.status === 'rejected' ? 'rejected' : 'approved') as 'approved' | 'rejected',
-            notes: row.notes || '',
-            report_date: row.report_date || dateToFetch,
-            raw_line: row.raw_line || ''
-          }));
+          const loaded: ObtainedItem[] = json.data.map((row: any) => {
+            const { cleanModel, cleanNotes } = sanitizeModelAndNotes(row.model, row.notes);
+            return {
+              id: row.id,
+              person: row.person || row.username || 'Umum',
+              model: cleanModel,
+              storage: row.storage ? String(row.storage) : '',
+              grade: row.grade || '',
+              unit: row.unit || 1,
+              price: row.obtained_price || 0,
+              fee_info: row.fee_info || '',
+              bidder: row.bidder || '',
+              status: (row.status === 'rejected' ? 'rejected' : 'approved') as 'approved' | 'rejected',
+              notes: cleanNotes,
+              report_date: row.report_date || dateToFetch,
+              raw_line: row.raw_line || ''
+            };
+          });
           setItems(loaded);
           if (json.report_date && !targetDate) {
             setReportDate(json.report_date);
@@ -733,29 +775,32 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
       lines.push(person);
       personItems.forEach(item => {
         const parts: string[] = [];
-        // Model
-        parts.push(item.model);
-        // Storage
+        const { cleanModel, cleanNotes } = sanitizeModelAndNotes(item.model, item.notes);
+
+        // 1. Model (selalu bersih dari catatan)
+        parts.push(cleanModel);
+        // 2. Storage
         if (item.storage) parts.push(String(item.storage));
-        // Grade
+        // 3. Grade
         if (item.grade) parts.push(item.grade);
-        // Unit
+        // 4. Unit
         if (item.unit) parts.push(`(${item.unit})`);
-        // Price
+        // 5. Price
         if (item.price) parts.push(`@${item.price}`);
-        // Fee keterangan, e.g. (100) or (75) or (50)
+        // 6. Fee keterangan, e.g. (100) or (75) or (50) or (25)
         if (item.fee_info && item.fee_info.trim()) {
           const feeClean = item.fee_info.replace(/[()]/g, '').trim();
           parts.push(`(${feeClean})`);
         }
-        // Bidder + Status Symbol (✅ or ❌)
-        const symbol = item.status === 'approved' ? '✅' : '❌';
+        // 7. Bidder + Status Symbol (✅ or ❌ or ⚠️)
+        const isWarning = item.raw_line?.includes('⚠️') || cleanNotes.toLowerCase().includes('barang sama') || cleanNotes.toLowerCase().includes('lewat');
+        const symbol = isWarning ? '⚠️' : (item.status === 'approved' ? '✅' : '❌');
         const bidderText = item.bidder ? `${item.bidder}${symbol}` : symbol;
         parts.push(bidderText);
 
-        // Notes (e.g. lewat 22, cadangan)
-        if (item.notes && item.notes.trim()) {
-          parts.push(item.notes.trim());
+        // 8. Keterangan/Catatan SELALU diletakkan di paling belakang baris (e.g. barang sama, ga ada di invoice, cadangan, dll)
+        if (cleanNotes) {
+          parts.push(cleanNotes);
         }
 
         lines.push(parts.join(' '));
@@ -1167,6 +1212,23 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
               <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 600, marginRight: '2px' }}>Fee Rata:</span>
               <button
                 type="button"
+                onClick={() => setAllFee('25')}
+                style={{
+                  padding: '3px 7px',
+                  background: '#fffbeb',
+                  color: '#b45309',
+                  border: '1px solid #fde68a',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  cursor: 'pointer'
+                }}
+                title="Terapkan fee 25 untuk semua item non-owner"
+              >
+                25
+              </button>
+              <button
+                type="button"
                 onClick={() => setAllFee('50')}
                 style={{
                   padding: '3px 7px',
@@ -1524,7 +1586,7 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                           {/* Mini Fee Buttons */}
                           <div style={{ display: 'flex', gap: '2px' }}>
-                            {['50', '75', '100'].map((feeVal) => (
+                            {['25', '50', '75', '100'].map((feeVal) => (
                               <button
                                 key={feeVal}
                                 type="button"
@@ -1851,7 +1913,7 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
                   type="text"
                   value={newItem.fee_info || ''}
                   onChange={(e) => setNewItem({ ...newItem, fee_info: e.target.value })}
-                  placeholder="50, 75, 100"
+                  placeholder="25, 50, 75, 100"
                   style={{ width: '100%', padding: '6px 8px', borderRadius: '6px', border: '1px solid var(--line)', fontSize: '12px' }}
                 />
               </div>

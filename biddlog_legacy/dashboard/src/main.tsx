@@ -1014,10 +1014,68 @@ function buildComparisonPreview(
     return findBestTargetMatch(entry, reserveList.entries, consumedReserveIds);
   }
 
+  // Pre-detect duplicate claims across obtained entries
+  const duplicateMap = new Map<string, string[]>();
+  const allObtained: Array<{ entry: TextListEntry; person: string; normalizedPerson: string }> = [];
+  obtainedList.sections.forEach((s) => {
+    s.entries.forEach((e) => {
+      allObtained.push({
+        entry: e,
+        person: s.person,
+        normalizedPerson: normalizePersonName(s.person),
+      });
+    });
+  });
+
+  for (let i = 0; i < allObtained.length; i++) {
+    for (let j = i + 1; j < allObtained.length; j++) {
+      const o1 = allObtained[i];
+      const o2 = allObtained[j];
+      if (o1.normalizedPerson !== o2.normalizedPerson) {
+        const sameUnit = o1.entry.unit !== null && o2.entry.unit !== null && o1.entry.unit === o2.entry.unit;
+        const matches = itemMatches(o1.entry, o2.entry);
+        const samePrice =
+          o1.entry.priceMax !== null &&
+          o2.entry.priceMax !== null &&
+          o1.entry.priceMax === o2.entry.priceMax &&
+          o1.entry.priceMax > 0;
+        if (matches && (sameUnit || samePrice)) {
+          if (!duplicateMap.has(o1.entry.id)) duplicateMap.set(o1.entry.id, []);
+          if (!duplicateMap.has(o2.entry.id)) duplicateMap.set(o2.entry.id, []);
+          if (!duplicateMap.get(o1.entry.id)!.includes(o2.person)) duplicateMap.get(o1.entry.id)!.push(o2.person);
+          if (!duplicateMap.get(o2.entry.id)!.includes(o1.person)) duplicateMap.get(o2.entry.id)!.push(o1.person);
+        }
+      }
+    }
+  }
+
   obtainedList.sections.forEach((section) => {
     const rows: ComparisonPreviewRow[] = [];
 
     section.entries.forEach((entry) => {
+      const dupPersons = duplicateMap.get(entry.id);
+      if (dupPersons && dupPersons.length > 0) {
+        warned += 1;
+        const target = findBestTargetMatch(entry, targetList.entries, consumedTargetIds);
+        const reserve = target ? null : findReserveMatch(entry);
+        const reference = target ?? reserve;
+        if (target) consumedTargetIds.add(target.id);
+        if (reserve) consumedReserveIds.add(reserve.id);
+
+        rows.push({
+          id: `${section.person}-${entry.id}`,
+          person: section.person,
+          targetLine: reference ? reference.rawLine : '-',
+          obtainedLine: entry.rawLine,
+          status: 'warn',
+          note: `barang sama ${dupPersons.join(', ')}`,
+          model: entry.model,
+          grade: entry.grade,
+          price: entry.priceMax || 0,
+        });
+        return;
+      }
+
       const target = findBestTargetMatch(entry, targetList.entries, consumedTargetIds);
       const reserve = target ? null : findReserveMatch(entry);
       const reference = target ?? reserve;
@@ -1109,7 +1167,11 @@ function formatTextEntryCode(entry: TextListEntry) {
     .replace(/\s+-\s+(?=[a-z])/gi, ' ')
     .replace(/\b(menik|mubdi|aldi)\b/gi, ' ')
     .replace(/\(\s*\d+\s*\)/g, ' ')
-    .replace(new RegExp(`\\b(?:${looseGradePattern})\\b`, 'gi'), ' ');
+    .replace(new RegExp(`\\b(?:${looseGradePattern})\\b`, 'gi'), ' ')
+    .replace(
+      /\b(barang\s+sama|ga(?:k)?\s*ada\s*(?:di\s*|d)?invoice|tidak\s*ada\s*(?:di\s*|d)?invoice|cadangan|bonus|pending|lewat(?:\s+\d+)?)\b/gi,
+      ' ',
+    );
 
   if (displayStorage !== null) {
     modelText = modelText.replace(new RegExp(`\\b${displayStorage}\\s*(?:tb|gb|g)?\\b`, 'gi'), ' ');
@@ -1122,7 +1184,8 @@ function formatTextEntryCode(entry: TextListEntry) {
   if (entry.grade) codeParts.push(entry.grade);
   if (entry.unit) codeParts.push(`(${entry.unit})`);
 
-  const suffix = price.priceStart >= 0 ? cleanListText(entry.rawLine.slice(price.priceStart)) : '';
+  let suffix = price.priceStart >= 0 ? cleanListText(entry.rawLine.slice(price.priceStart)) : '';
+  suffix = suffix.replace(/[✅❌⚠️].*$/g, '').trim();
   return cleanListText(`${codeParts.join(' ')} ${suffix}`);
 }
 
@@ -1131,8 +1194,20 @@ function formatStatusLine(
   invoice: ParsedInvoiceItem | null,
   reserve: TextListEntry | null,
   comparisonPrice: number | null,
+  duplicateWithPersons?: string[],
 ) {
   const entryLine = formatTextEntryCode(entry);
+
+  if (duplicateWithPersons && duplicateWithPersons.length > 0) {
+    const accountSuffix = invoice && !entry.accountHint ? ` ${invoice.account}` : '';
+    const otherPersons = duplicateWithPersons.join(', ');
+    return `${entryLine}${accountSuffix}${statusWarn} barang sama ${otherPersons}`;
+  }
+
+  if (reserve?.note === 'barang sama') {
+    const accountSuffix = invoice && !entry.accountHint ? ` ${invoice.account}` : '';
+    return `${entryLine}${accountSuffix}${statusWarn} barang sama`;
+  }
 
   if (!invoice) {
     const duplicateNote = reserve?.note === 'barang sama' ? ' barang sama' : ' ga ada di invoice';
@@ -1236,10 +1311,6 @@ function buildCheckResult(
     return top;
   }
 
-  function findDuplicateConflict(entry: TextListEntry) {
-    return workingInvoices.some((invoice) => invoice.consumedBy && itemMatches(entry, invoice));
-  }
-
   function findTargetReference(entry: TextListEntry) {
     return findBestTargetMatch(entry, targetList.entries, consumedTargetIds);
   }
@@ -1253,23 +1324,161 @@ function buildCheckResult(
     if (reserve) consumedReserveIds.add(reserve.id);
   }
 
+  interface ObtainedTask {
+    entry: TextListEntry;
+    person: string;
+    normalizedPerson: string;
+    targetReference: TextListEntry | null;
+    reserve: TextListEntry | null;
+    matchedInvoice: ParsedInvoiceItem | null;
+    duplicateWithPersons: Set<string>;
+    isDuplicateConflict: boolean;
+  }
+
+  const tasks: ObtainedTask[] = [];
+
+  // 1. Initialize tasks and consume target/reserve references
   obtainedList.sections.forEach((section) => {
     section.entries.forEach((entry) => {
-      const invoice = findInvoice(entry);
       const targetReference = findTargetReference(entry);
       const reserve = targetReference ? null : findReserve(entry);
       markReferenceConsumed(targetReference, reserve);
       consumedObtainedKeys.add(entry.key);
-      if (invoice) invoice.consumedBy = entry.id;
-      const duplicateConflict = !invoice && findDuplicateConflict(entry);
-      const reserveForLine = duplicateConflict
-        ? ({ ...(reserve ?? entry), note: 'barang sama' } as TextListEntry)
-        : reserve
-          ? { ...reserve, note: reserve.note || 'cadangan' }
-          : null;
-      const line = formatStatusLine(entry, invoice, reserveForLine, targetReference?.priceMax ?? null);
-      pushLine(section.person, line);
+      tasks.push({
+        entry,
+        person: section.person,
+        normalizedPerson: normalizePersonName(section.person),
+        targetReference,
+        reserve,
+        matchedInvoice: null,
+        duplicateWithPersons: new Set<string>(),
+        isDuplicateConflict: false,
+      });
     });
+  });
+
+  // 2. Pre-check: Direct duplicates between different people (same explicit unit, or same model+specs+price with insufficient invoices)
+  for (let i = 0; i < tasks.length; i++) {
+    for (let j = i + 1; j < tasks.length; j++) {
+      const t1 = tasks[i];
+      const t2 = tasks[j];
+      if (t1.normalizedPerson !== t2.normalizedPerson) {
+        const matches = itemMatches(t1.entry, t2.entry);
+        const sameUnit =
+          t1.entry.unit !== null && t2.entry.unit !== null && t1.entry.unit === t2.entry.unit;
+        const samePrice =
+          t1.entry.priceMax !== null &&
+          t2.entry.priceMax !== null &&
+          t1.entry.priceMax === t2.entry.priceMax &&
+          t1.entry.priceMax > 0;
+
+        if (matches) {
+          const matchingInvoices = workingInvoices.filter(
+            (inv) => itemMatches(t1.entry, inv) && obtainedPriceMatchesInvoice(t1.entry, inv),
+          );
+
+          if (sameUnit || (samePrice && matchingInvoices.length <= 1)) {
+            t1.duplicateWithPersons.add(t2.person);
+            t2.duplicateWithPersons.add(t1.person);
+            t1.isDuplicateConflict = true;
+            t2.isDuplicateConflict = true;
+          }
+        }
+      }
+    }
+  }
+
+  // Pre-assign invoice for direct duplicates so they share the invoice and it becomes 'duplicate-conflict'
+  tasks.forEach((t) => {
+    if (t.isDuplicateConflict && !t.matchedInvoice) {
+      const inv = workingInvoices.find(
+        (item) =>
+          itemMatches(t.entry, item) &&
+          obtainedPriceMatchesInvoice(t.entry, item) &&
+          (!item.consumedBy || item.consumedBy === 'duplicate-conflict'),
+      );
+      if (inv) {
+        t.matchedInvoice = inv;
+        inv.consumedBy = 'duplicate-conflict';
+        if (!(inv as any).conflictTasks) (inv as any).conflictTasks = [];
+        if (!(inv as any).conflictTasks.includes(t)) {
+          (inv as any).conflictTasks.push(t);
+        }
+      }
+    }
+  });
+
+  // 3. Match remaining tasks to invoices and detect invoice contention duplicates
+  tasks.forEach((task) => {
+    if (task.matchedInvoice) return;
+
+    const invoice = findInvoice(task.entry);
+    if (invoice) {
+      invoice.consumedBy = task.entry.id;
+      (invoice as any).consumedByTask = task;
+      (invoice as any).conflictTasks = [task];
+      task.matchedInvoice = invoice;
+    } else {
+      // Look for invoices already consumed by another obtained task that match this item
+      const conflictingInvoices = workingInvoices.filter(
+        (inv) =>
+          (inv as any).consumedByTask &&
+          itemMatches(task.entry, inv) &&
+          obtainedPriceMatchesInvoice(task.entry, inv),
+      );
+
+      if (conflictingInvoices.length > 0) {
+        const sortedConflicting = [...conflictingInvoices].sort((a, b) => {
+          const aUnitMatch = Number(Boolean(task.entry.unit && a.unit && task.entry.unit === a.unit));
+          const bUnitMatch = Number(Boolean(task.entry.unit && b.unit && task.entry.unit === b.unit));
+          return bUnitMatch - aUnitMatch;
+        });
+
+        const targetInvoice = sortedConflicting[0];
+        const existingTasks: ObtainedTask[] =
+          (targetInvoice as any).conflictTasks || [(targetInvoice as any).consumedByTask];
+
+        task.matchedInvoice = targetInvoice;
+        task.isDuplicateConflict = true;
+        targetInvoice.consumedBy = 'duplicate-conflict';
+
+        existingTasks.forEach((otherT) => {
+          if (otherT !== task) {
+            otherT.isDuplicateConflict = true;
+            if (otherT.normalizedPerson !== task.normalizedPerson) {
+              task.duplicateWithPersons.add(otherT.person);
+              otherT.duplicateWithPersons.add(task.person);
+            }
+          }
+        });
+
+        if (!(targetInvoice as any).conflictTasks) {
+          (targetInvoice as any).conflictTasks = existingTasks;
+        }
+        if (!(targetInvoice as any).conflictTasks.includes(task)) {
+          (targetInvoice as any).conflictTasks.push(task);
+        }
+      }
+    }
+  });
+
+  // 4. Format all obtained lines
+  tasks.forEach((task) => {
+    const duplicateNames = Array.from(task.duplicateWithPersons);
+    const reserveForLine = task.isDuplicateConflict
+      ? ({ ...(task.reserve ?? task.entry), note: 'barang sama' } as TextListEntry)
+      : task.reserve
+        ? { ...task.reserve, note: task.reserve.note || 'cadangan' }
+        : null;
+
+    const line = formatStatusLine(
+      task.entry,
+      task.matchedInvoice,
+      reserveForLine,
+      task.targetReference?.priceMax ?? null,
+      duplicateNames,
+    );
+    pushLine(task.person, line);
   });
 
   targetList.entries.forEach((entry) => {
