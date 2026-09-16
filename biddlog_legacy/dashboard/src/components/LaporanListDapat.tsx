@@ -792,15 +792,19 @@ export default function LaporanListDapat({ onNavigateToHasilBidding }: { onNavig
           const feeClean = item.fee_info.replace(/[()]/g, '').trim();
           parts.push(`(${feeClean})`);
         }
-        // 7. Bidder + Status Symbol (✅ or ❌ or ⚠️)
-        const isWarning = item.raw_line?.includes('⚠️') || cleanNotes.toLowerCase().includes('barang sama') || cleanNotes.toLowerCase().includes('lewat');
-        const symbol = isWarning ? '⚠️' : (item.status === 'approved' ? '✅' : '❌');
+        // 7. Bidder + Status Symbol (hanya ✅ atau ❌, tidak ada lagi simbol ⚠️)
+        // Ceklist (✅) untuk disetujui / ACC, silang (❌) untuk ditolak.
+        // Item yang lewat (atau warning) diganti simbolnya sesuai pilihan status user (default: ACC = ✅).
+        const symbol = item.status === 'approved' ? '✅' : '❌';
         const bidderText = item.bidder ? `${item.bidder}${symbol}` : symbol;
         parts.push(bidderText);
 
-        // 8. Keterangan/Catatan SELALU diletakkan di paling belakang baris (e.g. barang sama, ga ada di invoice, cadangan, dll)
+        // 8. Keterangan/Catatan SELALU diletakkan di paling belakang baris (keterangan lewat tetap ada)
         if (cleanNotes) {
-          parts.push(cleanNotes);
+          const notesText = cleanNotes.replace(/⚠️/g, '').trim();
+          if (notesText) {
+            parts.push(notesText);
+          }
         }
 
         lines.push(parts.join(' '));
