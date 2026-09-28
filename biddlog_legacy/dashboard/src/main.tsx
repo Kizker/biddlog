@@ -1032,14 +1032,26 @@ function buildComparisonPreview(
       const o1 = allObtained[i];
       const o2 = allObtained[j];
       if (o1.normalizedPerson !== o2.normalizedPerson) {
-        const sameUnit = o1.entry.unit !== null && o2.entry.unit !== null && o1.entry.unit === o2.entry.unit;
         const matches = itemMatches(o1.entry, o2.entry);
-        const samePrice =
-          o1.entry.priceMax !== null &&
-          o2.entry.priceMax !== null &&
-          o1.entry.priceMax === o2.entry.priceMax &&
-          o1.entry.priceMax > 0;
-        if (matches && (sameUnit || samePrice)) {
+        if (!matches) continue;
+
+        const p1 = priceToBidUnit(o1.entry.priceMax);
+        const p2 = priceToBidUnit(o2.entry.priceMax);
+
+        // Jika harga yang didapat beda dengan barang yang sama, maka JANGAN dihitung sama!
+        if (p1 !== null && p2 !== null && p1 !== p2) {
+          continue;
+        }
+
+        // Jika akun asal berbeda (misal mubdi vs menik), bukan barang yang sama
+        if (o1.entry.accountHint && o2.entry.accountHint && o1.entry.accountHint !== o2.entry.accountHint) {
+          continue;
+        }
+
+        const samePrice = p1 !== null && p2 !== null && p1 === p2 && p1 > 0;
+        const sameUnit = o1.entry.unit !== null && o2.entry.unit !== null && o1.entry.unit === o2.entry.unit;
+
+        if (samePrice || (sameUnit && (p1 === null || p2 === null))) {
           if (!duplicateMap.has(o1.entry.id)) duplicateMap.set(o1.entry.id, []);
           if (!duplicateMap.has(o2.entry.id)) duplicateMap.set(o2.entry.id, []);
           if (!duplicateMap.get(o1.entry.id)!.includes(o2.person)) duplicateMap.get(o1.entry.id)!.push(o2.person);
@@ -1176,6 +1188,11 @@ function formatTextEntryCode(entry: TextListEntry) {
   if (displayStorage !== null) {
     modelText = modelText.replace(new RegExp(`\\b${displayStorage}\\s*(?:tb|gb|g)?\\b`, 'gi'), ' ');
   }
+
+  // Remove stray quantity number after complete model names (e.g. "s21+ 1" -> "s21+", "s22u 1" -> "s22u")
+  modelText = modelText
+    .replace(/(\b(?:s\d+\+|note\d+\+|s\d+u|note\d+u|fold\s*\d+|flip\s*\d+))\s+\d+\b/gi, '$1')
+    .trim();
 
   modelText = cleanListText(modelText) || entry.model;
 
@@ -1357,32 +1374,45 @@ function buildCheckResult(
     });
   });
 
-  // 2. Pre-check: Direct duplicates between different people (same explicit unit, or same model+specs+price with insufficient invoices)
+  // 2. Pre-check: Direct duplicates between different people (same model+specs+price with insufficient invoices)
   for (let i = 0; i < tasks.length; i++) {
     for (let j = i + 1; j < tasks.length; j++) {
       const t1 = tasks[i];
       const t2 = tasks[j];
       if (t1.normalizedPerson !== t2.normalizedPerson) {
         const matches = itemMatches(t1.entry, t2.entry);
+        if (!matches) continue;
+
+        const p1 = priceToBidUnit(t1.entry.priceMax);
+        const p2 = priceToBidUnit(t2.entry.priceMax);
+
+        // Jika harga yang didapat beda dengan barang yang sama, maka JANGAN dihitung sama!
+        if (p1 !== null && p2 !== null && p1 !== p2) {
+          continue;
+        }
+
+        // Jika akun asal berbeda (misal mubdi vs menik), bukan barang yang sama
+        if (t1.entry.accountHint && t2.entry.accountHint && t1.entry.accountHint !== t2.entry.accountHint) {
+          continue;
+        }
+
+        const samePrice = p1 !== null && p2 !== null && p1 === p2 && p1 > 0;
         const sameUnit =
           t1.entry.unit !== null && t2.entry.unit !== null && t1.entry.unit === t2.entry.unit;
-        const samePrice =
-          t1.entry.priceMax !== null &&
-          t2.entry.priceMax !== null &&
-          t1.entry.priceMax === t2.entry.priceMax &&
-          t1.entry.priceMax > 0;
 
-        if (matches) {
-          const matchingInvoices = workingInvoices.filter(
-            (inv) => itemMatches(t1.entry, inv) && obtainedPriceMatchesInvoice(t1.entry, inv),
-          );
+        const matchingInvoices = workingInvoices.filter(
+          (inv) => itemMatches(t1.entry, inv) && obtainedPriceMatchesInvoice(t1.entry, inv),
+        );
 
-          if (sameUnit || (samePrice && matchingInvoices.length <= 1)) {
-            t1.duplicateWithPersons.add(t2.person);
-            t2.duplicateWithPersons.add(t1.person);
-            t1.isDuplicateConflict = true;
-            t2.isDuplicateConflict = true;
-          }
+        const isDuplicateCandidate =
+          (samePrice && matchingInvoices.length <= 1) ||
+          (sameUnit && (p1 === null || p2 === null) && matchingInvoices.length <= 1);
+
+        if (isDuplicateCandidate) {
+          t1.duplicateWithPersons.add(t2.person);
+          t2.duplicateWithPersons.add(t1.person);
+          t1.isDuplicateConflict = true;
+          t2.isDuplicateConflict = true;
         }
       }
     }
@@ -1420,12 +1450,26 @@ function buildCheckResult(
       task.matchedInvoice = invoice;
     } else {
       // Look for invoices already consumed by another obtained task that match this item
-      const conflictingInvoices = workingInvoices.filter(
-        (inv) =>
-          (inv as any).consumedByTask &&
-          itemMatches(task.entry, inv) &&
-          obtainedPriceMatchesInvoice(task.entry, inv),
-      );
+      const conflictingInvoices = workingInvoices.filter((inv) => {
+        if (!(inv as any).consumedByTask) return false;
+        if (!itemMatches(task.entry, inv)) return false;
+        if (!obtainedPriceMatchesInvoice(task.entry, inv)) return false;
+
+        // Jika akun berbeda, jangan dicocokkan sebagai invoice yang sama
+        if (task.entry.accountHint && inv.account && task.entry.accountHint !== inv.account) {
+          return false;
+        }
+
+        // Jika harga beda dengan task yang sudah mengonsumsi invoice, jangan dihitung sama!
+        const taskPrice = priceToBidUnit(task.entry.priceMax);
+        const existingTask = (inv as any).consumedByTask;
+        const existingPrice = existingTask ? priceToBidUnit(existingTask.entry?.priceMax) : null;
+        if (taskPrice !== null && existingPrice !== null && taskPrice !== existingPrice) {
+          return false;
+        }
+
+        return true;
+      });
 
       if (conflictingInvoices.length > 0) {
         const sortedConflicting = [...conflictingInvoices].sort((a, b) => {
@@ -1444,6 +1488,12 @@ function buildCheckResult(
 
         existingTasks.forEach((otherT) => {
           if (otherT !== task) {
+            const tPrice = priceToBidUnit(task.entry.priceMax);
+            const oPrice = priceToBidUnit(otherT.entry.priceMax);
+            if (tPrice !== null && oPrice !== null && tPrice !== oPrice) {
+              return;
+            }
+
             otherT.isDuplicateConflict = true;
             if (otherT.normalizedPerson !== task.normalizedPerson) {
               task.duplicateWithPersons.add(otherT.person);

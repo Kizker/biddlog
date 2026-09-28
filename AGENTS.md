@@ -88,6 +88,7 @@
 - [x] Fix Format Chat notes positioning in Laporan List Didapat: sanitize model names to prevent notes like 'barang sama' and 'ga ada dinvoice' from sticking inside model, and strictly place all item notes at the very end of each line (e.g. `s22u 256 ag (6) @4652 mubdi❌ barang sama`)
 - [x] Enhance duplicate item detection in Hasil Bidding: flag ALL parties with warning symbol (`⚠️`) and append note with other person's name (e.g. `s22u 256 ag (6) @4652 mubdi⚠️ barang sama Bilqis`), consume contested invoices as `duplicate-conflict` to prevent phantom extra items under Mubdi, update comparison preview table with warning and duplicate partner names, and preserve `⚠️` symbol in Format Chat export.
 - [x] Update Format Chat in Laporan List Didapat: eliminate warning symbol (`⚠️`), use exclusively checklist (`✅`) for ACC/disetujui and cross (`❌`) for ditolak, update items with 'lewat' (or warning) to follow the user-selected item status (defaulting to ACC `✅`), and preserve the 'lewat' notes at the end of each line.
+- [x] Update duplicate item detection in Hasil Bidding: if obtained prices are different for items with the same model/specs (e.g. `@1710` vs `@1670`), do NOT count them as duplicates ('barang sama'), match each item to its respective invoice at its price, and strip stray quantity digits following model names.
 
 
 
